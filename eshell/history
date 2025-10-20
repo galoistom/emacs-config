@@ -1,0 +1,18 @@
+fastfetch
+htop
+exit
+fastfetch
+fish
+mkdir -p ~/test/
+exit
+cargo init
+ls
+cargo init helloworld
+ls
+exit
+gcc ./helloworld.c
+gcc ./helloworld.c
+gcc ./helloworld.c
+ls
+./a.out 
+exit
