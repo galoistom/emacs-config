@@ -21,9 +21,11 @@
   "gc" 'math-preview-clear-all
   "r" 'math-preview-at-point
   "t" 'shell
-  "l" 'slime
+  "S" 'slime
   "k" 'slime-compile-and-load-file
   "gq" 'slime-quit-lisp ; <Space> gq -> 退出 Lisp 进程
+  "lp" 'preview-at-point
+  "lt" 'texfrag-document
 )
 
 (setq evil-default-state 'normal)

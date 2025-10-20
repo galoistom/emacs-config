@@ -49,3 +49,4 @@
                   "\\PreviewEnvironment{tikzcd}" t)))
 
 (setq preview-document-options '("standalone" "preview"))
+(add-hook 'markdown-mode-hook 'texfrag-mode)
