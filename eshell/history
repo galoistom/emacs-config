@@ -16,3 +16,8 @@ gcc ./helloworld.c
 ls
 ./a.out 
 exit
+fastfetch 
+nvim
+exit
+echo $SHELL 
+exit
