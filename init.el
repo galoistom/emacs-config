@@ -41,6 +41,12 @@
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 3.0 :html-foreground
+		 "Black" :html-background "Transparent" :html-scale
+		 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")
+		 :use-image-magick t))
+ '(org-format-latex-signal-error nil)
  '(package-selected-packages
    '(catppuccin-theme company-box cond-let dashboard doom-modeline
 		      dracula-theme esh-autosuggest esh-help
@@ -61,6 +67,7 @@
 (load (concat custom-config-dir "evil.el"))
 (load (concat custom-config-dir "markdown.el"))
 (load (concat custom-config-dir "lsp.el"))
+(load (concat custom-config-dir "org.el"))
 ;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
