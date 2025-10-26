@@ -26,7 +26,6 @@
   "gq" 'slime-quit-lisp ; <Space> gq -> 退出 Lisp 进程
   "lp" 'preview-at-point
   "lt" 'texfrag-document
-  "lc" 'org-latex-preview
 )
 
 (setq evil-default-state 'normal)
@@ -55,6 +54,12 @@
 (define-key my-window-map (kbd "K") 'enlarge-window)
 (define-key my-window-map (kbd "s") 'window-swap-states) 
 (define-key my-window-map (kbd "1") 'balance-windows)    
+
+(define-prefix-command 'my-org-keymap)
+(evil-leader/set-key "o" 'my-org-keymap)
+(define-key my-org-keymap (kbd "v") 'org-toggle-inline-images)
+(define-key my-org-keymap (kbd "c") 'org-latex-preview)
+(define-key my-org-keymap (kbd "r") 'org-ctrl-c-ctrl-c)
 
 (use-package which-key
   :ensure t

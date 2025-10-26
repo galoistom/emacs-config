@@ -21,3 +21,12 @@ nvim
 exit
 echo $SHELL 
 exit
+cd ../
+git add .
+git commit -m "add org mode"
+git push
+exit
+mkdir -p ~/org
+exit
+cp ~/test/test.org ~/org/
+exit

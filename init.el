@@ -7,7 +7,7 @@
                   (font-spec :family "Hack Nerd Font")) 
 (set-face-attribute 'default nil 
   :family "Cascadia Code"   ; 替换为你想要的主字体
-  :height 120                ; 设置字体大小，120 等于 12pt
+  :height 140                ; 设置字体大小，120 等于 12pt
   :weight 'normal)
 ;;(set-fontset-font "fontset-default" '(#xe000 . #xf8ff) "Hack Nerd Font")
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -42,11 +42,13 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(org-format-latex-options
-   '(:foreground default :background default :scale 3.0 :html-foreground
+   '(:foreground default :background default :scale 1.5 :html-foreground
 		 "Black" :html-background "Transparent" :html-scale
 		 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")
 		 :use-image-magick t))
  '(org-format-latex-signal-error nil)
+ '(org-latex-packages-alist '(("" "tikz-cd" t nil) ("" "tikz" t nil)))
+ '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
    '(catppuccin-theme company-box cond-let dashboard doom-modeline
 		      dracula-theme esh-autosuggest esh-help
