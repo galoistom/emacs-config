@@ -18,6 +18,7 @@
 (display-time-mode t)
 (window-divider-mode t)
 (electric-pair-mode 1)
+(global-hl-line-mode t)
 (setq display-time-format "%Y-%m-%d %H:%M")
 (require 'package)
 

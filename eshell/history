@@ -35,3 +35,8 @@ git commit "update keybing"
 git commit -m "update keybing"
 git push
 exit
+cd ~/.emacs.d/
+git add .
+git commit -m "fix bugs"
+git push
+exit

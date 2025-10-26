@@ -1,10 +1,18 @@
 (setq evil-want-keybinding nil)
-(require 'evil)
-(require 'evil-leader) 
-(unless (package-installed-p 'evil-leader)
-  (package-install 'evil-leader))
-(evil-mode 1)
-(evil-leader/set-leader "<SPC>") 
+;;(require 'evil)
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+  )
+(use-package evil-leader
+  :ensure t
+  :config
+  (evil-leader/set-leader "<SPC>") 
+  )
+;;(require 'evil-leader) 
+;;(unless (package-installed-p 'evil-leader)
+ ;; (package-install 'evil-leader))
 
 (global-evil-leader-mode)
 (evil-leader/set-key

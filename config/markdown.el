@@ -1,12 +1,15 @@
 
-(require 'markdown-mode)
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  )
 ;;(require 'math-preview)
 
 ;;(setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
-(global-hl-line-mode t)
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;;(autoload 'markdown-mode "markdown-mode"
+;;   "Major mode for editing Markdown files" t)
 (defun my-math-preview ()
   "在保存 Markdown 文件时更新所有公式。"
   (when (eq major-mode 'markdown-mode)
