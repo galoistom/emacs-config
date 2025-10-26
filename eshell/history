@@ -30,3 +30,8 @@ mkdir -p ~/org
 exit
 cp ~/test/test.org ~/org/
 exit
+git add evil.el 
+git commit "update keybing"
+git commit -m "update keybing"
+git push
+exit

@@ -70,12 +70,11 @@
 
 (define-prefix-command 'my-slime-keymap)
 (evil-leader/set-key "g" 'my-slime-keymap)
-(define-key my-slime-ketmap (kbd "s") 'slime)
-(define-key my-slime-ketmap (kbd "k") 'slime-compile-and-load-file)
-(define-key my-slime-ketmap (kbd "q") 'slime-quit)
+(define-key my-slime-keymap (kbd "s") 'slime)
+(define-key my-slime-keymap (kbd "k") 'slime-compile-and-load-file)
+(define-key my-slime-keymap (kbd "q") 'slime-quit)
 
 (define-prefix-command 'my-latex-render)
 (evil-leader/set-key "l" 'my-latex-render)
 (define-key my-latex-render (kbd "p") 'preview-at-point)
 (define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
-
