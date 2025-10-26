@@ -56,5 +56,5 @@
 *.nav
 *.snm
 *.synctex.gz
-
+/url/
 /mason/
