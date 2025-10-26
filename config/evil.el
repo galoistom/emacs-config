@@ -12,20 +12,8 @@
   "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
   "f" 'find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
   "e" 'dired-jump
-  "bb" 'switch-to-buffer
-  "bx" 'kill-buffer
-  "bl" 'list-buffers
-  "bs" 'save-buffer
   "h" 'dashboard-open
-  ;;"gr" 'math-preview-all
-  ;;"gc" 'math-preview-clear-all
-  ;;"r" 'math-preview-at-point
   "t" 'eshell
-  "S" 'slime
-  "k" 'slime-compile-and-load-file
-  "gq" 'slime-quit-lisp ; <Space> gq -> 退出 Lisp 进程
-  "lp" 'preview-at-point
-  "lt" 'texfrag-document
 )
 
 (setq evil-default-state 'normal)
@@ -33,6 +21,18 @@
 (when (require 'evil-collection nil t)
   (evil-collection-init))
 (global-unset-key (kbd "C-z"))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1)
+  ;; 设置显示延迟（毫秒）
+  (setq which-key-idle-delay 0.5)
+  ;; 设置显示位置
+  (setq which-key-side-window-location 'bottom)
+  ;; 最大化显示宽度
+  (setq which-key-max-description-length 40)
+  (setq which-key-max-display-columns nil))
 
 (global-set-key (kbd "C-z") 'undo)
 (setq display-line-numbers 'relative)
@@ -61,14 +61,21 @@
 (define-key my-org-keymap (kbd "c") 'org-latex-preview)
 (define-key my-org-keymap (kbd "r") 'org-ctrl-c-ctrl-c)
 
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode 1)
-  ;; 设置显示延迟（毫秒）
-  (setq which-key-idle-delay 0.5)
-  ;; 设置显示位置
-  (setq which-key-side-window-location 'bottom)
-  ;; 最大化显示宽度
-  (setq which-key-max-description-length 40)
-  (setq which-key-max-display-columns nil))
+(define-prefix-command 'my-buffer-action)
+(evil-leader/set-key "b" 'my-buffer-action)
+(define-key my-buffer-action (kbd "x") 'kill-buffer)
+(define-key my-buffer-action (kbd "l") 'list-buffers)
+(define-key my-buffer-action (kbd "s") 'save-buffer)
+(define-key my-buffer-action (kbd "b") 'switch-to-buffer)
+
+(define-prefix-command 'my-slime-keymap)
+(evil-leader/set-key "g" 'my-slime-keymap)
+(define-key my-slime-ketmap (kbd "s") 'slime)
+(define-key my-slime-ketmap (kbd "k") 'slime-compile-and-load-file)
+(define-key my-slime-ketmap (kbd "q") 'slime-quit)
+
+(define-prefix-command 'my-latex-render)
+(evil-leader/set-key "l" 'my-latex-render)
+(define-key my-latex-render (kbd "p") 'preview-at-point)
+(define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
+
