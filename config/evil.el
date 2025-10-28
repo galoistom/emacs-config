@@ -3,7 +3,15 @@
 (use-package evil
   :ensure t
   :config
-  (evil-mode 1)
+    (evil-mode 1)
+    (evil-leader/set-key
+    "s" 'save-buffer      ; <Space> s -> 保存文件
+    "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
+    "f" 'find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
+    "e" 'dired-jump
+    "h" 'dashboard-open
+    "t" 'eshell
+    )
   )
 (use-package evil-leader
   :ensure t
@@ -15,14 +23,6 @@
  ;; (package-install 'evil-leader))
 
 (global-evil-leader-mode)
-(evil-leader/set-key
-  "s" 'save-buffer      ; <Space> s -> 保存文件
-  "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
-  "f" 'find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
-  "e" 'dired-jump
-  "h" 'dashboard-open
-  "t" 'eshell
-)
 
 (setq evil-default-state 'normal)
 
@@ -86,3 +86,34 @@
 (evil-leader/set-key "l" 'my-latex-render)
 (define-key my-latex-render (kbd "p") 'preview-at-point)
 (define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
+
+(setq input-config-alist
+      '(("j" . ((lambda ()
+		  (insert "$$"))))
+	("begin" . ((lambda ()
+		      (insert "\\begin{}\\end{}")
+		      (backward-char 7))))
+	("k" . ((lambda ()
+		  (insert "^{}"))))
+	("a" . ((lambda ()
+		  (insert "\\alpha"))))
+	("bar" . ((lambda ()
+		    (insert "\\overline{}"))))
+	("J" . ((lambda ()
+		  (insert "$$\n\n$$")
+		  (backward-char 3))))
+	("tikz" . ((lambda ()
+		     (insert "#+header: :header \'(\"\\usepackage{tikz-cd}\") \n#+begin_latex\n\n#+end_latex")
+		     (backward-char 12))))
+	))
+
+(defun my-tex-input (name)
+  (interactive "sinput command:")
+  (let ((result (cdr (assoc name input-config-alist))))
+    (dolist (command result)
+      (funcall command)
+      ))
+  )
+
+(evil-leader/set-key "j" 'my-tex-input)
+

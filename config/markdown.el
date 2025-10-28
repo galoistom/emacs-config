@@ -10,12 +10,16 @@
 ;;(setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
 ;;(autoload 'markdown-mode "markdown-mode"
 ;;   "Major mode for editing Markdown files" t)
-(defun my-math-preview ()
+(defun my-math-preview-document ()
   "在保存 Markdown 文件时更新所有公式。"
   (when (eq major-mode 'markdown-mode)
     (texfrag-document)))
-(add-hook 'after-save-hook 'my-math-preview)
-(add-hook 'markdown-mode-hook 'my-math-preview)
+(defun my-math-preview-at-point ()
+  "在保存 Markdown 文件时更新所有公式。"
+  (when (eq major-mode 'markdown-mode)
+    (preview-at-point)))
+(add-hook 'after-save-hook 'my-math-preview-at-point)
+(add-hook 'markdown-mode-hook 'my-math-preview-document)
 (use-package texfrag
   :hook ((TeX-mode-hook . texfrag-mode)
          (markdown-mode-hook . texfrag-mode))
