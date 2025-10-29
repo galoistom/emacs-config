@@ -40,3 +40,9 @@ git add .
 git commit -m "fix bugs"
 git push
 exit
+../
+mv ./Pasted\ image\ 20250603133216.png ./phsic/
+mv ./Pasted\ image\ 20251006124706.png ./phsic/
+mv ./Pasted\ image\ 20250603132614.png ./phsic/
+rm -rf ./physic.org 
+exit
