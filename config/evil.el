@@ -11,7 +11,9 @@
     "e" 'dired-jump
     "h" 'dashboard-open
     "t" 'eshell
+    "F" 'bookmark-jump
     )
+    (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char)
   )
 (use-package evil-leader
   :ensure t
@@ -82,43 +84,9 @@
 (define-key my-slime-keymap (kbd "s") 'slime)
 (define-key my-slime-keymap (kbd "k") 'slime-compile-and-load-file)
 (define-key my-slime-keymap (kbd "q") 'slime-quit)
+(define-key my-slime-keymap (kbd "e") 'eval-last-sexp)
 
 (define-prefix-command 'my-latex-render)
 (evil-leader/set-key "l" 'my-latex-render)
 (define-key my-latex-render (kbd "p") 'preview-at-point)
 (define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
-
-(setq input-config-alist
-      '(("j" . ((lambda ()
-		  (insert "$$")
-		  (backward-char 1))))
-	("beg" . ((lambda ()
-		      (insert "\\begin{}\\end{}")
-		      (backward-char 7))))
-	("k" . ((lambda ()
-		  (insert "^{}")
-		  (backward-char 1))))
-	("a" . ((lambda ()
-		  (insert "\\alpha")
-		  (backward-char 1))))
-	("bar" . ((lambda ()
-		    (insert "\\overline{}")
-		    (backward-char 1))))
-	("J" . ((lambda ()
-		  (insert "$$\n\n$$")
-		  (backward-char 3))))
-	("tikz" . ((lambda ()
-		     (insert "#+header: :header \'(\"\\usepackage{tikz-cd}\") \n#+begin_latex\n\n#+end_latex")
-		     (backward-char 12))))
-	))
-
-(defun my-tex-input (name)
-  (interactive "sinput command:")
-  (let ((result (cdr (assoc name input-config-alist))))
-    (dolist (command result)
-      (funcall command)
-      ))
-  )
-
-(evil-leader/set-key "j" 'my-tex-input)
-

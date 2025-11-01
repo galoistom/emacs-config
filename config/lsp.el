@@ -10,7 +10,7 @@
   :hook
   (lsp-mode . lsp-enable-flycheck)
   (lsp-mode . lsp-enable-which-key-integration)
-
+  ((c-mode c++-mode objc-mode) . lsp-deferred)
   )
 (use-package lsp-ui
   :ensure t

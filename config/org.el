@@ -1,8 +1,13 @@
 (use-package org
   :ensure nil
   :mode ("\\.org\\'" . org-mode)
-  :hook ((org-mode . visual-line-mode)
-	 (org-mode . my/org-prettify-symbols))
+  :hook ;(
+    (org-mode . visual-line-mode)
+    (org-mode . my/org-prettify-symbols)
+    (org-mode . (lambda ()
+			(electric-pair-local-mode 1)
+			(add-to-list 'electric-pair-pairs '(36 . 36) t)))
+	 ;;)
   :commands (org-find-exact-headline-in-buffer org-set-tags)
   :custom-face
   ;; 设置org mode标题以及美级标题行的大小
@@ -69,6 +74,7 @@
 	    ))
     (setq prettify-symbols-unprettify-at-point t)
     (prettify-symbols-mode 1))
+
 ;;(plist-put! org-format-latex-options :DPI 180)
 ;;(plist-put! org-format-latex-options :fontsize 14)
 ;;(setq org-latex-preview-scale 1.5)

@@ -46,3 +46,20 @@ mv ./Pasted\ image\ 20251006124706.png ./phsic/
 mv ./Pasted\ image\ 20250603132614.png ./phsic/
 rm -rf ./physic.org 
 exit
+git add ./.gitignore 
+git commit -m "update gitignore"
+git push
+git pull
+git pull
+git status 
+git stash 
+git status 
+git pull
+git pull
+git status 
+git stash
+git status 
+git pull
+git status 
+git commit .
+exit

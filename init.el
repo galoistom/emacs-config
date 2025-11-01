@@ -1,4 +1,5 @@
 ;; 初始化 EMACS 内置的包管理系统
+;;(server-start)
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
@@ -11,6 +12,9 @@
   :weight 'normal)
 ;;(set-fontset-font "fontset-default" '(#xe000 . #xf8ff) "Hack Nerd Font")
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(setq-default tab-width 8)
+(setq standard-indent 8)
+;;(setq-default indent-tabs-mode nil)
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -71,6 +75,7 @@
 (load (concat custom-config-dir "markdown.el"))
 (load (concat custom-config-dir "lsp.el"))
 (load (concat custom-config-dir "org.el"))
+(load (concat custom-config-dir "my_fill.el"))
 ;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
@@ -123,3 +128,7 @@
 ;; 激活 pdf-tools 的快捷键
 (provide 'pdf-tools-config)
 
+
+(use-package avy
+  :ensure t
+  )
