@@ -63,3 +63,10 @@ git pull
 git status 
 git commit .
 exit
+git add evil.el 
+git commit -m "updates"
+git push
+exit
+qutebrowser 
+exit
+exit

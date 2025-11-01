@@ -12,6 +12,8 @@
   :weight 'normal)
 ;;(set-fontset-font "fontset-default" '(#xe000 . #xf8ff) "Hack Nerd Font")
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;;(add-to-list 'exec-path "/home/user/.local/bin") ; 替换为你的 qutebrowser 路径
+;;(add-to-list 'exec-path "/usr/local/bin")      ; 如果是 Homebrew 等安装的路径
 (setq-default tab-width 8)
 (setq standard-indent 8)
 ;;(setq-default indent-tabs-mode nil)
@@ -56,7 +58,7 @@
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
    '(catppuccin-theme company-box cond-let dashboard doom-modeline
-		      dracula-theme esh-autosuggest esh-help
+		      dracula-theme eldoc-box esh-autosuggest esh-help
 		      eshell-autojump eshell-did-you-mean
 		      eshell-git-prompt eshell-syntax-highlighting
 		      evil-collection evil-leader lsp-mode mason
@@ -79,6 +81,7 @@
 ;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
+(setq display-line-numbers 'relative)
 (setq display-line-numbers-type 'relative)
 
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -93,10 +96,6 @@
 
 (require 'dashboard)
 (dashboard-setup-startup-hook)
-;;(dashboard-mode 1)
-;;
-;;;; 可选：自定义标题 (例如欢迎信息)
-;;
 (setq dashboard-banner-logo-title "EVIL")
 ;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
 (setq dashboard-items '((recents . 10)
@@ -128,7 +127,9 @@
 ;; 激活 pdf-tools 的快捷键
 (provide 'pdf-tools-config)
 
-
 (use-package avy
   :ensure t
   )
+
+(use-package eldoc-box
+  :ensure t)

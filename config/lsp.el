@@ -2,9 +2,9 @@
   :ensure t
   :init
   ;; 推荐：全局启用 lsp-mode 的某些功能
-  (setq lsp-header-section-enable nil) ; 禁用文件顶部的 LSP 信息
+;;  (setq lsp-header-section-enable nil) ; 禁用文件顶部的 LSP 信息
   (setq lsp-enable-diagnostics t)
-  (setq lsp-enable-snippet nil)        ; 禁用内置代码片段，通常配合 yasnippet使用
+ ;; (setq lsp-enable-snippet nil)        ; 禁用内置代码片段，通常配合 yasnippet使用
   (setq lsp-auto-configure t)          ; 自动配置 LSP 服务器
   (setq lsp-enable-server-auto-start t) ; 发现缺失的服务器时提示安装
   :hook
@@ -14,9 +14,9 @@
   )
 (use-package lsp-ui
   :ensure t
-  :after (lsp-mode)
+;;  :after (lsp-mode)
 ;;  :hook
-;;  (lsp-mode . lsp-ui-mode)
+;;  (evil-mode . lsp-ui-mode)
   :config
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
@@ -31,7 +31,7 @@
   :ensure t
   :config
   (setq truncate-lines nil) ; 如果单行信息很长会自动换行
-(global-flycheck-mode)
+  (global-flycheck-mode)
   :hook
   (prog-mode . flycheck-mode))
 (use-package company

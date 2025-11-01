@@ -1,5 +1,4 @@
 (setq evil-want-keybinding nil)
-;;(require 'evil)
 (use-package evil
   :ensure t
   :config
@@ -9,6 +8,7 @@
 (use-package evil-leader
   :ensure t
   :config
+    (evil-leader/set-leader "<SPC>") 
     (evil-leader/set-key
     "s" 'save-buffer      ; <Space> s -> 保存文件
     "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
@@ -18,7 +18,6 @@
     "t" 'eshell
     "F" 'bookmark-jump
     )
-    (evil-leader/set-leader "<SPC>") 
 )
 
 (use-package which-key
@@ -34,21 +33,20 @@
   (setq which-key-max-display-columns nil)
 )
 
+(use-package evil-collection
+  :ensure t
+  :config
+  (evil-collection-init)
+  (global-unset-key (kbd "C-z")))
+
 (global-evil-leader-mode)
 
 (setq evil-default-state 'normal)
 
-(when (require 'evil-collection nil t)
-  (evil-collection-init))
-(global-unset-key (kbd "C-z"))
-
-
 (global-set-key (kbd "C-z") 'undo)
-(setq display-line-numbers 'relative)
+
 (define-prefix-command 'my-window-map)
-
 (evil-leader/set-key "w" 'my-window-map)
-
 (define-key my-window-map (kbd "h") 'windmove-left)  
 (define-key my-window-map (kbd "j") 'windmove-down)  
 (define-key my-window-map (kbd "k") 'windmove-up)     
@@ -89,3 +87,9 @@
 (evil-leader/set-key "l" 'my-latex-render)
 (define-key my-latex-render (kbd "p") 'preview-at-point)
 (define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
+
+(defun qutebrowser ()
+  (interactive)
+  (call-process-shell-command "qutebrowser" nil))
+
+(evil-leader/set-key "u" 'qutebrowser)
