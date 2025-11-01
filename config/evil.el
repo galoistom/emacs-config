@@ -4,6 +4,11 @@
   :ensure t
   :config
     (evil-mode 1)
+    (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char)
+)
+(use-package evil-leader
+  :ensure t
+  :config
     (evil-leader/set-key
     "s" 'save-buffer      ; <Space> s -> 保存文件
     "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
@@ -13,24 +18,8 @@
     "t" 'eshell
     "F" 'bookmark-jump
     )
-    (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char)
-  )
-(use-package evil-leader
-  :ensure t
-  :config
-  (evil-leader/set-leader "<SPC>") 
-  )
-;;(require 'evil-leader) 
-;;(unless (package-installed-p 'evil-leader)
- ;; (package-install 'evil-leader))
-
-(global-evil-leader-mode)
-
-(setq evil-default-state 'normal)
-
-(when (require 'evil-collection nil t)
-  (evil-collection-init))
-(global-unset-key (kbd "C-z"))
+    (evil-leader/set-leader "<SPC>") 
+)
 
 (use-package which-key
   :ensure t
@@ -42,7 +31,17 @@
   (setq which-key-side-window-location 'bottom)
   ;; 最大化显示宽度
   (setq which-key-max-description-length 40)
-  (setq which-key-max-display-columns nil))
+  (setq which-key-max-display-columns nil)
+)
+
+(global-evil-leader-mode)
+
+(setq evil-default-state 'normal)
+
+(when (require 'evil-collection nil t)
+  (evil-collection-init))
+(global-unset-key (kbd "C-z"))
+
 
 (global-set-key (kbd "C-z") 'undo)
 (setq display-line-numbers 'relative)
