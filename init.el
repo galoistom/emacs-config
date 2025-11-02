@@ -45,6 +45,25 @@
    '("2d74de1cc32d00b20b347f2d0037b945a4158004f99877630afc034a674e3ab7"
      "4dcf06273c9f5f0e01cea95e5f71c3b6ee506f192d75ffda639d737964e2e14e"
      default))
+ '(dashboard-banner-ascii "
+███╗   ███╗██╗   ██╗██╗   ██╗██╗███╗   ███╗
+████╗ ████║╚██╗ ██╔╝██║   ██║██║████╗ ████║
+██╔████╔██║ ╚████╔╝ ██║   ██║██║██╔████╔██║
+██║╚██╔╝██║  ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚═╝ ██║   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝     ╚═╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝
+")
+ '(dashboard-center-content t)
+ '(dashboard-footer-messages
+   '("The one true editor, Evil!"
+     "Who the hell uses Emacs anyway? Go Evil!"
+     "Free as free speech, free as free Beer" "Happy coding!"
+     "Vi Vi Vi, the editor of the best"
+     "Welcome to the church of Evil"
+     "While any text editor can save your files, only Evil can save your soul"
+     "I showed you my source code, pls respond"))
+ '(dashboard-path-style 'truncate-end)
+ '(dashboard-startup-banner 'ascii)
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)

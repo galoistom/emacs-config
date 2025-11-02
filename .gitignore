@@ -57,6 +57,6 @@
 *.snm
 *.synctex.gz
 /url/
-/mason/
-/eshell/
+/mason
+/eshell
 /recentf

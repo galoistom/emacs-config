@@ -70,3 +70,8 @@ exit
 qutebrowser 
 exit
 exit
+../
+git add .
+git commit -m "update"
+git push
+exit

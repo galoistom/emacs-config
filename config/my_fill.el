@@ -28,6 +28,9 @@
 	("\(\)" . ((lambda ()
 		   (insert "\\left(\\right)")
 		   (backward-char 7))))
+	("sq". ((lambda ()
+		  (insert "\\sqrt{}")
+		  (backward-char 1))))
 	))
 
 (defun my-tex-input (name)
