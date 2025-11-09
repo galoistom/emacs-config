@@ -16,7 +16,6 @@
 ;;(add-to-list 'exec-path "/usr/local/bin")      ; 如果是 Homebrew 等安装的路径
 (setq-default tab-width 8)
 (setq standard-indent 8)
-;;(setq-default indent-tabs-mode nil)
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -24,7 +23,7 @@
 (display-time-mode t)
 (window-divider-mode t)
 (electric-pair-mode 1)
-(global-hl-line-mode t)
+;;(global-hl-line-mode t)
 (setq display-time-format "%Y-%m-%d %H:%M")
 (require 'package)
 
@@ -45,14 +44,8 @@
    '("2d74de1cc32d00b20b347f2d0037b945a4158004f99877630afc034a674e3ab7"
      "4dcf06273c9f5f0e01cea95e5f71c3b6ee506f192d75ffda639d737964e2e14e"
      default))
- '(dashboard-banner-ascii "
-███╗   ███╗██╗   ██╗██╗   ██╗██╗███╗   ███╗
-████╗ ████║╚██╗ ██╔╝██║   ██║██║████╗ ████║
-██╔████╔██║ ╚████╔╝ ██║   ██║██║██╔████╔██║
-██║╚██╔╝██║  ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚═╝ ██║   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝     ╚═╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝
-")
+ '(dashboard-banner-ascii
+   "\12███╗   ███╗██╗   ██╗██╗   ██╗██╗███╗   ███╗\12████╗ ████║╚██╗ ██╔╝██║   ██║██║████╗ ████║\12██╔████╔██║ ╚████╔╝ ██║   ██║██║██╔████╔██║\12██║╚██╔╝██║  ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║\12██║ ╚═╝ ██║   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║\12╚═╝     ╚═╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝\12")
  '(dashboard-center-content t)
  '(dashboard-footer-messages
    '("The one true editor, Evil!"
@@ -78,8 +71,7 @@
  '(package-selected-packages
    '(catppuccin-theme company-box cond-let dashboard doom-modeline
 		      dracula-theme eldoc-box esh-autosuggest esh-help
-		      eshell-autojump eshell-did-you-mean
-		      eshell-git-prompt eshell-syntax-highlighting
+		      eshell-autojump eshell-syntax-highlighting
 		      evil-collection evil-leader lsp-mode mason
 		      pdf-tools reformatter rust-mode slime texfrag
 		      typescript-mode vertico with-editor xterm-color)))
@@ -97,6 +89,7 @@
 (load (concat custom-config-dir "lsp.el"))
 (load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "my_fill.el"))
+;;(load (concat custom-config-dir "eshell.el"))
 ;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
@@ -113,14 +106,25 @@
   (setq term-setup-hook (lambda ()
                           (set-terminal-parameter nil 'frame-background-mode 'dark))))
 
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-(setq dashboard-banner-logo-title "EVIL")
-;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
-(setq dashboard-items '((recents . 10)
-			(bookmarks . 5))) ; 显示 5 个待办事项
+;;(require 'dashboard)
+;;(dashboard-setup-startup-hook)
+;;(setq dashboard-banner-logo-title "EVIL")
+;;;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
+;;(setq dashboard-items '((recents . 10)
+;;			(bookmarks . 5))) ; 显示 5 个待办事项
 ;;(setq dashboard-center-content t)
-(setq dashboard-vertically-center-content t)
+;;(setq dashboard-vertically-center-content t)
+(use-package dashboard
+  :ensure t
+  :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-banner-logo-title "EVIL")
+    ;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
+    (setq dashboard-items '((recents . 10)
+			    (bookmarks . 5))) ; 显示 5 个待办事项
+    ;;(setq dashboard-center-content t)
+    (setq dashboard-vertically-center-content t)
+  )
 
 (use-package doom-modeline
   :ensure t

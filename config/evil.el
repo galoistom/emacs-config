@@ -12,7 +12,7 @@
     (evil-leader/set-key
     "s" 'save-buffer      ; <Space> s -> 保存文件
     "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
-    "f" 'find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
+    "f" 'counsel-find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
     "e" 'dired-jump
     "h" 'dashboard-open
     "t" 'eshell
@@ -71,10 +71,10 @@
 
 (define-prefix-command 'my-buffer-action)
 (evil-leader/set-key "b" 'my-buffer-action)
-(define-key my-buffer-action (kbd "x") 'kill-buffer)
-(define-key my-buffer-action (kbd "l") 'list-buffers)
+(define-key my-buffer-action (kbd "x") 'ivy--kill-buffer-action)
+(define-key my-buffer-action (kbd "l") 'ivy--buffer-list)
 (define-key my-buffer-action (kbd "s") 'save-buffer)
-(define-key my-buffer-action (kbd "b") 'switch-to-buffer)
+(define-key my-buffer-action (kbd "b") 'ivy-switch-buffer)
 
 (define-prefix-command 'my-slime-keymap)
 (evil-leader/set-key "g" 'my-slime-keymap)
