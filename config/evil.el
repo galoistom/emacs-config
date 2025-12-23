@@ -17,6 +17,7 @@
     "h" 'dashboard-open
     "t" 'eshell
     "F" 'bookmark-jump
+    "p" 'dired-preview-mode
     )
 )
 
@@ -71,8 +72,8 @@
 
 (define-prefix-command 'my-buffer-action)
 (evil-leader/set-key "b" 'my-buffer-action)
-(define-key my-buffer-action (kbd "x") 'ivy--kill-buffer-action)
-(define-key my-buffer-action (kbd "l") 'ivy--buffer-list)
+(define-key my-buffer-action (kbd "x") 'kill-buffer)
+(define-key my-buffer-action (kbd "l") 'buffer-list)
 (define-key my-buffer-action (kbd "s") 'save-buffer)
 (define-key my-buffer-action (kbd "b") 'ivy-switch-buffer)
 
@@ -93,3 +94,4 @@
   (call-process-shell-command "qutebrowser" nil))
 
 (evil-leader/set-key "u" 'qutebrowser)
+

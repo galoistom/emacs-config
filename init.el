@@ -3,14 +3,29 @@
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
-(set-fontset-font (frame-parameter nil 'font) 
-                  'unicode 
-                  (font-spec :family "Hack Nerd Font")) 
-(set-face-attribute 'default nil 
-  :family "Cascadia Code"   ; 替换为你想要的主字体
-  :height 140                ; 设置字体大小，120 等于 12pt
-  :weight 'normal)
-;;(set-fontset-font "fontset-default" '(#xe000 . #xf8ff) "Hack Nerd Font")
+(defun my/setup-fonts (&optional frame)
+  (with-selected-frame (or frame (selected-frame))
+    (when (display-graphic-p)
+      ;; 主字体
+      (set-face-attribute 'default nil
+                          :family "Cascadia Code"
+                          :height 140
+                          :weight 'normal)
+
+      ;; Unicode / Nerd Font fallback
+      (set-fontset-font
+       "fontset-default"
+       'unicode
+       (font-spec :family "Hack Nerd Font")
+       nil
+       'append))))
+
+;; GUI 启动
+(add-hook 'after-init-hook #'my/setup-fonts)
+
+;; daemon / emacsclient 新 frame
+(add-hook 'after-make-frame-functions #'my/setup-fonts)
+
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;;(add-to-list 'exec-path "/home/user/.local/bin") ; 替换为你的 qutebrowser 路径
 ;;(add-to-list 'exec-path "/usr/local/bin")      ; 如果是 Homebrew 等安装的路径
@@ -60,21 +75,23 @@
  '(display-battery-mode t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
+ '(org-format-latex-header
+   "\\documentclass{article}\12\\usepackage[usenames]{color}\12\\usepackage{bm}\12[DEFAULT-PACKAGES]\12[PACKAGES]\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}\12\\newcommand{\\f}[2]{\\frac{#1}{#2}}\12\\newcommand{\\bb}[1]{\\mathbb{#1}}\12\\newcommand{\\up}[2]{{#1}^{#2}}\12\\newcommand{\\cal}[1]{\\mathcal{#1}}\12\\newcommand{\\fk}[1]{\\mathfrak{#1}}")
  '(org-format-latex-options
    '(:foreground default :background default :scale 1.5 :html-foreground
 		 "Black" :html-background "Transparent" :html-scale
 		 1.0 :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")
 		 :use-image-magick t))
- '(org-format-latex-signal-error nil)
  '(org-latex-packages-alist '(("" "tikz-cd" t nil) ("" "tikz" t nil)))
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
-   '(catppuccin-theme company-box cond-let dashboard doom-modeline
-		      dracula-theme eldoc-box esh-autosuggest esh-help
-		      eshell-autojump eshell-syntax-highlighting
-		      evil-collection evil-leader lsp-mode mason
-		      pdf-tools reformatter rust-mode slime texfrag
-		      typescript-mode vertico with-editor xterm-color)))
+   '(avy capf-autosuggest company-box cond-let counsel dashboard
+	 dired-preview doom-modeline dracula-theme eldoc-box
+	 esh-autosuggest esh-help eshell-autojump eshell-git-prompt
+	 eshell-syntax-highlighting evil-collection evil-leader
+	 flycheck lsp-ui mason multiple-cursors org-modern pdf-tools
+	 reformatter rust-mode slime texfrag typescript-mode vertico
+	 with-editor xterm-color)))
 ;;(load-theme 'catppuccin :no-confirm)
 (load-theme 'dracula :no-confirm)
 (custom-set-faces
@@ -89,7 +106,7 @@
 (load (concat custom-config-dir "lsp.el"))
 (load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "my_fill.el"))
-;;(load (concat custom-config-dir "eshell.el"))
+(load (concat custom-config-dir "eshell.el"))
 ;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
@@ -156,3 +173,29 @@
 
 (use-package eldoc-box
   :ensure t)
+(setq lsp-meson-no-auto-downloads t)
+
+(use-package dired-preview
+  :ensure t
+  :config
+(setq dired-preview-delay 0.05)
+
+  ;; 右侧预览窗口
+  (setq dired-preview-display-action-alist
+        '((display-buffer-in-side-window)
+          (side . right)
+          (window-width . 0.5)))
+  ;(dired-preview-global-mode 1)
+)
+;(use-package multiple-cursors
+;  :ensure t
+;  :bind
+;   (("C-S-c C-S-c" . mc/edit-lines)          ;; 多行同列编辑
+;   ("C->"         . mc/mark-next-like-this) ;; 向下找相同
+;   ("C-<"         . mc/mark-previous-like-this) ;; 向上找相同
+;   ("C-c C-<"     . mc/mark-all-like-this)  ;; 选中全部相同
+;   ("C-c C-c"     . mc/edit-lines)))
+
+(setq auto-save-default t)
+(setq auto-save-timeout 5)
+(setq auto-save-interval 50)
