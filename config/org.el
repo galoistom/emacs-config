@@ -5,7 +5,6 @@
     (org-mode . visual-line-mode)
     (org-mode . my/org-prettify-symbols)
     (org-mode . (lambda ()
-			(electric-pair-local-mode 1)
 			(add-to-list 'electric-pair-pairs '(36 . 36) t)))
 	 ;;)
   :commands (org-find-exact-headline-in-buffer org-set-tags)

@@ -4,9 +4,11 @@
 (setq mc/cmds-to-run-for-all
       '(
 	evil-append
+	evil-forward-char
 	evil-mouse-drag-region
 	evil-normal-state
 	evil-previous-line
+	evil-undo
 	))
 
 (setq mc/cmds-to-run-once
@@ -17,5 +19,6 @@
 	evil-next-line
 	evil-record-macro
 	evil-search-next
+	org-self-insert-command
 	save-buffers-kill-terminal
 	))

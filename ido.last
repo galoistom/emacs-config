@@ -1,0 +1,43 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/galoistom/my_emacs/" . "config/")
+ ("/home/galoistom/" . "my_emacs/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/galoistom/my_emacs/"
+ "/home/galoistom/my_emacs/games/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "init.el"
+ "snake-scores"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/galoistom/my_emacs/config/" (26957 22808 726648 891000) "markdown.el" "my_fill.el" "evil.el" "eshell.el" "eshell.el~" "my_fill.el~" "org.el" "lsp.el" "../" "./")
+
+ ("/home/galoistom/" (26957 21222 886350 262000) "clean.sh" ".zhistory" ".viminfo" ".zcompdump" ".zshrc" ".zsh/" ".gtkrc-2.0" "test/" ".emacs.d/" "README.md" ".steampid" ".steampath" ".vim/" ".zshenv" ".vimrc" "nnn.zsh" "dotfile/" ".pinerc" "mail/" ".Xresources" "clash.sh" "notes/" "power_report.html" ".renpy/" ".newsrc-dribble" "News/" ".mume/" ".spacemacs" "my_emacs/" "org/" "prime" "prime.c" ".texlive/" ".sbclrc" ".slime-history.eld" ".slime/" ".spacemacs.env" ".zen/" "npm" ".gap_hist" "pku_vpn.sh" ".mitmproxy/" "tpm/" ".moonchild productions/" ".hplip/" "polybar.sh" ".designer/" ".hmcl/" ".deno/" ".python_history" ".stack/" ".icons/" ".logseq/" ".thunderbird/" ".cabal/" ".ghcup/" ".gitconfig" ".npm-global/" ".npmrc" ".npm/" ".vim-bookmarks" ".zoom/" ".steam/" ".fehbg" ".password-store/" ".Xprofile" ".minecraft/" ".openjfx/" ".java/" ".gradle/" ".gnupg/" ".fonts.conf" ".Xauthority" ".ssh/" ".rustup/" ".cargo/" ".profile" ".bash_history" ".bashrc" ".wget-hsts" ".pki/" "clash/" ".mozilla/" ".var/" ".cache/" "Videos/" "Pictures/" "Music/" "Documents/" "Public/" "Templates/" "Downloads/" "Desktop/" ".local/" ".xinitrc" ".dir_colors" ".Xclients" ".config/" ".bash_profile" ".bash_logout" "../" "./")
+
+ ("/home/galoistom/.emacs.d/elpa/evil-mc-20241025.2045/" (26957 18510 886221 307000) "evil-mc.elc" "evil-mc-vars.elc" "evil-mc-undo.elc" "evil-mc-setup.elc" "evil-mc-scratch.elc" "evil-mc-region.elc" "evil-mc-known-commands.elc" "evil-mc-cursor-state.elc" "evil-mc-cursor-make.elc" "evil-mc-common.elc" "evil-mc-command-record.elc" "evil-mc-command-execute.elc" "evil-mc-autoloads.el" "evil-mc.el" "evil-mc-vars.el" "evil-mc-undo.el" "evil-mc-setup.el" "evil-mc-scratch.el" "evil-mc-region.el" "evil-mc-pkg.el" "evil-mc-known-commands.el" "evil-mc-cursor-state.el" "evil-mc-cursor-make.el" "evil-mc-common.el" "evil-mc-command-record.el" "evil-mc-command-execute.el" "../" "./")
+
+ ("/home/galoistom/my_emacs/" (26956 61073 787426 849000) "ido.last" "ido.last~" "init.el" "custom.el" "custom.el~" "init.el~" "site-lisp/" "ielm-history.eld" "bookmarks" "bookmarks~" ".mc-lists.el" "tramp" ".gitignore" "games/" ".lsp-session-v1" "url/" "mason/" "auto-save-list/" "eln-cache/" "elpa/" "recentf" "README.md" "transient/" "eshell/" "config/" ".git/" "../" "./")
+
+ ("/home/galoistom/notes/" (26954 34174 462172 100000) "实分析/" "Zorn's lemma.md" "rep theory/" "README.md" "lecture note/" "homo algebra/" "Home.md" "commutative algebra/" "Books/" "algebraic number theory/" ".obsidian.vimrc" ".obsidian/" ".gitignore" ".git/" "../" "./")
+
+ ("/home/galoistom/notes/lecture note/" (26956 63513 10912 700000) "高等代数2 note.md" "数论基础note.md" "拓扑学note.md" "代数学2 note.md" "代数学1 note.md" "texfrag/" "representation note.md" ".#代数学1 note.md" "#代数学1 note.md#" "../" "./")
+
+ ("/home/galoistom/Downloads/" (26954 26433 298857 697000) ".hmcl.json" "近世代数三百题 (300 Problems in Abstract Algebras) (冯克勤, 章璞 (Keqin Feng, Pu Zhang)) (Z-Library).djvu" "github-recovery-codes.txt" "homework.odt" "vanK.pdf" "Honors-algebra-2023.pdf" "EAlg-Notes.pdf" "大学物理通用教程习题解答 电磁学、光学和近代物理分册 第2版 (钟锡华) (Z-Library).pdf" "光学教程 第五版 (姚启钧 华东师大光学教材编写组) (Z-Library).pdf" "大学物理通用教程·光学（第二版） (YY) (Z-Library).pdf" "uld/" "HMCL.sh" ".hmcl/" "../" "./")
+
+ ("/home/galoistom/dotfile/" (26942 56894 400812 587000) ".vimrc" "vim/" "nnn.zsh" "README.md" ".git/" "rofi/" "polybar/" "picom/" "nnn/" "kitty/" "i3/" "../" "./")
+
+ ("/home/galoistom/my_emacs/games/" (26886 52933 494638 207000) "snake-scores" "snake-scores~" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

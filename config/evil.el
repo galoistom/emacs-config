@@ -5,21 +5,6 @@
     (evil-mode 1)
     (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char)
 )
-(use-package evil-leader
-  :ensure t
-  :config
-    (evil-leader/set-leader "<SPC>") 
-    (evil-leader/set-key
-    "s" 'save-buffer      ; <Space> s -> 保存文件
-    "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
-    "f" 'counsel-find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
-    "e" 'dired-jump
-    "h" 'dashboard-open
-    "t" 'eshell
-    "F" 'bookmark-jump
-    "p" 'dired-preview-mode
-    )
-)
 
 (use-package which-key
   :ensure t
@@ -40,58 +25,96 @@
   (evil-collection-init)
   (global-unset-key (kbd "C-z")))
 
+(use-package evil-mc
+  :ensure t
+  :after evil
+  :config
+  (global-evil-mc-mode 1))
+
+(use-package evil-leader
+  :ensure t
+  :config
+    (evil-leader/set-leader "<SPC>") 
+    (evil-leader/set-key
+    "s" 'save-buffer      ; <Space> s -> 保存文件
+    "q" 'save-buffers-kill-terminal ; <Space> q -> 保存所有并退出 Emacs
+    "f" 'counsel-find-file        ; <Space> f -> 查找文件 (C-x C-f 替代)
+    "e" 'dired-jump
+    "h" 'dashboard-open
+    "t" 'eshell
+    "F" 'bookmark-jump
+    "p" 'dired-preview-mode
+    )
+)
+
+(evil-leader/set-key "k" evil-mc-cursors-map)
+
 (global-evil-leader-mode)
 
 (setq evil-default-state 'normal)
 
 (global-set-key (kbd "C-z") 'undo)
 
+(defmacro my/define-keys (keymap &rest bindings)
+  `(progn
+     ,@(mapcar (lambda (b)
+		 `(define-key ,keymap (kbd ,(car b)) ',(cadr b))) bindings)))
+
 (define-prefix-command 'my-window-map)
 (evil-leader/set-key "w" 'my-window-map)
-(define-key my-window-map (kbd "h") 'windmove-left)  
-(define-key my-window-map (kbd "j") 'windmove-down)  
-(define-key my-window-map (kbd "k") 'windmove-up)     
-(define-key my-window-map (kbd "l") 'windmove-right)   
-(define-key my-window-map (kbd "%") 'split-window-right) 
-(define-key my-window-map (kbd "\"") 'split-window-below)  
-(define-key my-window-map (kbd "x") 'delete-window)    
-(define-key my-window-map (kbd "o") 'delete-other-windows) 
-(define-key my-window-map (kbd "H") 'shrink-window-horizontally)
-(define-key my-window-map (kbd "L") 'enlarge-window-horizontally)  
-(define-key my-window-map (kbd "J") 'shrink-window)
-(define-key my-window-map (kbd "K") 'enlarge-window)
-(define-key my-window-map (kbd "s") 'window-swap-states) 
-(define-key my-window-map (kbd "1") 'balance-windows)    
+(my/define-keys my-window-map
+				("h" windmove-left)
+				("j" windmove-down)
+				("k" windmove-up)
+				("l" windmove-right)
+				("%" split-window-right)
+				("\"" split-window-below)
+				("x" delete-window)
+				("o" delete-other-windows)
+				("H" shrink-window-horizontally)
+				("L" enlarge-window-horizontally)
+				("J" shrink-window)
+				("K" enlarge-window)
+				("r" evil-window-rotate-downwards)
+				("R" evil-window-rotate-upwards)
+				("s" window-swap-states)
+				("1" balance-windows))
 
 (define-prefix-command 'my-org-keymap)
 (evil-leader/set-key "o" 'my-org-keymap)
-(define-key my-org-keymap (kbd "v") 'org-toggle-inline-images)
-(define-key my-org-keymap (kbd "c") 'org-latex-preview)
-(define-key my-org-keymap (kbd "r") 'org-ctrl-c-ctrl-c)
-(define-key my-org-keymap (kbd "o") 'org-open-at-point)
+(my/define-keys my-org-keymap
+				("v" org-toggle-inline-images)
+				("c" org-latex-preview)
+				("r" org-ctrl-c-ctrl-c)
+				("o" org-open-at-point))
 
 (define-prefix-command 'my-buffer-action)
 (evil-leader/set-key "b" 'my-buffer-action)
-(define-key my-buffer-action (kbd "x") 'kill-buffer)
-(define-key my-buffer-action (kbd "l") 'buffer-list)
-(define-key my-buffer-action (kbd "s") 'save-buffer)
-(define-key my-buffer-action (kbd "b") 'ivy-switch-buffer)
+(my/define-keys my-buffer-action
+				("x" kill-buffer)
+				("l" buffer-list)
+				("s" save-buffer)
+				("b" ivy-switch-buffer))
 
 (define-prefix-command 'my-slime-keymap)
 (evil-leader/set-key "g" 'my-slime-keymap)
-(define-key my-slime-keymap (kbd "s") 'slime)
-(define-key my-slime-keymap (kbd "k") 'slime-compile-and-load-file)
-(define-key my-slime-keymap (kbd "q") 'slime-quit)
-(define-key my-slime-keymap (kbd "e") 'eval-last-sexp)
+(my/define-keys my-slime-keymap
+				("s" slime)
+				("k" slime-compile-and-load-file)
+				("q" slime-quit)
+				("e" eval-last-sexp))
 
 (define-prefix-command 'my-latex-render)
 (evil-leader/set-key "l" 'my-latex-render)
-(define-key my-latex-render (kbd "p") 'preview-at-point)
-(define-key my-latex-render (kbd "t") 'texfrag-docuemnt)
+(my/define-keys my-latex-render
+				("p" preview-at-point)
+				("t" texfrag-docuemnt))
 
 (defun qutebrowser ()
   (interactive)
-  (call-process-shell-command "qutebrowser" nil))
+  (start-process-shell-command "browser" nil "qutebrowser"))
 
 (evil-leader/set-key "u" 'qutebrowser)
+(with-eval-after-load 'wdired
+  (define-key wdired-mode-map (kbd "C-j") #'wdired-finish-edit))
 

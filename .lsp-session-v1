@@ -1,1 +1,1 @@
-#s(lsp-session nil ("/home/galoistom/test/") #s(hash-table test equal) #s(hash-table test equal) #s(hash-table test equal))
+#s(lsp-session nil ("/home/galoistom/Documents/C_project/" "/home/galoistom/test/") #s(hash-table test equal) #s(hash-table test equal) #s(hash-table test equal))

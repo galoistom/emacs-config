@@ -4,6 +4,10 @@
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  :hook
+    (markdown-mode . (lambda ()
+		       (add-to-list 'electric-pair-pairs '(36 . 36) t)
+		       (add-to-list 'electric-pair-pairs '(42 . 42) t)))
   )
 ;;(require 'math-preview)
 
@@ -20,6 +24,7 @@
     (preview-at-point)))
 (add-hook 'after-save-hook 'my-math-preview-at-point)
 (add-hook 'markdown-mode-hook 'my-math-preview-document)
+
 (use-package texfrag
   :hook ((TeX-mode-hook . texfrag-mode)
          (markdown-mode-hook . texfrag-mode))
@@ -41,10 +46,5 @@
                 t)
 	   )))
 
-;;(defun my-math-preview-clear-on-evil-change ()
-;;  "如果当前缓冲区是 Markdown 模式，清除光标处的数学预览。"
-;;  (when (eq major-mode 'markdown-mode)
-;;    (when (fboundp 'math-preview-clear-at-point)
-;;      (texfrag-document))))
-;;(add-hook 'evil-insert-state-entry-hook 'my-math-preview-clear-on-evil-change)
-;;(add-hook 'evil-visual-state-entry-hook 'my-math-preview-clear-on-evil-change)
+
+(setq markdown-enable-math t)
