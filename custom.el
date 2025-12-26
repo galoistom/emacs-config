@@ -37,9 +37,13 @@
 	 dired-preview doom-modeline dracula-theme eldoc-box
 	 esh-autosuggest esh-help eshell-autojump eshell-git-prompt
 	 eshell-syntax-highlighting evil-collection evil-leader
-	 evil-mc flycheck lsp-ui mason org-inline-pdf org-modern osc52
-	 pdf-tools rainbow-delimiters reformatter rust-mode slime
-	 texfrag typescript-mode vertico with-editor xterm-color)))
+	 evil-mc flycheck lsp-ui mason org-inline-pdf
+	 org-latex-preview org-mode org-modern osc52 pdf-tools
+	 rainbow-delimiters reformatter rust-mode slime texfrag
+	 typescript-mode vertico with-editor xterm-color))
+ '(package-vc-selected-packages
+   '((org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch
+	       "dev"))))
 ;;(load-theme 'catppuccin :no-confirm)
 (load-theme 'dracula :no-confirm)
 (custom-set-faces

@@ -1,5 +1,4 @@
-;; 初始化 EMACS 内置的包管理系统
-;;(server-start)
+;--- regular configuration ---
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
@@ -25,10 +24,8 @@
 
 ;; daemon / emacsclient 新 frame
 (add-hook 'after-make-frame-functions #'my/setup-fonts)
-
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-;;(add-to-list 'exec-path "/home/user/.local/bin") ; 替换为你的 qutebrowser 路径
-;;(add-to-list 'exec-path "/usr/local/bin")      ; 如果是 Homebrew 等安装的路径
+
 (setq-default tab-width 8)
 (setq standard-indent 8)
 (setq inhibit-startup-screen t)
@@ -42,8 +39,10 @@
 (electric-pair-mode 1)
 (ido-mode t)
 (ido-everywhere t)
-;;(global-hl-line-mode t)
+
 (setq display-time-format "%Y-%m-%d %H:%M")
+
+;--- basic packages ---
 (require 'package)
 
 ;; 添加 MELPA 仓库源
@@ -63,41 +62,25 @@
 (load (concat custom-config-dir "eshell.el"))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
-;;(load (concat custom-config-dir "lsp.el"))
 
 (global-display-line-numbers-mode t)
-(setq display-line-numbers 'relative)
 (setq display-line-numbers-type 'relative)
 
-;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (set-frame-parameter (selected-frame) 'background-mode 'dark) 
-;;(set-face-attribute 'default nil 
-;;                    :background "#000000")
 (setq xterm-query-color-support t)
 (unless (display-graphic-p)
   (setq-default frame-background-mode nil)
   (setq term-setup-hook (lambda ()
                           (set-terminal-parameter nil 'frame-background-mode 'dark))))
 
-;;(require 'dashboard)
-;;(dashboard-setup-startup-hook)
-;;(setq dashboard-banner-logo-title "EVIL")
-;;;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
-;;(setq dashboard-items '((recents . 10)
-;;			(bookmarks . 5))) ; 显示 5 个待办事项
-;;(setq dashboard-center-content t)
-;;(setq dashboard-vertically-center-content t)
 (use-package dashboard
   :ensure t
   :config
     (dashboard-setup-startup-hook)
     (setq dashboard-banner-logo-title "EVIL")
-    ;;;; 可选：自定义显示哪些项目（例如最近文件和项目）
     (setq dashboard-items '((recents . 10)
 			    (bookmarks . 5))) ; 显示 5 个待办事项
-    ;;(setq dashboard-center-content t)
-    (setq dashboard-vertically-center-content t)
-  )
+    (setq dashboard-vertically-center-content t))
 
 (use-package doom-modeline
   :ensure t
@@ -105,9 +88,8 @@
   (doom-modeline-mode 1)
   :config
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
-(setq doom-modeline-minor-modes nil)
-  
-)
+  (setq doom-modeline-minor-modes nil))
+
 (mason-ensure t)
 
 (use-package pdf-tools
@@ -123,34 +105,27 @@
 ;; 激活 pdf-tools 的快捷键
 (provide 'pdf-tools-config)
 
-(use-package avy
-  :ensure t
-  )
+(use-package avy :ensure t)
+(use-package eldoc-box :ensure t)
 
-(use-package eldoc-box
-  :ensure t)
 (setq lsp-meson-no-auto-downloads t)
 
 (use-package dired-preview
   :ensure t
   :config
     (setq dired-preview-delay 0.05)
-
-      ;; 右侧预览窗口
-      (setq dired-preview-display-action-alist
-            '((display-buffer-in-side-window)
-              (side . right)
-              (window-width . 0.5)))
-      ;(dired-preview-global-mode 1)
-)
+    ; set preview to right hand side
+    (setq dired-preview-display-action-alist
+	'((display-buffer-in-side-window)
+	    (side . right)
+	    (window-width . 0.5))))
 
 (setq auto-save-default t)
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
 
-(add-hook 'pdf-view-mode-hook
-          (lambda ()
-            (display-line-numbers-mode -1)))
+(add-hook 'pdf-view-mode-hook (lambda ()
+				(display-line-numbers-mode -1)))
 
 ;; [rainbow-delimiters] Highlight brackets according to their depth
 (use-package rainbow-delimiters

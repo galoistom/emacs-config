@@ -13,7 +13,6 @@
   :hook ((eshell-mode comint-mod) . capf-autosuggest-mode)
   :config
     (define-key eshell-mode-map (kbd "<right>") 'capf-autosuggest-move-end-of-line)
-    ;;p(define-key eshell-mode-map (kbd "<right>") 'company-complete-selection)
   )
 
 (use-package em-history

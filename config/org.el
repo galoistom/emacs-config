@@ -26,15 +26,9 @@
   (org-block-end-line ((t (:overline t :underline nil :background unspecified))))
   :config
   ;; 设置org mode中某些标签的显示字符
+    (setq org-preview-latex-default-process 'dvisvgm)
+    (setq org-startup-with-latex-preview t)
 
-;;  (add-to-list 'org-preview-latex-process-alist
-;;             '(dvisvgm
-;;               :programs ("pdflatex" "dvisvgm")
-;;               :image-input-file "%t.pdf"
-;;               :image-output-file "%o.svg"
-;;               :image-command "pdflatex -halt-on-error -output-directory %o %t.tex && dvisvgm %o/%b.dvi -n -b %o/%b.svg"
-;;               :image-width "(\\max (image-width \"%s\") 100)"
-;;               ))
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)  ; 启用 Elisp
@@ -82,6 +76,9 @@
   ;; 设置折叠符号
   (org-ellipsis " ▾")
   )
+(add-hook 'after-save-hook #'(lambda ()
+			       (when (eq major-mode 'org-mode)
+				 (org-latex-preview))))
 (use-package org-modern
   :ensure t
   :hook (after-init . (lambda ()

@@ -22,8 +22,7 @@
 (use-package evil-collection
   :ensure t
   :config
-  (evil-collection-init)
-  (global-unset-key (kbd "C-z")))
+  (evil-collection-init))
 
 (use-package evil-mc
   :ensure t
@@ -47,13 +46,11 @@
     )
 )
 
-(evil-leader/set-key "k" evil-mc-cursors-map)
 
 (global-evil-leader-mode)
-
 (setq evil-default-state 'normal)
 
-(global-set-key (kbd "C-z") 'undo)
+(evil-leader/set-key "k" evil-mc-cursors-map)
 
 (defmacro my/define-keys (keymap &rest bindings)
   `(progn
@@ -91,9 +88,9 @@
 (define-prefix-command 'my-buffer-action)
 (evil-leader/set-key "b" 'my-buffer-action)
 (my/define-keys my-buffer-action
-				("x" kill-buffer)
-				("l" buffer-list)
-				("s" save-buffer)
+				("x" kill-buffer-and-window)
+				("X" kill-buffer)
+				("l" buffer-menu)
 				("b" ivy-switch-buffer))
 
 (define-prefix-command 'my-slime-keymap)
