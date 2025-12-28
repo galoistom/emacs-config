@@ -138,3 +138,5 @@
                     :weight 'bold
                     :background "#44475a"
                     :foreground "#ffff00")
+
+(global-set-key (kbd "C-S-h") 'dashboard-open)

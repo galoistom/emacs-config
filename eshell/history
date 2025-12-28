@@ -117,3 +117,7 @@ git commit -m "update"
 git push
 exit
 exit
+ssh pi
+exit
+mkdir -p ~/.config/alacritty
+exit

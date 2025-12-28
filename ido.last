@@ -8,25 +8,29 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/galoistom/my_emacs/config/"
  "/home/galoistom/my_emacs/"
  "/home/galoistom/my_emacs/games/"
 )
 
 ;; ----- ido-work-file-list -----
 (
+ "evil.el"
  "init.el"
  "snake-scores"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/galoistom/my_emacs/config/" (26957 22808 726648 891000) "markdown.el" "my_fill.el" "evil.el" "eshell.el" "eshell.el~" "my_fill.el~" "org.el" "lsp.el" "../" "./")
+ ("/home/galoistom/" (26961 12577 437243 216000) ".gtkrc-2.0" ".zcompdump" ".zhistory" ".Xprofile" ".Xprofile~" ".viminfo" ".zshrc" ".zsh/" "test/" ".emacs.d/" "README.md" ".steampid" ".vim/" ".zshenv" ".vimrc" "nnn.zsh" "dotfile/" ".pinerc" "mail/" ".Xresources" "notes/" "power_report.html" ".renpy/" ".newsrc-dribble" "News/" ".mume/" ".spacemacs" "my_emacs/" "org/" "prime" "prime.c" ".texlive/" ".sbclrc" ".slime-history.eld" ".slime/" ".spacemacs.env" ".zen/" "npm" ".gap_hist" ".mitmproxy/" "tpm/" ".moonchild productions/" ".hplip/" "polybar.sh" ".designer/" ".hmcl/" ".deno/" ".python_history" ".stack/" ".icons/" ".logseq/" ".thunderbird/" ".cabal/" ".ghcup/" ".gitconfig" ".npm-global/" ".npmrc" ".npm/" ".vim-bookmarks" ".zoom/" ".steam/" ".fehbg" ".password-store/" ".minecraft/" ".openjfx/" ".java/" ".gradle/" ".gnupg/" ".fonts.conf" ".Xauthority" ".ssh/" ".rustup/" ".cargo/" ".profile" ".bash_history" ".bashrc" ".wget-hsts" ".pki/" "clash/" ".mozilla/" ".var/" ".cache/" "Videos/" "Pictures/" "Music/" "Documents/" "Public/" "Templates/" "Downloads/" "Desktop/" ".local/" ".xinitrc" ".dir_colors" ".Xclients" ".config/" ".bash_profile" ".bash_logout" "../" "./")
 
- ("/home/galoistom/" (26957 21222 886350 262000) "clean.sh" ".zhistory" ".viminfo" ".zcompdump" ".zshrc" ".zsh/" ".gtkrc-2.0" "test/" ".emacs.d/" "README.md" ".steampid" ".steampath" ".vim/" ".zshenv" ".vimrc" "nnn.zsh" "dotfile/" ".pinerc" "mail/" ".Xresources" "clash.sh" "notes/" "power_report.html" ".renpy/" ".newsrc-dribble" "News/" ".mume/" ".spacemacs" "my_emacs/" "org/" "prime" "prime.c" ".texlive/" ".sbclrc" ".slime-history.eld" ".slime/" ".spacemacs.env" ".zen/" "npm" ".gap_hist" "pku_vpn.sh" ".mitmproxy/" "tpm/" ".moonchild productions/" ".hplip/" "polybar.sh" ".designer/" ".hmcl/" ".deno/" ".python_history" ".stack/" ".icons/" ".logseq/" ".thunderbird/" ".cabal/" ".ghcup/" ".gitconfig" ".npm-global/" ".npmrc" ".npm/" ".vim-bookmarks" ".zoom/" ".steam/" ".fehbg" ".password-store/" ".Xprofile" ".minecraft/" ".openjfx/" ".java/" ".gradle/" ".gnupg/" ".fonts.conf" ".Xauthority" ".ssh/" ".rustup/" ".cargo/" ".profile" ".bash_history" ".bashrc" ".wget-hsts" ".pki/" "clash/" ".mozilla/" ".var/" ".cache/" "Videos/" "Pictures/" "Music/" "Documents/" "Public/" "Templates/" "Downloads/" "Desktop/" ".local/" ".xinitrc" ".dir_colors" ".Xclients" ".config/" ".bash_profile" ".bash_logout" "../" "./")
+ ("/home/galoistom/my_emacs/config/" (26959 61021 446746 690000) "markdown.el" "my_fill.el" "evil.el" "eshell.el" "eshell.el~" "my_fill.el~" "org.el" "lsp.el" "../" "./")
+
+ ("/home/galoistom/my_emacs/" (26959 61053 434410 436000) "ido.last" "ido.last~" "lisp/" "custom.el" "projects" "init.el" "custom.el~" "init.el~" "site-lisp/" "ielm-history.eld" "bookmarks" "bookmarks~" ".mc-lists.el" "tramp" ".gitignore" "games/" ".lsp-session-v1" "url/" "mason/" "auto-save-list/" "eln-cache/" "elpa/" "recentf" "README.md" "transient/" "eshell/" "config/" ".git/" "../" "./")
+
+ ("/home/galoistom/.emacs.d/elpa/evil-20250929.1650/" (26958 37204 311882 345000) "evil.elc" "evil-vars.elc" "evil-types.elc" "evil-states.elc" "evil-search.elc" "evil-repeat.elc" "evil-maps.elc" "evil-macros.elc" "evil-keybindings.elc" "evil-jumps.elc" "evil-integration.elc" "evil-ex.elc" "evil-digraphs.elc" "evil-development.elc" "evil-core.elc" "evil-common.elc" "evil-commands.elc" "evil-command-window.elc" "evil-autoloads.el" "evil.info" "evil.el" "evil-vars.el" "evil-types.el" "evil-states.el" "evil-search.el" "evil-repeat.el" "evil-pkg.el" "evil-maps.el" "evil-macros.el" "evil-keybindings.el" "evil-jumps.el" "evil-integration.el" "evil-ex.el" "evil-digraphs.el" "evil-development.el" "evil-core.el" "evil-common.el" "evil-commands.el" "evil-command-window.el" "dir" "../" "./")
 
  ("/home/galoistom/.emacs.d/elpa/evil-mc-20241025.2045/" (26957 18510 886221 307000) "evil-mc.elc" "evil-mc-vars.elc" "evil-mc-undo.elc" "evil-mc-setup.elc" "evil-mc-scratch.elc" "evil-mc-region.elc" "evil-mc-known-commands.elc" "evil-mc-cursor-state.elc" "evil-mc-cursor-make.elc" "evil-mc-common.elc" "evil-mc-command-record.elc" "evil-mc-command-execute.elc" "evil-mc-autoloads.el" "evil-mc.el" "evil-mc-vars.el" "evil-mc-undo.el" "evil-mc-setup.el" "evil-mc-scratch.el" "evil-mc-region.el" "evil-mc-pkg.el" "evil-mc-known-commands.el" "evil-mc-cursor-state.el" "evil-mc-cursor-make.el" "evil-mc-common.el" "evil-mc-command-record.el" "evil-mc-command-execute.el" "../" "./")
-
- ("/home/galoistom/my_emacs/" (26956 61073 787426 849000) "ido.last" "ido.last~" "init.el" "custom.el" "custom.el~" "init.el~" "site-lisp/" "ielm-history.eld" "bookmarks" "bookmarks~" ".mc-lists.el" "tramp" ".gitignore" "games/" ".lsp-session-v1" "url/" "mason/" "auto-save-list/" "eln-cache/" "elpa/" "recentf" "README.md" "transient/" "eshell/" "config/" ".git/" "../" "./")
 
  ("/home/galoistom/notes/" (26954 34174 462172 100000) "实分析/" "Zorn's lemma.md" "rep theory/" "README.md" "lecture note/" "homo algebra/" "Home.md" "commutative algebra/" "Books/" "algebraic number theory/" ".obsidian.vimrc" ".obsidian/" ".gitignore" ".git/" "../" "./")
 
