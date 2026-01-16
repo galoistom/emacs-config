@@ -58,8 +58,8 @@
 (load (concat custom-config-dir "markdown.el"))
 (load (concat custom-config-dir "lsp.el"))
 (load (concat custom-config-dir "org.el"))
-;(load (concat custom-config-dir "my_fill.el"))
-;(load (concat custom-config-dir "eshell.el"))
+(load (concat custom-config-dir "my_fill.el"))
+(load (concat custom-config-dir "eshell.el"))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 (add-to-list 'custom-theme-load-path
