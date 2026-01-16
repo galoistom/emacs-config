@@ -1,5 +1,7 @@
 ;--- regular configuration ---
-(load-theme 'dracula :no-confirm)
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "dracula" user-emacs-directory))
+(load-theme 'dracula t)
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
