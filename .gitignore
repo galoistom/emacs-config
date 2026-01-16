@@ -60,3 +60,27 @@
 /mason
 /eshell
 /recentf
+bookmarks
+ido.last
+ielm-history.eld
+
+# Project / session state
+projects
+tramp
+
+# Eshell
+eshell/
+
+# Transient / Magit
+transient/
+
+# Games
+games/
+
+# Auto-save / backup (如果你没单独配置)
+*~
+\#*\#
+.auto-save-list/
+
+# Byte-compiled files
+*.elc
