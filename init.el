@@ -150,3 +150,10 @@
 (global-set-key (kbd "C-M-f") 'up-list)
 (global-set-key (kbd "M-\"") 'shell-command)
 (global-set-key (kbd "C-x c") 'compile)
+
+(defun qutebrowser ()
+  (interactive)
+  (start-process-shell-command "browser" nil "qutebrowser"))
+
+(global-set-key (kbd "C-c b") 'qutebrowser)
+(global-set-key (kbd "C-c e") 'vterm)
