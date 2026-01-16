@@ -28,15 +28,20 @@
   ;; 设置org mode中某些标签的显示字符
     (setq org-preview-latex-default-process 'dvisvgm)
     (setq org-startup-with-latex-preview t)
+    (global-set-key (kbd "C-c C-p") #'org-latex-preview)
 
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)  ; 启用 Elisp
     (python . t)     ; 启用 Python
     (latex . t)      ; 启用 LaTeX (如果用作代码)
+    (scheme . t)
+    (C . t)
     (shell . t)
     ;;(ditta . t)
     ))
+  (setq org-confirm-babel-evaluate nil)
+
   (defun my/org-prettify-symbols()
     (setq prettify-symbols-alist
 	  '(("[ ]" . 9744) ;; ☐
@@ -114,3 +119,9 @@
 
 ;; 确保 Org 知道使用 pdflatex (如果之前没设置的话)
 ;;(setq org-latex-default-packages-alist 'divsvgm)
+
+(setq org-src-tab-acts-natively t)
+(setq org-src-preserve-indentation nil)
+(setq org-edit-src-content-indentation 0)
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-j") ctl-x-map))

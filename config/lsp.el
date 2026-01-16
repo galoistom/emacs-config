@@ -2,9 +2,7 @@
   :ensure t
   :init
   ;; 推荐：全局启用 lsp-mode 的某些功能
-;;  (setq lsp-header-section-enable nil) ; 禁用文件顶部的 LSP 信息
   (setq lsp-enable-diagnostics t)
- ;; (setq lsp-enable-snippet nil)        ; 禁用内置代码片段，通常配合 yasnippet使用
   (setq lsp-auto-configure t)          ; 自动配置 LSP 服务器
   (setq lsp-enable-server-auto-start t) ; 发现缺失的服务器时提示安装
   :hook
@@ -14,9 +12,6 @@
   )
 (use-package lsp-ui
   :ensure t
-;;  :after (lsp-mode)
-;;  :hook
-;;  (evil-mode . lsp-ui-mode)
   :config
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
@@ -41,7 +36,7 @@
   (setq company-minimum-prefix-length 1) ; 只需敲 1 个字母就开始进行自动补全
   (setq company-tooltip-align-annotations t)
   (setq company-idle-delay 0.0)
-  (setq company-show-numbers t) ;; 给选项编号 (按快捷键 M-1、M-2 等等来进行选择).
+  ;(setq company-show-numbers t) ;; 给选项编号 (按快捷键 M-1、M-2 等等来进行选择).
   (setq company-selection-wrap-around t)
   (setq company-transformers '(company-sort-by-occurrence)))
 
@@ -70,22 +65,17 @@
   (setq search-default-mode #'char-fold-to-regexp)
   (setq ivy-count-format "(%d/%d) ")
   :bind
-  (("C-s" . 'swiper)
+  (("C-S-s" . 'swiper)
    ("C-x b" . 'ivy-switch-buffer)
    ("C-c v" . 'ivy-push-view)
    ("C-c s" . 'ivy-switch-view)
    ("C-c V" . 'ivy-pop-view)
-   ("C-x C-@" . 'counsel-mark-ring); 在某些终端上 C-x C-SPC 会被映射为 C-x C-@，比如在 macOS 上，所以要手动设置
    ("C-x C-SPC" . 'counsel-mark-ring)
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
-;; -------------------------------------------
-;; SLIME (Superior Lisp Interaction Mode) 配置
-;; -------------------------------------------
 
-(require 'slime)
-
-(setq slime-lisp-implementations
-     '((sbcl ("sbcl"))))
-
-(global-set-key (kbd "C-c l") 'slime)
+(use-package slime
+  :ensure t
+  :config
+    (setq slime-lisp-implementations
+	'((sbcl ("sbcl")))))

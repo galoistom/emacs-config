@@ -3,7 +3,6 @@
   :ensure t
   :config
   (evil-mode 1)
-
   (dolist (mode '(eww-mode
                   help-mode
                   info-mode
@@ -12,6 +11,7 @@
                   customize-mode
                   package-menu-mode))
     (evil-set-initial-state mode 'emacs))
+    (global-set-key (kbd "C-s") #'avy-goto-char)
     (evil-define-key 'normal 'global (kbd "s") 'avy-goto-char)
   )
 
@@ -43,17 +43,18 @@
     "f" 'counsel-find-file        
     "e" 'dired-jump
     "h" 'dashboard-open
-    "t" 'eshell
+    "t" 'vterm
     "F" 'bookmark-jump
     "p" 'dired-preview-mode
+    "n" 'eshell
     ))
 
-(use-package evil-mc
-  :ensure t
-  :after evil
-  :config
-  (evil-leader/set-key "k" evil-mc-cursors-map)
-  (global-evil-mc-mode 1))
+;(use-package evil-mc
+;  :ensure t
+;  :after evil
+;  :config
+;  (evil-leader/set-key "k" evil-mc-cursors-map)
+;  (global-evil-mc-mode 1))
 
 (global-evil-leader-mode)
 (setq evil-default-state 'normal)
@@ -81,6 +82,7 @@
 		("r" evil-window-rotate-downwards)
 		("R" evil-window-rotate-upwards)
 		("s" window-swap-states)
+		("m" maximize-window)
 		("1" balance-windows))
 
 (define-prefix-command 'my-org-keymap)
@@ -97,6 +99,8 @@
 		("x" kill-buffer-and-window)
 		("X" kill-buffer)
 		("l" buffer-menu)
+		("n" previous-buffer)
+		("p" next-buffer)
 		("b" ivy-switch-buffer))
 
 (define-prefix-command 'my-slime-keymap)
@@ -122,4 +126,31 @@
 (evil-leader/set-key "r" 'eww)
 
 (with-eval-after-load 'wdired
-  (define-key wdired-mode-map (kbd "C-j") #'wdired-finish-edit))
+  (define-key wdired-mode-map (kbd "C-k") #'wdired-finish-edit))
+
+(setq evil-undo-system 'undo-fu)
+
+(require 'myfill)
+(with-eval-after-load 'evil
+  (define-key evil-insert-state-map (kbd "C-k") #'kill-line)
+  (define-key evil-insert-state-map (kbd "C-o") #'org-meta-return)
+  (define-key evil-insert-state-map (kbd "C-d") #'delete-char)
+  (define-key evil-insert-state-map (kbd "C-v") #'forward-char)
+  (define-key evil-insert-state-map (kbd "C-b") #'backward-char)
+  (define-key evil-insert-state-map (kbd "C-n") #'next-line)
+  (define-key evil-normal-state-map (kbd "C-n") #'next-line)
+  (define-key evil-insert-state-map (kbd "C-p") #'previous-line)
+  (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
+  (define-key evil-insert-state-map (kbd "C-a") #'move-beginning-of-line)
+  (define-key evil-insert-state-map (kbd "C-e") #'move-end-of-line)
+  (define-key evil-normal-state-map (kbd "C-e") #'move-end-of-line)
+  (define-key evil-insert-state-map (kbd "C-f") #'myfill)
+  (evil-define-key '(normal insert visual motion) 'global (kbd "C-j") ctl-x-map)
+  (global-set-key (kbd "C-,") #'duplicate-line)
+  )
+
+(with-eval-after-load 'org
+  (with-eval-after-load 'evil
+    (evil-define-key '(normal motion visual insert)
+        org-mode-map
+      (kbd "C-j") ctl-x-map)))
