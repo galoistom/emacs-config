@@ -1,4 +1,5 @@
 ;--- regular configuration ---
+(load-theme 'dracula :no-confirm)
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
@@ -8,7 +9,7 @@
       ;; 主字体
       (set-face-attribute 'default nil
                           :family "Cascadia Code"
-                          :height 140
+                          :height 160
                           :weight 'normal)
 
       ;; Unicode / Nerd Font fallback
@@ -54,36 +55,15 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 (setq custom-config-dir (expand-file-name "config/" user-emacs-directory))
-(load (concat custom-config-dir "evil.el"))
+(load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "markdown.el"))
 (load (concat custom-config-dir "lsp.el"))
-(load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "my_fill.el"))
 (load (concat custom-config-dir "eshell.el"))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
-(add-to-list 'custom-theme-load-path
-             (expand-file-name "theme" user-emacs-directory))
-(load-theme 'dracula t)
-
 (global-display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
-
 (set-frame-parameter (selected-frame) 'background-mode 'dark) 
-(setq xterm-query-color-support t)
-(unless (display-graphic-p)
-  (setq-default frame-background-mode nil)
-  (setq term-setup-hook (lambda ()
-                          (set-terminal-parameter nil 'frame-background-mode 'dark))))
-
-(use-package dashboard
-  :ensure t
-  :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-banner-logo-title "EVIL")
-    (setq dashboard-items '((recents . 10)
-			    (bookmarks . 5))) ; 显示 5 个待办事项
-    (setq dashboard-vertically-center-content t))
 
 (use-package doom-modeline
   :ensure t
@@ -93,44 +73,15 @@
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
   (setq doom-modeline-minor-modes nil))
 
-(mason-ensure t)
-
-(use-package pdf-tools
-  :ensure t
-  :mode ("\\.pdf\\'" . pdf-view-mode)
-  :config
-  ;; 设置默认以适合页面大小的方式显示 PDF
-  (setq-default pdf-view-display-size 'fit-page)
-  (push 'display-line-numbers-mode pdf-view-incompatible-modes)
-  ;; 将 pdf-view-mode 设置为默认的 PDF 查看模式
-  (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
-
-;; 激活 pdf-tools 的快捷键
-(provide 'pdf-tools-config)
-
 (use-package avy :ensure t)
 (use-package eldoc-box :ensure t)
 
 (setq lsp-meson-no-auto-downloads t)
 
-(use-package dired-preview
-  :ensure t
-  :config
-    (setq dired-preview-delay 0.05)
-    ; set preview to right hand side
-    (setq dired-preview-display-action-alist
-	'((display-buffer-in-side-window)
-	    (side . right)
-	    (window-width . 0.5))))
-
 (setq auto-save-default t)
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
 
-(add-hook 'pdf-view-mode-hook (lambda ()
-				(display-line-numbers-mode -1)))
-
-;; [rainbow-delimiters] Highlight brackets according to their depth
 (use-package rainbow-delimiters
   :ensure t
   :hook ((prog-mode conf-mode yaml-mode) . rainbow-delimiters-mode)
@@ -142,4 +93,58 @@
                     :background "#44475a"
                     :foreground "#ffff00")
 
-(global-set-key (kbd "C-S-h") 'dashboard-open)
+(setq shr-use-fonts nil)
+(setq browse-url-browser-function #'eww-browse-url)
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode 1)
+  (setq which-key-idle-delay 0.5)
+  (setq which-key-side-window-location 'bottom)
+  (setq which-key-max-description-length 40)
+  (setq which-key-max-display-columns nil))
+
+(use-package ivy
+  :ensure t
+  :init
+  (ivy-mode 1)
+  (counsel-mode 1)
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq search-default-mode #'char-fold-to-regexp)
+  (setq ivy-count-format "(%d/%d) ")
+  :bind
+  (("C-M-s" . 'swiper)
+   ("C-x b" . 'ivy-switch-buffer)
+   ("C-c v" . 'ivy-push-view)
+   ("C-c s" . 'ivy-switch-view)
+   ("C-c V" . 'ivy-pop-view)
+   ("C-x C-SPC" . 'counsel-mark-ring)
+   :map minibuffer-local-map
+   ("C-r" . counsel-minibuffer-history)))
+
+(global-set-key (kbd "C-s") #'avy-goto-char)
+(global-set-key (kbd "C-.") #'duplicate-line)
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c i") #'mc/edit-lines)
+  (global-set-key (kbd "C-c j") #'mc/unmark-previous-like-this)
+  (global-set-key (kbd "C-c k") #'mc/unmark-next-like-this)
+  (global-set-key (kbd "C-M-n") #'mc/mark-next-like-this)
+  (global-set-key (kbd "C-M-p") #'mc/mark-previous-like-this))
+
+(global-set-key (kbd "C-v") #'myfill)
+(define-minor-mode my-cj-mode
+  "Force C-j to be C-x map."
+  :global t
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-j") ctl-x-map)
+            map))
+
+(my-cj-mode 1)
+(global-set-key (kbd "C-x C-a") 'replace-regexp)
+(global-set-key (kbd "C-M-f") 'up-list)
+(global-set-key (kbd "M-\"") 'shell-command)
+(global-set-key (kbd "C-x c") 'compile)
