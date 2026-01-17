@@ -11,7 +11,7 @@
       ;; 主字体
       (set-face-attribute 'default nil
                           :family "Cascadia Code"
-                          :height 160
+                          :height 140
                           :weight 'normal)
 
       ;; Unicode / Nerd Font fallback
