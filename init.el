@@ -67,6 +67,11 @@
 (global-display-line-numbers-mode t)
 (set-frame-parameter (selected-frame) 'background-mode 'dark) 
 
+;(use-package tokyonight-themes
+;  :vc (:url "https://github.com/xuchengpeng/tokyonight-themes")
+;  :config
+;  (load-theme 'tokyonight-moon :no-confirm))
+
 (use-package doom-modeline
   :ensure t
   :init
@@ -96,7 +101,8 @@
                     :foreground "#ffff00")
 
 (setq shr-use-fonts nil)
-(setq browse-url-browser-function #'eww-browse-url)
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "qutebrowser")
 
 (use-package which-key
   :ensure t
@@ -143,6 +149,7 @@
   :global t
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-j") ctl-x-map)
+	    (define-key map (kbd "C-c C-d") 'kill-word)
             map))
 
 (my-cj-mode 1)
@@ -151,9 +158,11 @@
 (global-set-key (kbd "M-\"") 'shell-command)
 (global-set-key (kbd "C-x c") 'compile)
 
-(defun qutebrowser ()
-  (interactive)
-  (start-process-shell-command "browser" nil "qutebrowser"))
+(defun qutebrowser (url)
+  (interactive "sinput url:")
+  (start-process-shell-command "browser" nil (format "qutebrowser %s" url)))
 
 (global-set-key (kbd "C-c b") 'qutebrowser)
 (global-set-key (kbd "C-c e") 'vterm)
+(global-set-key (kbd "C-c d") 'kill-word)
+(global-set-key (kbd "C-c z") 'zap-to-char)

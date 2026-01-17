@@ -19,9 +19,16 @@
 		 :use-image-magick t))
  '(org-latex-packages-alist '(("" "tikz-cd" t nil) ("" "tikz" t nil)))
  '(org-preview-latex-default-process 'dvisvgm)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(annalist avy capf-autosuggest company-box counsel doom-modeline
+	      eldoc-box eshell-git-prompt eshell-syntax-highlighting
+	      flycheck goto-chg iedit lsp-ui multiple-cursors
+	      org-modern rainbow-delimiters tokyonight-themes vertico
+	      vterm))
  '(package-vc-selected-packages
-   '((org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch
+   '((tokyonight-themes :url
+			"https://github.com/xuchengpeng/tokyonight-themes")
+     (org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch
 	       "dev"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -77,6 +77,7 @@
 ;;(plist-put! org-format-latex-options :fontsize 14)
 ;;(setq org-latex-preview-scale 1.5)
   :custom
+
   (org-fontify-whole-heading-line t)
   ;; 设置折叠符号
   (org-ellipsis " ▾")
@@ -124,10 +125,14 @@
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
 (with-eval-after-load 'org
-  (define-key org-mode-map (kbd "C-j") ctl-x-map))
-(with-eval-after-load 'org
   (let* ((map org-mode-map)
          (x-map (lookup-key map (kbd "C-c C-x"))))
     (define-key org-mode-map (kbd "C-j") ctl-x-map)
     (define-key map (kbd "C-c C-j") x-map)
+    (define-key map (kbd "C-c d") #'org-deadline)
     (define-key map (kbd "C-c C-x") #'org-goto)))
+(setq org-file-apps
+    '(("\\.html\\'" . (lambda (file &rest _) (browse-url-generic file)))
+      ("\\.pdf\\'"  . default)
+      ("\\.png\\'"  . default)
+      ("\\.jpg\\'"  . default)))

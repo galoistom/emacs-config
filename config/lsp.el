@@ -9,6 +9,8 @@
   (lsp-mode . lsp-enable-flycheck)
   (lsp-mode . lsp-enable-which-key-integration)
   ((c-mode c++-mode objc-mode) . lsp-deferred)
+  ;(go-mode . lsp-deferred)
+  (go-ts-mode . lsp-deferred)
   )
 (use-package lsp-ui
   :ensure t
@@ -61,3 +63,15 @@
 ;  :config
 ;    (setq slime-lisp-implementations
 ;	'((sbcl ("sbcl")))))
+(use-package go-ts-mode
+  :ensure nil
+  :mode "\\.go\\'"
+  :hook (go-ts-mode . (lambda ()
+                        (setq tab-width 4)
+                        (setq indent-tabs-mode 1))))
+(add-hook 'go-ts-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'gofmt nil t)))
+
+					;(add-hook 'go-mode-hook #'gofmt-before-save)
+;(add-hook 'go-ts-mode-hook #'gofmt-before-save)
