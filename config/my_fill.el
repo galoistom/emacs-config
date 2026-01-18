@@ -31,6 +31,8 @@
 		    (backward-char 1))))
 	("=" . ((lambda ()
 		  (insert "\\equiv"))))
+	("!" . ((lambda ()
+		  (insert "\\not"))))
 	("x" . ((lambda ()
 		  (insert "\\times "))))
 	("j" . ((lambda ()

@@ -54,15 +54,6 @@
   ;; 启用 Vertico 模式
   (vertico-mode))
 
-(use-package counsel
-  :ensure t)
-
-
-;(use-package slime
-;  :ensure t
-;  :config
-;    (setq slime-lisp-implementations
-;	'((sbcl ("sbcl")))))
 (use-package go-ts-mode
   :ensure nil
   :mode "\\.go\\'"
@@ -72,6 +63,3 @@
 (add-hook 'go-ts-mode-hook
           (lambda ()
             (add-hook 'before-save-hook #'gofmt nil t)))
-
-					;(add-hook 'go-mode-hook #'gofmt-before-save)
-;(add-hook 'go-ts-mode-hook #'gofmt-before-save)

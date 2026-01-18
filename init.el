@@ -41,8 +41,10 @@
 (window-divider-mode t)
 (electric-pair-mode 1)
 (ido-mode t)
-(ido-everywhere t)
 
+(setq auto-save-default t)
+(setq auto-save-timeout 5)
+(setq auto-save-interval 50)
 (setq display-time-format "%Y-%m-%d %H:%M")
 
 ;--- basic packages ---
@@ -56,6 +58,7 @@
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
+
 (setq custom-config-dir (expand-file-name "config/" user-emacs-directory))
 (load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "markdown.el"))
@@ -66,11 +69,6 @@
 (load custom-file 'noerror)
 (global-display-line-numbers-mode t)
 (set-frame-parameter (selected-frame) 'background-mode 'dark) 
-
-;(use-package tokyonight-themes
-;  :vc (:url "https://github.com/xuchengpeng/tokyonight-themes")
-;  :config
-;  (load-theme 'tokyonight-moon :no-confirm))
 
 (use-package doom-modeline
   :ensure t
@@ -84,10 +82,6 @@
 (use-package eldoc-box :ensure t)
 
 (setq lsp-meson-no-auto-downloads t)
-
-(setq auto-save-default t)
-(setq auto-save-timeout 5)
-(setq auto-save-interval 50)
 
 (use-package rainbow-delimiters
   :ensure t
@@ -113,6 +107,9 @@
   (setq which-key-max-description-length 40)
   (setq which-key-max-display-columns nil))
 
+(use-package counsel
+  :ensure t)
+
 (use-package ivy
   :ensure t
   :init
@@ -132,8 +129,6 @@
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
 
-(global-set-key (kbd "C-s") #'avy-goto-char)
-(global-set-key (kbd "C-.") #'duplicate-line)
 (use-package multiple-cursors
   :ensure t
   :config
@@ -143,16 +138,18 @@
   (global-set-key (kbd "C-M-n") #'mc/mark-next-like-this)
   (global-set-key (kbd "C-M-p") #'mc/mark-previous-like-this))
 
-(global-set-key (kbd "C-v") #'myfill)
-(define-minor-mode my-cj-mode
-  "Force C-j to be C-x map."
-  :global t
-  :keymap (let ((map (make-sparse-keymap)))
-            (define-key map (kbd "C-j") ctl-x-map)
-	    (define-key map (kbd "C-c C-d") 'kill-word)
-            map))
+(use-package xdg-launcher
+  :ensure t
+  :bind ("C-c l" . 'xdg-launcher-run-app))
 
-(my-cj-mode 1)
+;--keybdings--
+
+(global-set-key (kbd "C-s") #'avy-goto-char)
+(global-set-key (kbd "C-.") #'duplicate-line)
+(global-set-key (kbd "C-c b") 'qutebrowser)
+(global-set-key (kbd "C-c e") 'vterm)
+(global-set-key (kbd "C-c z") 'zap-to-char)
+(global-set-key (kbd "C-v") #'myfill)
 (global-set-key (kbd "C-x C-a") 'replace-regexp)
 (global-set-key (kbd "C-M-f") 'up-list)
 (global-set-key (kbd "M-\"") 'shell-command)
@@ -162,7 +159,17 @@
   (interactive "sinput url:")
   (start-process-shell-command "browser" nil (format "qutebrowser %s" url)))
 
-(global-set-key (kbd "C-c b") 'qutebrowser)
-(global-set-key (kbd "C-c e") 'vterm)
-(global-set-key (kbd "C-c d") 'kill-word)
-(global-set-key (kbd "C-c z") 'zap-to-char)
+(defun my/kill-forward()
+  (interactive)
+  (backward-word)
+  (kill-word 1))
+
+(define-minor-mode my-cj-mode
+  "Force C-j to be C-x map."
+  :global t
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-j") ctl-x-map)
+	    (define-key map (kbd "C-c C-d") 'my/kill-forward)
+            map))
+
+(my-cj-mode 1)
