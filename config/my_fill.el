@@ -97,6 +97,8 @@
 		   (insert "\\leftarrow "))))
 	("--<" . ((lambda ()
 		    (insert "\\longleftarrow "))))
+	("err" . ((lambda ()
+		    (insert "if err!=nil{\n return err\n}"))))
 	))
 
 (defun useful_begin (title)

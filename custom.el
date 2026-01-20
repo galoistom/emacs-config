@@ -19,13 +19,7 @@
 		 :use-image-magick t))
  '(org-latex-packages-alist '(("" "tikz-cd" t nil) ("" "tikz" t nil)))
  '(org-preview-latex-default-process 'dvisvgm)
- '(package-selected-packages
-   '(annalist avy capf-autosuggest company-box counsel dired-launcher
-	      doom-modeline eldoc-box eshell-git-prompt
-	      eshell-syntax-highlighting flycheck goto-chg iedit kkp
-	      ligature lsp-ui multiple-cursors org-modern
-	      rainbow-delimiters tokyonight-themes vertico vterm
-	      xdg-launcher))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((xdg-launcher :url "https://github.com/emacs-exwm/xdg-launcher")
      (tokyonight-themes :url

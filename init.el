@@ -46,6 +46,9 @@
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
 (setq display-time-format "%Y-%m-%d %H:%M")
+(setq shr-use-fonts nil)
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "qutebrowser")
 
 ;--- basic packages ---
 (require 'package)
@@ -80,7 +83,10 @@
 
 (use-package avy :ensure t)
 (use-package eldoc-box :ensure t)
-
+(use-package counsel :ensure t)
+(use-package multiple-cursors :ensure t)
+(use-package xdg-launcher :ensure t)
+(use-package kkp :ensure t :config (global-kkp-mode 1))
 (setq lsp-meson-no-auto-downloads t)
 
 (use-package rainbow-delimiters
@@ -94,10 +100,6 @@
                     :background "#44475a"
                     :foreground "#ffff00")
 
-(setq shr-use-fonts nil)
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "qutebrowser")
-
 (use-package which-key
   :ensure t
   :config
@@ -106,9 +108,6 @@
   (setq which-key-side-window-location 'bottom)
   (setq which-key-max-description-length 40)
   (setq which-key-max-display-columns nil))
-
-(use-package counsel
-  :ensure t)
 
 (use-package ivy
   :ensure t
@@ -129,19 +128,6 @@
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
 
-(use-package multiple-cursors
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c i") #'mc/edit-lines)
-  (global-set-key (kbd "C-c j") #'mc/unmark-previous-like-this)
-  (global-set-key (kbd "C-c k") #'mc/unmark-next-like-this)
-  (global-set-key (kbd "C-M-n") #'mc/mark-next-like-this)
-  (global-set-key (kbd "C-M-p") #'mc/mark-previous-like-this))
-
-(use-package xdg-launcher
-  :ensure t
-  :bind ("C-c l" . 'xdg-launcher-run-app))
-
 (use-package ligature
   :ensure t
   :config
@@ -155,28 +141,7 @@
       "<=>" "==>" "=>>" ">=>" ">>=" "=:=" "=!=" "==!="))
   (global-ligature-mode t))
 
-(use-package kkp
-  :ensure t
-  :config
-  ;; (setq kkp-alt-modifier 'alt) ;; use this if you want to map the Alt keyboard modifier to Alt in Emacs (and not to Meta)
-  (global-kkp-mode +1))
-
-;--keybdings--
-
-(global-set-key (kbd "C-s") #'avy-goto-char)
-(global-set-key (kbd "C-.") #'duplicate-line)
-(global-set-key (kbd "C-c b") 'qutebrowser)
-(global-set-key (kbd "C-c e") 'vterm)
-(global-set-key (kbd "C-c z") 'zap-to-char)
-(global-set-key (kbd "C-c F") #'lsp-format-buffer)
-(global-set-key (kbd "C-v") #'myfill)
-(global-set-key (kbd "C-x C-a") 'replace-regexp)
-(global-set-key (kbd "C-M-f") 'up-list)
-(global-set-key (kbd "M-\"") 'shell-command)
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "C-x c") 'compile)
-(global-set-key (kbd "C-c c") 'my/capital-forward)
-(global-set-key (kbd "C-c r") 'rgrep)
+;---keybdings----
 
 (defun qutebrowser (url)
   (interactive "sinput url:")
@@ -197,3 +162,25 @@
             map))
 
 (my-cj-mode 1)
+
+(global-set-key (kbd "C-s") #'avy-goto-char)
+(global-set-key (kbd "C-.") #'duplicate-line)
+(global-set-key (kbd "C-c b") 'qutebrowser)
+(global-set-key (kbd "C-c e") 'vterm)
+(global-set-key (kbd "C-c z") 'zap-to-char)
+(global-set-key (kbd "C-c F") #'lsp-format-buffer)
+(global-set-key (kbd "C-v") #'myfill)
+(global-set-key (kbd "C-x C-a") 'replace-regexp)
+(global-set-key (kbd "C-M-f") 'up-list)
+(global-set-key (kbd "M-\"") 'shell-command)
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "C-x c") 'compile)
+(global-set-key (kbd "C-c c") 'my/capital-forward)
+(global-set-key (kbd "C-c r") 'rgrep)
+(global-set-key (kbd "C-c D") 'kill-whole-line)
+(global-set-key (kbd "C-c i") #'mc/edit-lines)
+(global-set-key (kbd "C-c j") #'mc/unmark-previous-like-this)
+(global-set-key (kbd "C-c k") #'mc/unmark-next-like-this)
+(global-set-key (kbd "C-M-n") #'mc/mark-next-like-this)
+(global-set-key (kbd "C-M-p") #'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c l") #'xdg-launcher-run-app)
