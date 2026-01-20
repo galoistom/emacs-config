@@ -29,6 +29,9 @@
 	("bar" . ((lambda ()
 		    (insert "\\overline{}")
 		    (backward-char 1))))
+	("bm" . ((lambda ()
+		   (insert "\\boldsymbol{}")
+		   (backward-char 1))))
 	("=" . ((lambda ()
 		  (insert "\\equiv"))))
 	("!" . ((lambda ()
@@ -61,7 +64,7 @@
 	("sq". ((lambda ()
 		  (insert "\\sqrt{}")
 		  (backward-char 1))))
-	("s" . ((lambda ()
+	("su" . ((lambda ()
 		  (insert "\\sum\\limits_{}")
 		  (backward-char 1))))
 	("p" . ((lambda ()
@@ -75,6 +78,8 @@
 		 (insert "\\gamma"))))
 	("e". ((lambda ()
 		 (insert "\\epsilon"))))
+	("s". ((lambda ()
+		 (insert "\\sigma"))))
 	("angle" . ((lambda ()
 		      (insert "\\langle  \\rangle")
 		      (backward-char 8))))
@@ -95,6 +100,7 @@
 	))
 
 (defun useful_begin (title)
+  "Insert begin braket with TITLE."
   (save-excursion
     (backward-char 1)
     (insert title)
@@ -102,13 +108,14 @@
     (insert title)))
 
 (defun take_fragment (n)
+  "Taking the fragment of string of length N."
   (let* (
 	 (end-pos (point))
 	 (start-pos (max 0 (- (+ 1 (point)) n))))
     (buffer-substring start-pos end-pos)))
 
 (defun myfill ()
-  "Auto change the content to tex command"
+  "Auto change the content to tex command."
 	(interactive)
 	(let ((mark t))
 	(dotimes (i 5)
@@ -123,6 +130,6 @@
 			(dolist (command result)
 			  (funcall command)))))
 	)))
-;(global-set-key (kbd "C-f") nil)
-;(global-set-key (kbd "C-f") 'myfill)
+
 (provide 'myfill)
+;;;myfill.el ends here

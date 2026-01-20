@@ -26,9 +26,9 @@
   (org-block-end-line ((t (:overline t :underline nil :background unspecified))))
   :config
   ;; 设置org mode中某些标签的显示字符
+    (setq org-startup-folded t)
     (setq org-preview-latex-default-process 'dvisvgm)
     (setq org-startup-with-latex-preview t)
-
 
   (org-babel-do-load-languages
     'org-babel-load-languages

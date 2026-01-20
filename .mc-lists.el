@@ -3,16 +3,20 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	counsel-find-file
 	evil-append
 	evil-forward-char
 	evil-mouse-drag-region
 	evil-normal-state
 	evil-previous-line
 	evil-undo
+	kill-region
+	org-end-of-line
 	))
 
 (setq mc/cmds-to-run-once
       '(
+	backward-sexp
 	evil-backward-char
 	evil-force-normal-state
 	evil-insert
@@ -21,4 +25,5 @@
 	evil-search-next
 	org-self-insert-command
 	save-buffers-kill-terminal
+	set-goal-column
 	))

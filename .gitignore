@@ -85,3 +85,5 @@ games/
 
 # Byte-compiled files
 *.elc
+.lsp*
+.mc*

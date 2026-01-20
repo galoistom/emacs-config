@@ -142,6 +142,25 @@
   :ensure t
   :bind ("C-c l" . 'xdg-launcher-run-app))
 
+(use-package ligature
+  :ensure t
+  :config
+  (ligature-set-ligatures 't
+    '("www" "**" "***" "**/" "*>" "*/" "\\\\" "||"
+      "==" "===" "!=" "!==" "=/=" "<=" ">=" "<=>" "=>"
+      "->" "<-" "->>" "<<-" "<-<" ">>-" "-<" "-<<"
+      "<<<" ">>>" "<|" "|>" "<||" "||>" "<|||" "|||>"
+      "<$" "$>" "<$>" "<+" "+>" "<+>" "<*" "*>"
+      "</" "</>" "/>" "<!--" "<!---" "<==>" "<=="
+      "<=>" "==>" "=>>" ">=>" ">>=" "=:=" "=!=" "==!="))
+  (global-ligature-mode t))
+
+(use-package kkp
+  :ensure t
+  :config
+  ;; (setq kkp-alt-modifier 'alt) ;; use this if you want to map the Alt keyboard modifier to Alt in Emacs (and not to Meta)
+  (global-kkp-mode +1))
+
 ;--keybdings--
 
 (global-set-key (kbd "C-s") #'avy-goto-char)
@@ -149,27 +168,32 @@
 (global-set-key (kbd "C-c b") 'qutebrowser)
 (global-set-key (kbd "C-c e") 'vterm)
 (global-set-key (kbd "C-c z") 'zap-to-char)
+(global-set-key (kbd "C-c F") #'lsp-format-buffer)
 (global-set-key (kbd "C-v") #'myfill)
 (global-set-key (kbd "C-x C-a") 'replace-regexp)
 (global-set-key (kbd "C-M-f") 'up-list)
 (global-set-key (kbd "M-\"") 'shell-command)
+(global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "C-x c") 'compile)
+(global-set-key (kbd "C-c c") 'my/capital-forward)
+(global-set-key (kbd "C-c r") 'rgrep)
 
 (defun qutebrowser (url)
   (interactive "sinput url:")
   (start-process-shell-command "browser" nil (format "qutebrowser %s" url)))
 
-(defun my/kill-forward()
+(defun my/capital-forward ()
   (interactive)
   (backward-word)
-  (kill-word 1))
+  (capitalize-word 1))
 
 (define-minor-mode my-cj-mode
   "Force C-j to be C-x map."
   :global t
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-j") ctl-x-map)
-	    (define-key map (kbd "C-c C-d") 'my/kill-forward)
+	    (define-key map (kbd "C-c C-d") 'backward-kill-word)
+	    (define-key map (kbd "C-c d") 'kill-word)
             map))
 
 (my-cj-mode 1)

@@ -11,7 +11,7 @@
  '(display-time-24hr-format t)
  '(display-time-day-and-date t)
  '(org-format-latex-header
-   "\\documentclass{article}\12\\usepackage[usenames]{color}\12\\usepackage{bm}\12[DEFAULT-PACKAGES]\12[PACKAGES]\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}\12\\newcommand{\\f}[2]{\\frac{#1}{#2}}\12\\newcommand{\\bb}[1]{\\mathbb{#1}}\12\\newcommand{\\up}[2]{{#1}^{#2}}\12\\newcommand{\\fk}[1]{\\mathfrak{#1}}")
+   "\\documentclass{article}\12\\usepackage[usenames]{color}\12[DEFAULT-PACKAGES]\12[PACKAGES]\12\\pagestyle{empty}             % do not remove\12% The settings below are copied from fullpage.sty\12\\setlength{\\textwidth}{\\paperwidth}\12\\addtolength{\\textwidth}{-3cm}\12\\setlength{\\oddsidemargin}{1.5cm}\12\\addtolength{\\oddsidemargin}{-2.54cm}\12\\setlength{\\evensidemargin}{\\oddsidemargin}\12\\setlength{\\textheight}{\\paperheight}\12\\addtolength{\\textheight}{-\\headheight}\12\\addtolength{\\textheight}{-\\headsep}\12\\addtolength{\\textheight}{-\\footskip}\12\\addtolength{\\textheight}{-3cm}\12\\setlength{\\topmargin}{1.5cm}\12\\addtolength{\\topmargin}{-2.54cm}")
  '(org-format-latex-options
    '(:foreground default :background default :scale 0.6 :html-foreground
 		 "Black" :html-background "Transparent" :html-scale
@@ -22,9 +22,10 @@
  '(package-selected-packages
    '(annalist avy capf-autosuggest company-box counsel dired-launcher
 	      doom-modeline eldoc-box eshell-git-prompt
-	      eshell-syntax-highlighting flycheck goto-chg iedit
-	      lsp-ui multiple-cursors org-modern rainbow-delimiters
-	      tokyonight-themes vertico vterm xdg-launcher))
+	      eshell-syntax-highlighting flycheck goto-chg iedit kkp
+	      ligature lsp-ui multiple-cursors org-modern
+	      rainbow-delimiters tokyonight-themes vertico vterm
+	      xdg-launcher))
  '(package-vc-selected-packages
    '((xdg-launcher :url "https://github.com/emacs-exwm/xdg-launcher")
      (tokyonight-themes :url

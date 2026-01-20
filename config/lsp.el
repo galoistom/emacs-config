@@ -58,7 +58,7 @@
   :ensure nil
   :mode "\\.go\\'"
   :hook (go-ts-mode . (lambda ()
-                        (setq tab-width 4)
+                        (setq tab-width 8)
                         (setq indent-tabs-mode 1))))
 (add-hook 'go-ts-mode-hook
           (lambda ()
