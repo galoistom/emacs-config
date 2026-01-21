@@ -23,6 +23,7 @@
 	evil-next-line
 	evil-record-macro
 	evil-search-next
+	ignore
 	org-self-insert-command
 	save-buffers-kill-terminal
 	set-goal-column

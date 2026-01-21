@@ -42,6 +42,23 @@
 (electric-pair-mode 1)
 (ido-mode t)
 
+;; Wayland TUI clipboard bridge
+(when (and (not (display-graphic-p))
+           (executable-find "wl-copy")
+           (executable-find "wl-paste"))
+  (setq interprogram-cut-function
+        (lambda (text)
+          (let ((process-connection-type nil))
+            (let ((proc (start-process "wl-copy" nil "wl-copy")))
+              (process-send-string proc text)
+              (process-send-eof proc)))))
+
+  (setq interprogram-paste-function
+        (lambda ()
+          (when (executable-find "wl-paste")
+            (string-trim-right
+             (shell-command-to-string "wl-paste -n"))))))
+
 (setq auto-save-default t)
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
@@ -73,14 +90,6 @@
 (global-display-line-numbers-mode t)
 (set-frame-parameter (selected-frame) 'background-mode 'dark) 
 
-(use-package doom-modeline
-  :ensure t
-  :init
-  (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
-  (setq doom-modeline-minor-modes nil))
-
 (use-package avy :ensure t)
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
@@ -89,17 +98,25 @@
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (setq lsp-meson-no-auto-downloads t)
 
+;gives a better status bar
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
+  (setq doom-modeline-minor-modes nil))
+;better support for barkets, especially for elisp
 (use-package rainbow-delimiters
   :ensure t
   :hook ((prog-mode conf-mode yaml-mode) . rainbow-delimiters-mode)
   :config
   (setq rainbow-delimiters-max-face-count 5))
-
 (set-face-attribute 'show-paren-match nil
                     :weight 'bold
                     :background "#44475a"
                     :foreground "#ffff00")
-
+;help use keybdings
 (use-package which-key
   :ensure t
   :config
@@ -108,7 +125,7 @@
   (setq which-key-side-window-location 'bottom)
   (setq which-key-max-description-length 40)
   (setq which-key-max-display-columns nil))
-
+;better search
 (use-package ivy
   :ensure t
   :init
@@ -127,7 +144,7 @@
    ("C-x C-SPC" . 'counsel-mark-ring)
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
-
+;joining symbols
 (use-package ligature
   :ensure t
   :config
@@ -156,31 +173,36 @@
   "Force C-j to be C-x map."
   :global t
   :keymap (let ((map (make-sparse-keymap)))
-            (define-key map (kbd "C-j") ctl-x-map)
-	    (define-key map (kbd "C-c C-d") 'backward-kill-word)
-	    (define-key map (kbd "C-c d") 'kill-word)
+            (define-key map (kbd "C-j")     ctl-x-map)
+	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
+	    (define-key map (kbd "C-c d")   #'kill-word)
             map))
 
 (my-cj-mode 1)
 
-(global-set-key (kbd "C-s") #'avy-goto-char)
-(global-set-key (kbd "C-.") #'duplicate-line)
-(global-set-key (kbd "C-c b") 'qutebrowser)
-(global-set-key (kbd "C-c e") 'vterm)
-(global-set-key (kbd "C-c z") 'zap-to-char)
-(global-set-key (kbd "C-c F") #'lsp-format-buffer)
-(global-set-key (kbd "C-v") #'myfill)
-(global-set-key (kbd "C-x C-a") 'replace-regexp)
-(global-set-key (kbd "C-M-f") 'up-list)
-(global-set-key (kbd "M-\"") 'shell-command)
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "C-x c") 'compile)
-(global-set-key (kbd "C-c c") 'my/capital-forward)
-(global-set-key (kbd "C-c r") 'rgrep)
-(global-set-key (kbd "C-c D") 'kill-whole-line)
-(global-set-key (kbd "C-c i") #'mc/edit-lines)
-(global-set-key (kbd "C-c j") #'mc/unmark-previous-like-this)
-(global-set-key (kbd "C-c k") #'mc/unmark-next-like-this)
-(global-set-key (kbd "C-M-n") #'mc/mark-next-like-this)
-(global-set-key (kbd "C-M-p") #'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c l") #'xdg-launcher-run-app)
+(global-set-key (kbd "C-s")     #'avy-goto-char)
+(global-set-key (kbd "C-.")     #'duplicate-line)
+(global-set-key (kbd "C-v")     #'myfill)
+(global-set-key (kbd "C-<tab>") #'other-window)
+(global-set-key (kbd "M-\"")    #'shell-command)
+(global-set-key (kbd "C-M-n")   #'mc/mark-next-like-this)
+(global-set-key (kbd "C-M-p")   #'mc/mark-previous-like-this)
+(global-set-key (kbd "C-M-f")   #'up-list)
+
+(global-set-key (kbd "C-x j")   #'goto-line)
+(global-set-key (kbd "C-x k")   #'goto-last-change)
+(global-set-key (kbd "C-x C-a") #'replace-regexp)
+(global-set-key (kbd "C-x c")   #'compile)
+
+(global-set-key (kbd "C-c b")   #'qutebrowser)
+(global-set-key (kbd "C-c e")   #'vterm)
+(global-set-key (kbd "C-c z")   #'zap-to-char)
+(global-set-key (kbd "C-c c")   #'my/capital-forward)
+(global-set-key (kbd "C-c r")   #'rgrep)
+(global-set-key (kbd "C-c D")   #'kill-whole-line)
+(global-set-key (kbd "C-c i")   #'mc/edit-lines)
+(global-set-key (kbd "C-c j")   #'mc/unmark-previous-like-this)
+(global-set-key (kbd "C-c k")   #'mc/unmark-next-like-this)
+(global-set-key (kbd "C-c l")   #'xdg-launcher-run-app)
+(global-set-key (kbd "C-c F")   #'lsp-format-buffer)
+(global-set-key (kbd "C-c m")   #'my-latex-math-auto-fill-mode)
