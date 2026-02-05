@@ -1,6 +1,7 @@
-;--- regular configuration ---
+;---- regular configuration ----
 (add-to-list 'custom-theme-load-path
              (expand-file-name "dracula" user-emacs-directory))
+
 (load-theme 'dracula t)
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
@@ -28,6 +29,12 @@
 ;; daemon / emacsclient 新 frame
 (add-hook 'after-make-frame-functions #'my/setup-fonts)
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(global-display-line-numbers-mode t)
+(set-frame-parameter (selected-frame) 'background-mode 'dark)
+;; 设置背景透明度 (85 是透明度百分比，范围 0-100)
+;; 第一个数字是激活窗口透明度，第二个是非激活窗口透明度
+;; (set-frame-parameter nil 'alpha-background 85)
+;; (add-to-list 'default-frame-alist '(alpha-background . 85))
 
 (setq-default tab-width 8)
 (setq standard-indent 8)
@@ -41,7 +48,13 @@
 (window-divider-mode t)
 (electric-pair-mode 1)
 (ido-mode t)
+(defun my/create-non-existent-directories ()
+  (let ((parent (file-name-directory buffer-file-name)))
+    (when (and parent (not (file-exists-p parent)))
+      (make-directory parent t))))
 
+(add-hook 'find-file-not-found-functions
+          #'my/create-non-existent-directories)
 ;; Wayland TUI clipboard bridge
 (when (and (not (display-graphic-p))
            (executable-find "wl-copy")
@@ -67,7 +80,7 @@
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "qutebrowser")
 
-;--- basic packages ---
+;---- basic packages -----
 (require 'package)
 
 ;; 添加 MELPA 仓库源
@@ -83,20 +96,24 @@
 (load (concat custom-config-dir "org.el"))
 (load (concat custom-config-dir "markdown.el"))
 (load (concat custom-config-dir "lsp.el"))
-(load (concat custom-config-dir "my_fill.el"))
+(load (concat custom-config-dir "my-fill.el"))
 (load (concat custom-config-dir "eshell.el"))
+(load (concat custom-config-dir "scheme-config.el"))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
-(global-display-line-numbers-mode t)
-(set-frame-parameter (selected-frame) 'background-mode 'dark) 
+
 
 (use-package avy :ensure t)
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
-(use-package multiple-cursors :ensure t)
 (use-package xdg-launcher :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (setq lsp-meson-no-auto-downloads t)
+(use-package multiple-cursors :ensure t)
+(require 'ansi-color)
+(defun my/ansi-colorize-buffer ()
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
 
 ;gives a better status bar
 (use-package doom-modeline
@@ -130,7 +147,7 @@
   :ensure t
   :init
   (ivy-mode 1)
-  (counsel-mode 1)
+;  (counsel-mode 1)
   :config
   (setq ivy-use-virtual-buffers t)
   (setq search-default-mode #'char-fold-to-regexp)
@@ -139,7 +156,6 @@
   (("C-M-s" . 'swiper)
    ("C-x b" . 'ivy-switch-buffer)
    ("C-c v" . 'ivy-push-view)
-   ("C-c s" . 'ivy-switch-view)
    ("C-c V" . 'ivy-pop-view)
    ("C-x C-SPC" . 'counsel-mark-ring)
    :map minibuffer-local-map
@@ -158,11 +174,18 @@
       "<=>" "==>" "=>>" ">=>" ">>=" "=:=" "=!=" "==!="))
   (global-ligature-mode t))
 
-;---keybdings----
+(use-package flash-emacs
+  :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
+
+;---- keybdings ----
 
 (defun qutebrowser (url)
   (interactive "sinput url:")
   (start-process-shell-command "browser" nil (format "qutebrowser %s" url)))
+
+(defun my/cheatsheet (name)
+  (interactive "ssearch cheatsheet: ")
+  (compile (format "curl cheat.sh/%s" name)))
 
 (defun my/capital-forward ()
   (interactive)
@@ -180,29 +203,46 @@
 
 (my-cj-mode 1)
 
-(global-set-key (kbd "C-s")     #'avy-goto-char)
-(global-set-key (kbd "C-.")     #'duplicate-line)
-(global-set-key (kbd "C-v")     #'myfill)
-(global-set-key (kbd "C-<tab>") #'other-window)
-(global-set-key (kbd "M-\"")    #'shell-command)
-(global-set-key (kbd "C-M-n")   #'mc/mark-next-like-this)
-(global-set-key (kbd "C-M-p")   #'mc/mark-previous-like-this)
-(global-set-key (kbd "C-M-f")   #'up-list)
+(define-prefix-command 'my/w-prefix)
+(global-set-key (kbd "C-c w") 'my/w-prefix)
+(global-set-key (kbd "C-c w s") #'split-window-below)
+(global-set-key (kbd "C-c w v") #'split-window-right)
+(global-set-key (kbd "C-c w d") #'kill-buffer-and-window)
+(global-set-key (kbd "C-c q") #'delete-other-windows)
+(global-set-key (kbd "C-c w n") #'balance-windows)
+(global-set-key (kbd "C-c w m") #'maximize-window)
 
-(global-set-key (kbd "C-x j")   #'goto-line)
-(global-set-key (kbd "C-x k")   #'goto-last-change)
-(global-set-key (kbd "C-x C-a") #'replace-regexp)
-(global-set-key (kbd "C-x c")   #'compile)
+(global-set-key (kbd "C-s")          #'flash-emacs-jump)
+(global-set-key (kbd "C-.")          #'duplicate-line)
+(global-set-key (kbd "C-v")          #'my-fill-function)
+(global-set-key (kbd "s-s")          #'save-buffer)
+(global-set-key (kbd "s-d")          #'backward-delete-char)
+(global-set-key (kbd "s-f")          #'ido-find-file)
+(global-set-key (kbd "s-<return>")   #'org-meta-return)
+(global-set-key (kbd "C-<tab>")      #'other-window)
+(global-set-key (kbd "M-\"")         #'shell-command)
+(global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
+(global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
+(global-set-key (kbd "C-M-f")        #'up-list)
 
-(global-set-key (kbd "C-c b")   #'qutebrowser)
-(global-set-key (kbd "C-c e")   #'vterm)
-(global-set-key (kbd "C-c z")   #'zap-to-char)
-(global-set-key (kbd "C-c c")   #'my/capital-forward)
-(global-set-key (kbd "C-c r")   #'rgrep)
-(global-set-key (kbd "C-c D")   #'kill-whole-line)
-(global-set-key (kbd "C-c i")   #'mc/edit-lines)
-(global-set-key (kbd "C-c j")   #'mc/unmark-previous-like-this)
-(global-set-key (kbd "C-c k")   #'mc/unmark-next-like-this)
-(global-set-key (kbd "C-c l")   #'xdg-launcher-run-app)
-(global-set-key (kbd "C-c F")   #'lsp-format-buffer)
-(global-set-key (kbd "C-c m")   #'my-latex-math-auto-fill-mode)
+(global-set-key (kbd "C-x j")        #'goto-line)
+(global-set-key (kbd "C-x k")        #'goto-last-change)
+(global-set-key (kbd "C-x C-a")      #'replace-regexp)
+(global-set-key (kbd "C-x c")        #'compile)
+
+(global-set-key (kbd "C-c b")        #'qutebrowser)
+(global-set-key (kbd "C-c e")        #'vterm)
+(global-set-key (kbd "C-c z")        #'zap-to-char)
+(global-set-key (kbd "C-c c")        #'my/capital-forward)
+(global-set-key (kbd "C-c r")        #'rgrep)
+(global-set-key (kbd "C-c D")        #'kill-whole-line)
+(global-set-key (kbd "C-c i")        #'mc/edit-lines)
+(global-set-key (kbd "C-c j")        #'mc/unmark-previous-like-this)
+(global-set-key (kbd "C-c k")        #'mc/unmark-next-like-this)
+(global-set-key (kbd "C-c l")        #'xdg-launcher-run-app)
+(global-set-key (kbd "C-c F")        #'lsp-format-buffer)
+(global-set-key (kbd "C-c m")        #'my-latex-math-auto-fill-mode)
+(global-set-key (kbd "C-c p")        #'math-preview-all)
+(global-set-key (kbd "C-c s")        #'my/cheatsheet)
+(global-set-key (kbd "C-c f")        #'counsel-fzf)
+

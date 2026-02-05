@@ -3,15 +3,13 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-	counsel-find-file
-	evil-append
-	evil-forward-char
-	evil-mouse-drag-region
-	evil-normal-state
-	evil-previous-line
-	evil-undo
-	kill-region
-	org-end-of-line
+	backward-char
+	forward-char
+	my/capital-forward
+	org-delete-backward-char
+	org-delete-char
+	org-return
+	org-self-insert-command
 	))
 
 (setq mc/cmds-to-run-once

@@ -8,24 +8,15 @@
     (markdown-mode . (lambda ()
 		       (add-to-list 'electric-pair-pairs '(36 . 36) t)
 		       (add-to-list 'electric-pair-pairs '(42 . 42) t)))
-  )
-;;(require 'math-preview)
+    )
 
-;;(setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
+;;(require 'math-preview)
 ;;(autoload 'markdown-mode "markdown-mode"
 ;;   "Major mode for editing Markdown files" t)
-(defun my-math-preview-document ()
-  "在保存 Markdown 文件时更新所有公式。"
-  (when (eq major-mode 'markdown-mode)
-    (texfrag-document)))
-(defun my-math-preview-at-point ()
-  "在保存 Markdown 文件时更新所有公式。"
-  (when (eq major-mode 'markdown-mode)
-    (preview-at-point)))
-(add-hook 'after-save-hook 'my-math-preview-at-point)
-(add-hook 'markdown-mode-hook 'my-math-preview-document)
+
 
 (use-package texfrag
+  :ensure t
   :hook ((TeX-mode-hook . texfrag-mode)
          (markdown-mode-hook . texfrag-mode))
 

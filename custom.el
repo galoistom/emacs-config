@@ -19,9 +19,16 @@
 		 :use-image-magick t))
  '(org-latex-packages-alist '(("" "tikz-cd" t nil) ("" "tikz" t nil)))
  '(org-preview-latex-default-process 'dvisvgm)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(annalist avy capf-autosuggest company-box counsel doom-modeline
+	      eldoc-box eshell-git-prompt eshell-syntax-highlighting
+	      flash-emacs flycheck geiser geiser-guile goto-chg kkp
+	      ligature lsp-ui math-preview multiple-cursors
+	      org-fragtog org-latex-impatient org-modern org-roam-ui
+	      rainbow-delimiters texfrag vertico vterm xdg-launcher))
  '(package-vc-selected-packages
-   '((xdg-launcher :url "https://github.com/emacs-exwm/xdg-launcher")
+   '((flash-emacs :url "https://github.com/JiaweiChenC/flash-emacs")
+     (xdg-launcher :url "https://github.com/emacs-exwm/xdg-launcher")
      (tokyonight-themes :url
 			"https://github.com/xuchengpeng/tokyonight-themes")
      (org-mode :url "https://code.tecosaur.net/tec/org-mode" :branch

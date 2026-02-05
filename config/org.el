@@ -28,7 +28,8 @@
   ;; 设置org mode中某些标签的显示字符
     (setq org-startup-folded t)
     (setq org-preview-latex-default-process 'dvisvgm)
-    (setq org-startup-with-latex-preview t)
+    (set-face-attribute 'italic nil :family "CascadiaCodeItalic")
+;    (setq org-startup-with-latex-preview t)
 
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -82,9 +83,22 @@
   ;; 设置折叠符号
   (org-ellipsis " ▾")
   )
-(add-hook 'after-save-hook #'(lambda ()
-			       (when (eq major-mode 'org-mode)
-				 (org-latex-preview))))
+ ;; (add-hook 'after-save-hook #'(lambda ()
+ ;; 			       (when (eq major-mode 'org-mode)
+ ;; 				 (org-latex-preview))))
+
+;;(use-package org-fragtog
+;;  :ensure t
+;;  :bind ("C-c p" . org-fragtog-mode))
+
+;;(use-package org-latex-impatient
+;;  :defer t
+;;  :hook (org-mode . org-latex-impatient-mode)
+;;  :init
+;;  (setq org-latex-impatient-tex2svg-bin
+;;        ;; location of tex2svg executable
+;;        "~/node_modules/mathjax-node-cli/bin/tex2svg"))
+
 (use-package org-modern
   :ensure t
   :hook (after-init . (lambda ()
@@ -162,3 +176,18 @@
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-ensure-on-load t))
+
+(use-package math-preview
+  :ensure t
+  :custom
+  ;; 设置缩放比例，根据你的屏幕高分屏调整
+  (math-preview-scale 1)
+  ;; 如果你希望它像 MathJax 一样处理特定的环境
+  (math-preview-tex-extensions '("amsmath" "amsfnt" "braket")))
+(setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
+(defun my-math-preview-document ()
+  "在保存 Markdown 文件时更新所有公式。"
+  (when (eq major-mode 'org-mode)
+    (math-preview-all)))
+(add-hook 'after-save-hook 'my-math-preview-document)
+(add-hook 'org-mode-hook 'my-math-preview-document)

@@ -63,3 +63,4 @@
 (add-hook 'go-ts-mode-hook
           (lambda ()
             (add-hook 'before-save-hook #'gofmt nil t)))
+
