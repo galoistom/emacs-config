@@ -1,4 +1,4 @@
-
+;;; -*- lexical-binding: t; -*-
 ;; Scheme
 (use-package scheme
   :ensure nil)

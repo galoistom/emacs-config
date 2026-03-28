@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 (use-package org
   :ensure nil
   :mode ("\\.org\\'" . org-mode)
@@ -70,6 +71,28 @@
 	    ("#+end_quote" . 171) ;; «
 	    ("#+begin_results" . 8943) ;; ⋯
 	    ("#+end_results" . 8943) ;; ⋯
+    	    ("#+BEGIN_SRC" . 9998) ;; ✎
+	    ("#+END_SRC" . 9633) ;; □
+	    ("#+RESULTS:" . 9776) ;; ☰
+	    ("#+ATTR_LATEX:" . "🄛")
+	    ("#+ATTR_HTML:" . "🄗")
+	    ("#+ATTR_ORG:" . "🄞")
+	    ("#+NAME:" . "🄝")
+	    ("#+CAPTION:" . "🄒")
+	    ("#+DATE:" . 128197) ;; 📅
+	    ("#+AUTHOR:" . 128100) ;; 💁
+	    ("#+SETUPFILE:" . 128221) ;;📝
+	    ("#+EMAIL:" . 128231) ;;📧
+	    ("#+STARTUP" . 10034) ;; ✲
+	    ("#+OPTIONS:" . 9965) ;; ⛭
+	    ("#+TITLE:" . 10162) ;; ➲
+	    ("#+SUBTITLE:" . 11146) ;; ⮊
+	    ("#+DOWNLOADED" . 8650) ;; ⇊
+	    ("#+LANGUAGE:" . 128441) ;;🖹
+	    ("#+BEGIN_QUOTE" . 187) ;; »
+	    ("#+END_QUOTE" . 171) ;; «
+	    ("#+BEGIN_RESULTS" . 8943) ;; ⋯
+	    ("#+END_RESULTS" . 8943) ;; ⋯
 	    ))
     (setq prettify-symbols-unprettify-at-point t)
     (prettify-symbols-mode 1))
@@ -157,6 +180,7 @@
   (org-roam-directory (file-truename "~/org/roam"))
   :bind (("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
+	 ("C-c n o" . org-roam-ui-open)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ("C-c n j" . org-roam-dailies-capture-today))
@@ -190,4 +214,4 @@
   (when (eq major-mode 'org-mode)
     (math-preview-all)))
 (add-hook 'after-save-hook 'my-math-preview-document)
-(add-hook 'org-mode-hook 'my-math-preview-document)
+;; (add-hook 'org-mode-hook 'my-math-preview-document)

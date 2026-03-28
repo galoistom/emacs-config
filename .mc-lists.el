@@ -4,7 +4,11 @@
 (setq mc/cmds-to-run-for-all
       '(
 	backward-char
+	c-electric-delete-forward
 	forward-char
+	indent-for-tab-command
+	kill-region
+	mark-word
 	my/capital-forward
 	org-delete-backward-char
 	org-delete-char
@@ -25,4 +29,5 @@
 	org-self-insert-command
 	save-buffers-kill-terminal
 	set-goal-column
+	wdired--self-insert
 	))

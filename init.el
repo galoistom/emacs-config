@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;---- regular configuration ----
 (add-to-list 'custom-theme-load-path
              (expand-file-name "dracula" user-emacs-directory))
@@ -28,7 +29,7 @@
 
 ;; daemon / emacsclient 新 frame
 (add-hook 'after-make-frame-functions #'my/setup-fonts)
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (global-display-line-numbers-mode t)
 (set-frame-parameter (selected-frame) 'background-mode 'dark)
 ;; 设置背景透明度 (85 是透明度百分比，范围 0-100)
@@ -47,6 +48,9 @@
 (display-time-mode t)
 (window-divider-mode t)
 (electric-pair-mode 1)
+(setq scroll-step 1)                ; 每次滚动 1 行
+(setq scroll-conservatively 10000)
+(setq scroll-margin 9)
 (ido-mode t)
 (defun my/create-non-existent-directories ()
   (let ((parent (file-name-directory buffer-file-name)))
@@ -75,12 +79,27 @@
 (setq auto-save-default t)
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
-(setq display-time-format "%Y-%m-%d %H:%M")
+(setq display-time-format "%d %H:%M")
 (setq shr-use-fonts nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "qutebrowser")
 
 ;---- basic packages -----
+;; (defvar bootstrap-version)
+;; (let ((bootstrap-file
+;;        (expand-file-name
+;;         "straight/repos/straight.el/bootstrap.el"
+;;         (or (bound-and-true-p straight-base-dir)
+;;             user-emacs-directory)))
+;;       (bootstrap-version 7))
+;;   (unless (file-exists-p bootstrap-file)
+;;     (with-current-buffer
+;;         (url-retrieve-synchronously
+;;          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+;;          'silent 'inhibit-cookies)
+;;       (goto-char (point-max))
+;;       (eval-print-last-sexp)))
+;;   (load bootstrap-file nil 'nomessage))
 (require 'package)
 
 ;; 添加 MELPA 仓库源
@@ -93,17 +112,17 @@
   (package-refresh-contents))
 
 (setq custom-config-dir (expand-file-name "config/" user-emacs-directory))
-(load (concat custom-config-dir "org.el"))
-(load (concat custom-config-dir "markdown.el"))
-(load (concat custom-config-dir "lsp.el"))
-(load (concat custom-config-dir "my-fill.el"))
-(load (concat custom-config-dir "eshell.el"))
-(load (concat custom-config-dir "scheme-config.el"))
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load (concat custom-config-dir "org"))
+(load (concat custom-config-dir "markdown"))
+(load (concat custom-config-dir "lsp"))
+(load (concat custom-config-dir "my-fill"))
+(load (concat custom-config-dir "eshell"))
+(load (concat custom-config-dir "scheme-config"))
+(setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)
 
-
 (use-package avy :ensure t)
+(use-package god-mode :ensure t :config (global-set-key (kbd "M-DEL") #'god-local-mode))
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
 (use-package xdg-launcher :ensure t)
@@ -115,7 +134,6 @@
   (ansi-color-apply-on-region (point-min) (point-max)))
 (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
 
-;gives a better status bar
 (use-package doom-modeline
   :ensure t
   :init
@@ -203,6 +221,9 @@
 
 (my-cj-mode 1)
 
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))
+
 (define-prefix-command 'my/w-prefix)
 (global-set-key (kbd "C-c w") 'my/w-prefix)
 (global-set-key (kbd "C-c w s") #'split-window-below)
@@ -212,7 +233,6 @@
 (global-set-key (kbd "C-c w n") #'balance-windows)
 (global-set-key (kbd "C-c w m") #'maximize-window)
 
-(global-set-key (kbd "C-s")          #'flash-emacs-jump)
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
 (global-set-key (kbd "s-s")          #'save-buffer)
@@ -224,8 +244,9 @@
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
+(global-set-key (kbd "M-e")          #'mark-word)
 
-(global-set-key (kbd "C-x j")        #'goto-line)
+(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x c")        #'compile)
@@ -240,9 +261,13 @@
 (global-set-key (kbd "C-c j")        #'mc/unmark-previous-like-this)
 (global-set-key (kbd "C-c k")        #'mc/unmark-next-like-this)
 (global-set-key (kbd "C-c l")        #'xdg-launcher-run-app)
-(global-set-key (kbd "C-c F")        #'lsp-format-buffer)
+(global-set-key (kbd "C-c F")        #'eglot-format-buffer)
+(global-set-key (kbd "C-c R")        #'eglot-reconnect)
 (global-set-key (kbd "C-c m")        #'my-latex-math-auto-fill-mode)
 (global-set-key (kbd "C-c p")        #'math-preview-all)
-(global-set-key (kbd "C-c s")        #'my/cheatsheet)
+(global-set-key (kbd "C-c P")        #'math-preview-clear-all)
+(global-set-key (kbd "C-c S")        #'my/cheatsheet)
+(global-set-key (kbd "C-c s")        #'swiper)
 (global-set-key (kbd "C-c f")        #'counsel-fzf)
+(global-set-key (kbd "C-c C-l")      #'eglot)
 

@@ -1,1 +1,1 @@
-#s(lsp-session ("/home/galoistom/brain_fuck") nil #s(hash-table test equal) #s(hash-table test equal) #s(hash-table test equal))
+#s(lsp-session ("/home/galoistom/tui-file-manager" "/home/galoistom/brain_fuck" "/home/galoistom/Documents/c_test" "/home/galoistom/neomacs" "/home/galoistom/Documents/gotest" "/home/galoistom/web_for_server" "/home/galoistom/gotest") nil #s(hash-table test equal) #s(hash-table test equal) #s(hash-table test equal))

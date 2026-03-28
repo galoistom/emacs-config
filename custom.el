@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,11 +22,13 @@
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
    '(annalist avy capf-autosuggest company-box counsel doom-modeline
-	      eldoc-box eshell-git-prompt eshell-syntax-highlighting
-	      flash-emacs flycheck geiser geiser-guile goto-chg kkp
-	      ligature lsp-ui math-preview multiple-cursors
+	      eldoc-box envrc eshell-git-prompt
+	      eshell-syntax-highlighting flash-emacs flycheck
+	      geiser-guile goto-chg kkp ligature lsp-ui math-preview
+	      multiple-cursors nael nael-lsp nim-mode nix-mode
 	      org-fragtog org-latex-impatient org-modern org-roam-ui
-	      rainbow-delimiters texfrag vertico vterm xdg-launcher))
+	      rainbow-delimiters texfrag vertico-posframe vterm
+	      xdg-launcher))
  '(package-vc-selected-packages
    '((flash-emacs :url "https://github.com/JiaweiChenC/flash-emacs")
      (xdg-launcher :url "https://github.com/emacs-exwm/xdg-launcher")
