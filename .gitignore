@@ -87,3 +87,4 @@ games/
 *.elc
 .lsp*
 .mc*
+custom
