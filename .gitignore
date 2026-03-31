@@ -88,3 +88,4 @@ games/
 .lsp*
 .mc*
 custom
+org-roam.db
