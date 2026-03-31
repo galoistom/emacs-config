@@ -213,5 +213,22 @@
   "在保存 Markdown 文件时更新所有公式。"
   (when (eq major-mode 'org-mode)
     (math-preview-all)))
+(defun my-eglot-format-save-setup()
+  "format when save"
+  (if (eglot-managed-p)
+      (add-hook 'before-save-hook #'eglot-format-buffer nil t)
+    (remove-hook 'before-save-hook #'eglot-format-buffer t)))
 (add-hook 'after-save-hook 'my-math-preview-document)
 ;; (add-hook 'org-mode-hook 'my-math-preview-document)
+(add-hook 'eglot-managed-mode-hook #'my-eglot-format-save-setup)
+
+(defun my/org-export-output-bundle (orig-fun extension &optional subtreep pub-dir)
+  "自动将导出文件重定向到当前目录下的 html/ 子目录。"
+  (let ((pub-dir (or pub-dir "html/")))
+    ;; 如果文件夹不存在，自动创建它
+    (unless (file-directory-p pub-dir)
+      (make-directory pub-dir t))
+    (apply orig-fun extension subtreep (list pub-dir))))
+
+;; 仅针对 HTML 导出生效（如果你想对 PDF 或其他也生效，可以修改逻辑）
+(advice-add 'org-export-output-file-name :around #'my/org-export-output-bundle)

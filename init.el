@@ -122,7 +122,8 @@
 (load custom-file 'noerror)
 
 (use-package avy :ensure t)
-(use-package god-mode :ensure t :config (global-set-key (kbd "M-DEL") #'god-local-mode))
+(use-package god-mode :ensure t :config (global-set-key (kbd "C-c g") #'god-local-mode))
+(use-package magit :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
 (use-package xdg-launcher :ensure t)
