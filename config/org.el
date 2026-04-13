@@ -240,4 +240,3 @@
 
 ;; 仅针对 HTML 导出生效（如果你想对 PDF 或其他也生效，可以修改逻辑）
 (advice-add 'org-export-output-file-name :around #'my/org-export-output-bundle)
->>>>>>> no-evil
