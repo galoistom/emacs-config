@@ -32,11 +32,6 @@
 <<<<<<< HEAD
     (setq org-startup-with-latex-preview t)
     (global-set-key (kbd "C-c C-p") #'org-latex-preview)
-=======
-    (set-face-attribute 'italic nil :family "CascadiaCodeItalic")
-;    (setq org-startup-with-latex-preview t)
->>>>>>> no-evil
-
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)  ; 启用 Elisp
@@ -169,7 +164,6 @@
 (with-eval-after-load 'org
 <<<<<<< HEAD
   (define-key org-mode-map (kbd "C-j") ctl-x-map))
-=======
   (let* ((map org-mode-map)
          (x-map (lookup-key map (kbd "C-c C-x"))))
     (define-key org-mode-map (kbd "C-j") ctl-x-map)
