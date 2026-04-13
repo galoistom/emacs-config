@@ -8,3 +8,7 @@ exit
 }{
 ,qiut
 }{
+,quet
+}{
+(my_sort '(2 1))
+}{

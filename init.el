@@ -34,6 +34,7 @@
 (set-frame-parameter (selected-frame) 'background-mode 'dark)
 
 (setq-default tab-width 8)
+(setq-default indent-tabs-mode nil)
 (setq standard-indent 8)
 (setq inhibit-startup-screen t)
 (setq select-enable-clipboard t)
@@ -79,7 +80,12 @@
 (setq shr-use-fonts nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "qutebrowser")
+;; 将全局标准语法表中的 < 和 > 改为标点符号 (punctuation)
+(modify-syntax-entry ?< "." (standard-syntax-table))
+(modify-syntax-entry ?> "." (standard-syntax-table))
 
+;; 确保这些修改在后续开启的模式中生效
+(set-char-table-parent (standard-syntax-table) nil)
 ;---- basic packages -----
 (require 'package)
 
@@ -92,6 +98,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+(defvar custom-config-dir)
 (setq custom-config-dir (expand-file-name "config/" user-emacs-directory))
 (load (concat custom-config-dir "org"))
 (load (concat custom-config-dir "markdown"))
@@ -103,4 +110,3 @@
 (load (concat custom-config-dir "keymap"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)
-

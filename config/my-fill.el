@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; modify the input-config-alist can change the name and effect, the auto-fill is filling whenever you type (toggle with minor-mode), the my-fill one is just filling whit shorcuts.
 
+;;; Code:
+
+(defvar input-config-alist)
 (setq input-config-alist
       '(("beg" . (lambda ()
 		    (interactive)
@@ -28,7 +31,7 @@
 	("|" . (lambda ()
 		  (insert "|  |")
 		  (backward-char 2)))
-	("vt" . (lambda ()
+	("v" . (lambda ()
 		  (insert "|  |")
 		  (backward-char 2)))
 	("||" . (lambda ()
@@ -59,7 +62,7 @@
 		   (insert "\\frac{}{}")
 		   (backward-char 3)))
 	("o" . (lambda ()
-		 (insert "\\varnothing ")))
+		 (insert "\\varnothing")))
 	("cal" . (lambda ()
 		    (insert "\\mathcal{}")
 		    (backward-char 1)))
@@ -105,6 +108,7 @@
 			(funcall result))))
 	)))
 
+(defvar auto-input-alist)
 (setq auto-input-alist
       '(("jf" . (lambda ()
 		  (insert "_{}")
@@ -129,6 +133,8 @@
 	("o+" . (lambda () (insert "\\oplus ")))
 	("->" . (lambda () (insert "\\rightarrow ")))
 	("-<" . (lambda () (insert "\\leftarrow ")))
+	("=>" . (lambda () (insert "\\Rightarrow ")))
+	("=<" . (lambda () (insert "\\Leftarrow ")))
 	("xx" . (lambda () (insert "\\times ")))
         (";b" . (lambda () (insert "\\beta")))
 	(";a" . (lambda () (insert "\\alpha")))
@@ -166,6 +172,7 @@
 	))
 
 (defun my-auto-fill ()
+  "Automatically filling when activated."
 	(let ((mark t))
 	(dotimes (i 4)
 	(let* ((txt (take_fragment (- 5 i)))
@@ -188,5 +195,5 @@
     (remove-hook 'post-self-insert-hook
                  #'my-auto-fill
                  t)))
-
+(provide 'my-fill)
 ;;; my-fill.el ends here

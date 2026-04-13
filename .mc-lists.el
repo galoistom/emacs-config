@@ -7,6 +7,7 @@
 	c-electric-delete-forward
 	forward-char
 	indent-for-tab-command
+	ivy-switch-buffer
 	kill-region
 	mark-word
 	my/capital-forward
