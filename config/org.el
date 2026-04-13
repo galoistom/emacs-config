@@ -29,8 +29,13 @@
   ;; 设置org mode中某些标签的显示字符
     (setq org-startup-folded t)
     (setq org-preview-latex-default-process 'dvisvgm)
+<<<<<<< HEAD
+    (setq org-startup-with-latex-preview t)
+    (global-set-key (kbd "C-c C-p") #'org-latex-preview)
+=======
     (set-face-attribute 'italic nil :family "CascadiaCodeItalic")
 ;    (setq org-startup-with-latex-preview t)
+>>>>>>> no-evil
 
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -162,6 +167,9 @@
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
 (with-eval-after-load 'org
+<<<<<<< HEAD
+  (define-key org-mode-map (kbd "C-j") ctl-x-map))
+=======
   (let* ((map org-mode-map)
          (x-map (lookup-key map (kbd "C-c C-x"))))
     (define-key org-mode-map (kbd "C-j") ctl-x-map)
@@ -232,3 +240,4 @@
 
 ;; 仅针对 HTML 导出生效（如果你想对 PDF 或其他也生效，可以修改逻辑）
 (advice-add 'org-export-output-file-name :around #'my/org-export-output-bundle)
+>>>>>>> no-evil

@@ -42,7 +42,6 @@
 (use-package corfu
   :ensure t
   :init
-  (global-corfu-mode)
   :config
   (setq corfu-auto t)
   (setq corfu-auto-delay 0.2)
