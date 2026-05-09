@@ -41,7 +41,7 @@
 
 (use-package corfu
   :ensure t
-  :init
+  :init (global-corfu-mode)
   :config
   (setq corfu-auto t)
   (setq corfu-auto-delay 0.2)
@@ -103,11 +103,16 @@
   (vertico-mode))
 
 (use-package go-ts-mode
-  :ensure nil
+  :ensure t
   :mode "\\.go\\'"
   :hook (go-ts-mode . (lambda ()
                         (setq tab-width 8)
                         (setq indent-tabs-mode 1))))
+
+;; (use-package go-mode
+;;   :ensure t
+;;   :mode "\\.go\\'")
+
 (declare-function gofmt "go-mode")
 (add-hook 'go-ts-mode-hook
           (lambda ()

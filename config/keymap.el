@@ -54,6 +54,7 @@
 (global-set-key (kbd "C-c w f") #'delete-other-windows)
 (global-set-key (kbd "C-c w b") #'balance-windows)
 (global-set-key (kbd "C-c w m") #'maximize-window)
+(global-set-key (kbd "C-c w n") #'ivy-switch-buffer)
 (global-set-key (kbd "C-c w o") #'other-window)
 
 (define-prefix-command 'my/o-prefix)
@@ -75,7 +76,8 @@
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
 
-(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
+;(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
+(global-set-key (kbd "C-x j")        #'avy-goto-char)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x c")        #'compile)

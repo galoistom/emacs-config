@@ -1,14 +1,15 @@
+;;; -*- lexical-binding: t; -*-
 (use-package avy :ensure t)
 (use-package god-mode :ensure t :config (global-set-key (kbd "C-c g") #'god-local-mode))
 (use-package magit :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
 (use-package xdg-launcher :ensure t)
+(use-package undo-tree :ensure t)
 (use-package dash :ensure t)
 (use-package s :ensure t)
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
-;;(setq lsp-meson-no-auto-downloads t)
 (use-package multiple-cursors :ensure t)
 (require 'ansi-color)
 (defun my/ansi-colorize-buffer ()
@@ -73,8 +74,8 @@
       "<=>" "==>" "=>>" ">=>" ">>=" "=:=" "=!=" "==!="))
   (global-ligature-mode t))
 
-(use-package flash-emacs
-  :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
+;; (use-package flash-emacs
+;;   :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
 
 (add-to-list 'load-path "/home/galoistom/emskin/elisp")
 (require 'emskin)
