@@ -36,7 +36,6 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
-	    (define-key map (kbd "C-c .")   #'duplicate-line)
 	    (define-key map (kbd "C-c C-k") #'emskin-open-native-app)
             map))
 
@@ -76,8 +75,8 @@
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
 
-;(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
-(global-set-key (kbd "C-x j")        #'avy-goto-char)
+(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
+;(global-set-key (kbd "C-x j")        #'avy-goto-char)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x c")        #'compile)

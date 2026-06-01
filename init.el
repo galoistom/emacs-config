@@ -88,6 +88,9 @@
 (set-char-table-parent (standard-syntax-table) nil)
 ;---- basic packages -----
 (require 'package)
+(use-package emacs
+  :init
+  (setq tab-always-indent 'complete))
 
 ;; 添加 MELPA 仓库源
 (setq package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")

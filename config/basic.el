@@ -74,8 +74,8 @@
       "<=>" "==>" "=>>" ">=>" ">>=" "=:=" "=!=" "==!="))
   (global-ligature-mode t))
 
-;; (use-package flash-emacs
-;;   :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
+(use-package flash-emacs
+  :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
 
 (add-to-list 'load-path "/home/galoistom/emskin/elisp")
 (require 'emskin)

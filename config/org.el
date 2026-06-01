@@ -26,11 +26,11 @@
   (org-block-begin-line ((t (:underline t :background unspecified))))
   (org-block-end-line ((t (:overline t :underline nil :background unspecified))))
   :config
+  (require 'org-tempo)
   ;; 设置org mode中某些标签的显示字符
     (setq org-startup-folded t)
     (setq org-preview-latex-default-process 'dvisvgm)
-<<<<<<< HEAD
-    (setq org-startup-with-latex-preview t)
+    ;;(setq org-startup-with-latex-preview t)
     (global-set-key (kbd "C-c C-p") #'org-latex-preview)
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -40,7 +40,6 @@
     (scheme . t)
     (C . t)
     (shell . t)
-    ;;(ditta . t)
     ))
   (setq org-confirm-babel-evaluate nil)
 
@@ -162,14 +161,13 @@
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
 (with-eval-after-load 'org
-<<<<<<< HEAD
   (define-key org-mode-map (kbd "C-j") ctl-x-map))
   (let* ((map org-mode-map)
          (x-map (lookup-key map (kbd "C-c C-x"))))
     (define-key org-mode-map (kbd "C-j") ctl-x-map)
     (define-key map (kbd "C-c C-j") x-map)
     (define-key map (kbd "C-c d") #'org-deadline)
-    (define-key map (kbd "C-c C-x") #'org-goto)))
+    (define-key map (kbd "C-c C-x") #'org-goto))
 (setq org-file-apps
     '(("\\.html\\'" . (lambda (file &rest _) (browse-url-generic file)))
       ("\\.pdf\\'"  . default)

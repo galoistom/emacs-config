@@ -30,7 +30,6 @@
 ;;   (setq company-minimum-prefix-length 2) ; 只需敲 1 个字母就开始进行自动补全
 ;;   (setq company-tooltip-align-annotations t)
 ;;   (setq company-idle-delay 0.0)
-;;   (setq company-show-numbers t) ;; 给选项编号 (按快捷键 M-1、M-2 等等来进行选择).
 ;;   (setq company-selection-wrap-around t)
 ;;   (setq company-transformers '(company-sort-by-occurrence)))
 
@@ -102,17 +101,16 @@
   ;; 启用 Vertico 模式
   (vertico-mode))
 
-(use-package go-ts-mode
-  :ensure t
-  :mode "\\.go\\'"
-  :hook (go-ts-mode . (lambda ()
-                        (setq tab-width 8)
-                        (setq indent-tabs-mode 1))))
-
-;; (use-package go-mode
+;; (use-package go-ts-mode
 ;;   :ensure t
-;;   :mode "\\.go\\'")
+;;   :mode "\\.go\\'"
+;;   :hook (go-ts-mode . (lambda ()
+;;                         (setq tab-width 8)
+;;                         (setq indent-tabs-mode 1))))
 
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'")
 (declare-function gofmt "go-mode")
 (add-hook 'go-ts-mode-hook
           (lambda ()
