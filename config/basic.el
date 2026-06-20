@@ -76,6 +76,3 @@
 
 (use-package flash-emacs
   :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
-
-(add-to-list 'load-path "/home/galoistom/emskin/elisp")
-(require 'emskin)

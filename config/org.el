@@ -232,3 +232,12 @@
 
 ;; 仅针对 HTML 导出生效（如果你想对 PDF 或其他也生效，可以修改逻辑）
 (advice-add 'org-export-output-file-name :around #'my/org-export-output-bundle)
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+               '("ctexart"  ;; 标签名，供 #+LaTeX_CLASS 调用
+                 "\\documentclass[UTF8,11pt]{ctexart}" ;; 实际生成的 LaTeX 命令行
+                 ("\\section{%s}" . "\\section*{%s}") ;; 对应 Org 一级标题
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))

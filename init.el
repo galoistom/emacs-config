@@ -83,6 +83,10 @@
 ;; 将全局标准语法表中的 < 和 > 改为标点符号 (punctuation)
 (modify-syntax-entry ?< "." (standard-syntax-table))
 (modify-syntax-entry ?> "." (standard-syntax-table))
+;; 加载 zsh 的环境变量
+(let ((path (shell-command-to-string "source ~/.zshrc && echo $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path (split-string path ":" t)))
 
 ;; 确保这些修改在后续开启的模式中生效
 (set-char-table-parent (standard-syntax-table) nil)
@@ -111,5 +115,6 @@
 (load (concat custom-config-dir "scheme-config"))
 (load (concat custom-config-dir "basic"))
 (load (concat custom-config-dir "keymap"))
+(load (concat custom-config-dir "emskin"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)

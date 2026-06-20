@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 (add-to-list 'load-path "/home/galoistom/emskin/elisp")
-(require 'emskin)
 (require 'dired)
 (require 'org)
 (require 'eglot)
@@ -36,7 +35,6 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
-	    (define-key map (kbd "C-c C-k") #'emskin-open-native-app)
             map))
 
 (my-cj-mode 1)
@@ -55,13 +53,6 @@
 (global-set-key (kbd "C-c w m") #'maximize-window)
 (global-set-key (kbd "C-c w n") #'ivy-switch-buffer)
 (global-set-key (kbd "C-c w o") #'other-window)
-
-(define-prefix-command 'my/o-prefix)
-(global-set-key (kbd "C-c o") 'my/o-prefix)
-(global-set-key (kbd "C-c o b")  (lambda () (interactive) (emskin-open-native-app "qutebrowser")))
-(global-set-key (kbd "C-c o k")  (lambda () (interactive) (emskin-open-native-app "kitty")))
-(global-set-key (kbd "C-c o n")  (lambda () (interactive) (emskin-open-native-app "kitty -e zsh -i -c nnn")))
-(global-set-key (kbd "C-c o o")  (lambda () (interactive) (emskin-open-native-app "rofi -show combi")))
 
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
