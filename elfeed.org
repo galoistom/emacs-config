@@ -1,0 +1,12 @@
+#+TITLE: Elfeed Feeds
+* 技术博客 :tech:
+** IC技术圈期刊
+https://iccircle.com/feed
+** Taxodium
+https://taxodium.ink/rss.xml
+** Hacker News
+https://news.ycombinator.com/rss
+
+* 综合新闻 :news:
+** 少数派
+https://sspai.com/feed

@@ -13,6 +13,7 @@
         my/capital-forward
         org-delete-backward-char
         org-delete-char
+        org-force-self-insert
         org-return
         org-self-insert-command
         ))

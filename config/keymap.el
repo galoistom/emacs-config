@@ -35,6 +35,7 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
+            (define-key map (kbd "C-c C-k") #'emskin-open-native-app)
             map))
 
 (my-cj-mode 1)
@@ -44,7 +45,7 @@
 
 (define-prefix-command 'my/w-prefix)
 (global-set-key (kbd "C-c w") 'my/w-prefix)
-(global-set-key (kbd "C-c w s") #'split-window-below)
+(global-set-key (kbd "C-c w t") #'split-window-below)
 (global-set-key (kbd "C-c w v") #'split-window-right)
 (global-set-key (kbd "C-c w d") #'kill-buffer-and-window)
 (global-set-key (kbd "C-c w x") #'delete-window)
