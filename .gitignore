@@ -15,6 +15,7 @@
 *.elc
 *.eln
 *.fasl
+config/ai.el
 
 # 临时和缓存目录
 /eln-cache/
