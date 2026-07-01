@@ -3,6 +3,7 @@
 (require 'dired)
 (require 'org)
 (require 'eglot)
+(require 'multiple-cursors)
 (require 'xdg-launcher)
 
 ;;; Code:
@@ -35,7 +36,7 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
-            (define-key map (kbd "C-c C-k") #'emskin-open-native-app)
+            (when (featurep 'emskin) (define-key map (kbd "C-c C-k") #'emskin-open-native-app))
             map))
 
 (my-cj-mode 1)
@@ -52,6 +53,7 @@
 (global-set-key (kbd "C-c w f") #'delete-other-windows)
 (global-set-key (kbd "C-c w b") #'balance-windows)
 (global-set-key (kbd "C-c w m") #'maximize-window)
+(global-set-key (kbd "C-c w ,") #'minimize-window)
 (global-set-key (kbd "C-c w n") #'ivy-switch-buffer)
 (global-set-key (kbd "C-c w o") #'other-window)
 
