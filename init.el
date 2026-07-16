@@ -7,6 +7,9 @@
 (setq url-proxy-services
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
+(require 'socks)
+(setq socks-server '("socks" "127.0.0.1" 7891 5))
+;; 然后使用 socks-open-network-stream 代替普通连接
 (defun my/setup-fonts (&optional frame)
   (with-selected-frame (or frame (selected-frame))
     (when (display-graphic-p)
@@ -114,9 +117,9 @@
 (load (concat custom-config-dir "eshell"))
 (load (concat custom-config-dir "scheme-config"))
 (load (concat custom-config-dir "basic"))
-(load (concat custom-config-dir "keymap"))
 (load (concat custom-config-dir "emskin"))
-(load (concat custom-config-dir "elfeed"))
 (load (concat custom-config-dir "ai"))
+(load (concat custom-config-dir "mail"))
+(load (concat custom-config-dir "keymap"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)

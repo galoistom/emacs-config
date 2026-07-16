@@ -5,10 +5,16 @@
 (require 'eglot)
 (require 'multiple-cursors)
 (require 'xdg-launcher)
+(require 'notmuch)
+(require 'fzf)
+(require 'hideshow)
+
+(defmacro my-lambda (&rest body)
+  `(lambda () (interactive) ,@body))
 
 ;;; Code:
 (declare-function my-fill-function "my-fill")
-(defvar my-latex-math-auto-fill-mode)
+(declare-function my-latex-math-auto-fill-mode  "my-fill")
 
 (defun qutebrowser (url)
   "Start qutebrowser with URL."
@@ -26,6 +32,16 @@
   (backward-word)
   (capitalize-word 1))
 
+(defun my/fzf-copy-home-path ()
+  "Use fzf to find file and copy their path."
+  (interactive)
+  (fzf-with-command
+   "find /home/galoistom -type f -not -path '*/.*'"  ;; 搜索命令，可替换为 fd -t f ~
+   (lambda (file)
+     (when file
+       (kill-new file)
+       (message "copied: %s" file)))))
+
 (define-minor-mode my-cj-mode
   "Force C-j to be C-x map."
   :global t
@@ -36,7 +52,7 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
-            (when (featurep 'emskin) (define-key map (kbd "C-c C-k") #'emskin-open-native-app))
+            ;; (when (featurep 'emskin) (define-key map (kbd "C-c C-k") #'emskin-open-native-app))
             map))
 
 (my-cj-mode 1)
@@ -52,10 +68,18 @@
 (global-set-key (kbd "C-c w x") #'delete-window)
 (global-set-key (kbd "C-c w f") #'delete-other-windows)
 (global-set-key (kbd "C-c w b") #'balance-windows)
+(global-set-key (kbd "C-c w s") #'window-swap-states)
 (global-set-key (kbd "C-c w m") #'maximize-window)
 (global-set-key (kbd "C-c w ,") #'minimize-window)
-(global-set-key (kbd "C-c w n") #'ivy-switch-buffer)
 (global-set-key (kbd "C-c w o") #'other-window)
+(global-set-key (kbd "C-c w n") (my-lambda (switch-to-buffer "temp")))
+
+(define-prefix-command 'my/hide-show)
+(global-set-key (kbd "C-c C-v") 'my/hide-show)
+(global-set-key (kbd "C-c h") #'hs-minor-mode)
+(global-set-key (kbd "C-c C-v C-a") #'hs-show-all)
+(global-set-key (kbd "C-c C-v C-t") #'hs-hide-all)
+(global-set-key (kbd "C-c C-v C-c") #'hs-toggle-hiding)
 
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
@@ -68,16 +92,14 @@
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
+(global-set-key (kbd "C-o")          #'flash-emacs-jump)
 
-(global-set-key (kbd "C-x j")        #'flash-emacs-jump)
-;(global-set-key (kbd "C-x j")        #'avy-goto-char)
+(global-set-key (kbd "C-x f")        #'fzf-find-file)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
-(global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x c")        #'compile)
-(global-set-key (kbd "C-x C-q")      #'kill-emacs)
 
 (global-set-key (kbd "C-c b")        #'qutebrowser)
-(global-set-key (kbd "C-c e")        #'vterm)
+(global-set-key (kbd "C-c e")        #'eshell)
 (global-set-key (kbd "C-c z")        #'zap-to-char)
 (global-set-key (kbd "C-c c")        #'my/capital-forward)
 (global-set-key (kbd "C-c r")        #'rgrep)
@@ -92,6 +114,10 @@
 (global-set-key (kbd "C-c p")        #'math-preview-all)
 (global-set-key (kbd "C-c P")        #'math-preview-clear-all)
 (global-set-key (kbd "C-c S")        #'my/cheatsheet)
+(global-set-key (kbd "C-c f")        #'my/fzf-copy-home-path)
 (global-set-key (kbd "C-c s")        #'swiper)
-(global-set-key (kbd "C-c f")        #'counsel-fzf)
+
 (global-set-key (kbd "C-c C-l")      #'eglot)
+(global-set-key (kbd "C-c C-h")      #'notmuch)
+(global-set-key (kbd "C-x C-a")      #'replace-regexp)
+(global-set-key (kbd "C-x C-q")      #'kill-emacs)

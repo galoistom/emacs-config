@@ -11,6 +11,7 @@
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (use-package multiple-cursors :ensure t)
+(use-package fzf :ensure t)
 (require 'ansi-color)
 (defun my/ansi-colorize-buffer ()
   (ansi-color-apply-on-region (point-min) (point-max)))
@@ -23,7 +24,8 @@
   :config
   (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
   (setq doom-modeline-minor-modes nil))
-;better support for barkets, especially for elisp
+
+;;better support for barkets, especially for elisp
 (use-package rainbow-delimiters
   :ensure t
   :hook ((prog-mode conf-mode yaml-mode) . rainbow-delimiters-mode)
@@ -33,7 +35,8 @@
                     :weight 'bold
                     :background "#44475a"
                     :foreground "#ffff00")
-;help use keybdings
+
+;;help use keybdings
 (use-package which-key
   :ensure t
   :config
@@ -42,7 +45,8 @@
   (setq which-key-side-window-location 'bottom)
   (setq which-key-max-description-length 40)
   (setq which-key-max-display-columns nil))
-;better search
+
+;;better search
 (use-package ivy
   :ensure t
   :init
@@ -55,12 +59,13 @@
   :bind
   (("C-M-s" . 'swiper)
    ("C-x b" . 'ivy-switch-buffer)
-   ("C-c v" . 'ivy-push-view)
-   ("C-c V" . 'ivy-pop-view)
+   ;; ("C-c v" . 'ivy-push-view)
+   ;; ("C-c V" . 'ivy-pop-view)
    ("C-x C-SPC" . 'counsel-mark-ring)
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))
-;joining symbols
+
+;;joining symbols
 (use-package ligature
   :ensure t
   :config

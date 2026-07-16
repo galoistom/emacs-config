@@ -16,6 +16,7 @@
         org-force-self-insert
         org-return
         org-self-insert-command
+        up-list
         ))
 
 (setq mc/cmds-to-run-once
