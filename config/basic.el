@@ -13,16 +13,28 @@
 (use-package ghostel :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
+(require 'dired)
 (defun my/ansi-colorize-buffer ()
+  "Colorize buffer."
   (ansi-color-apply-on-region (point-min) (point-max)))
 (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
+
+(defun my/dired-open-file-other-window ()
+  "Customized open DIRED file."
+  (interactive)
+  (let* ((file (dired-get-file-for-visit)))
+    (cond
+     ((string-match "\\.pdf\\'" file) (call-process "okular" nil 0 nil file))
+     ((string-match "\\.mp4\\'" file) (call-process "mpv" nil 0 nil file))
+     (t (dired-find-file-other-window)))))
+(define-key dired-mode-map (kbd "o") 'my/dired-open-file-other-window)
 
 (use-package doom-modeline
   :ensure t
   :init
   (doom-modeline-mode 1)
   :config
-  (setq doom-modeline-buffer-file-name-style 'truncate-except-project) 
+  (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
   (setq doom-modeline-minor-modes nil))
 
 ;;better support for barkets, especially for elisp
@@ -47,23 +59,34 @@
   (setq which-key-max-display-columns nil))
 
 ;;better search
-(use-package ivy
+;; (use-package ivy
+;;   :ensure t
+;;   :init
+;;   (ivy-mode 1)
+;; ;  (counsel-mode 1)
+;;   :config
+;;   (setq ivy-use-virtual-buffers t)
+;;   (setq search-default-mode #'char-fold-to-regexp)
+;;   (setq ivy-count-format "(%d/%d) ")
+;;   :bind
+;;   (("C-M-s" . 'swiper)
+;;    ;; ("C-x b" . 'ivy-switch-buffer)
+;;    ("C-c v" . 'ivy-push-view)
+;;    ("C-c V" . 'ivy-pop-view)
+;;    ("C-x C-SPC" . 'counsel-mark-ring)
+;;    :map minibuffer-local-map
+;;    ("C-r" . counsel-minibuffer-history)))
+
+(use-package consult
+  :ensure t
+  :config
+  (setq consult-preview-key nil)
+  (recentf-mode t))
+
+(use-package vertico
   :ensure t
   :init
-  (ivy-mode 1)
-;  (counsel-mode 1)
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq search-default-mode #'char-fold-to-regexp)
-  (setq ivy-count-format "(%d/%d) ")
-  :bind
-  (("C-M-s" . 'swiper)
-   ;; ("C-x b" . 'ivy-switch-buffer)
-   ("C-c v" . 'ivy-push-view)
-   ("C-c V" . 'ivy-pop-view)
-   ("C-x C-SPC" . 'counsel-mark-ring)
-   :map minibuffer-local-map
-   ("C-r" . counsel-minibuffer-history)))
+  (vertico-mode))
 
 ;;joining symbols
 (use-package ligature

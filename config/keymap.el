@@ -1,4 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
+;;; Code:
 (add-to-list 'load-path "/home/galoistom/emskin/elisp")
 (require 'dired)
 (require 'org)
@@ -9,8 +10,10 @@
 (require 'fzf)
 (require 'ghostel)
 (require 'hideshow)
+(require 'consult)
 
 (defmacro my-lambda (&rest body)
+  "A macro for simpler lambda with BODY."
   `(lambda () (interactive) ,@body))
 
 (declare-function my-fill-function "my-fill")
@@ -90,11 +93,12 @@
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
+(global-set-key (kbd "C-M-s")        #'consult-line)
 
 (global-set-key (kbd "C-x f")        #'fzf-find-file)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
 (global-set-key (kbd "C-x c")        #'compile)
-(global-set-key (kbd "C-x b")        #'ivy-switch-buffer)
+(global-set-key (kbd "C-x b")        #'consult-buffer)
 
 (global-set-key (kbd "C-c b")        #'qutebrowser)
 (global-set-key (kbd "C-c e")        #'eshell)
@@ -114,7 +118,7 @@
 (global-set-key (kbd "C-c P")        #'math-preview-clear-all)
 (global-set-key (kbd "C-c S")        #'my/cheatsheet)
 (global-set-key (kbd "C-c f")        #'fzf)
-(global-set-key (kbd "C-c s")        #'swiper)
+(global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
 (global-set-key (kbd "C-c C-h")      #'notmuch)

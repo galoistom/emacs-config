@@ -14,6 +14,11 @@
       smtpmail-stream-type 'starttls
       smtpmail-smtp-user "liug17969@gmail.com")
 
+(use-package notmuch
+  :ensure t
+  :config
+  (setq notmuch-search-oldest-first nil))
+
 ;;Debug
 (setq smtpmail-debug-info t)
 (setq smtpmail-debug-verb t)

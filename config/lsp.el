@@ -46,18 +46,11 @@
   (setq completion-category-overrides
         '((file (styles basic partial-completion)))))
 
-(use-package consult
-  :ensure t)
 
 (use-package eglot
   :ensure nil
   :config
   (setq eglot-autoshutdown t))
-
-(use-package vertico
-  :ensure t
-  :init
-  (vertico-mode))
 
 (use-package go-mode
   :ensure t
