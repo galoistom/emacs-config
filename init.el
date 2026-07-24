@@ -120,6 +120,7 @@
 (load (concat custom-config-dir "emskin"))
 (load (concat custom-config-dir "ai"))
 (load (concat custom-config-dir "mail"))
+;; (load (concat custom-config-dir "eaf"))
 (load (concat custom-config-dir "keymap"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)

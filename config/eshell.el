@@ -31,9 +31,4 @@
   :bind (:map eshell-mode-map
 	      ("C-r" . consult-history))
   :config
-  ;; (with-eval-after-load 'evil
-  ;;   (evil-define-key '(normal insert) eshell-mode-map (kbd "C-r") #'consult-history))
   )
-
-(use-package vterm
-  :ensure t)

@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 (use-package avy :ensure t)
-(use-package god-mode :ensure t :config (global-set-key (kbd "C-c g") #'god-local-mode))
 (use-package magit :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
 (use-package counsel :ensure t)
@@ -11,6 +10,7 @@
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (use-package multiple-cursors :ensure t)
+(use-package ghostel :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
 (defun my/ansi-colorize-buffer ()
@@ -58,9 +58,9 @@
   (setq ivy-count-format "(%d/%d) ")
   :bind
   (("C-M-s" . 'swiper)
-   ("C-x b" . 'ivy-switch-buffer)
-   ;; ("C-c v" . 'ivy-push-view)
-   ;; ("C-c V" . 'ivy-pop-view)
+   ;; ("C-x b" . 'ivy-switch-buffer)
+   ("C-c v" . 'ivy-push-view)
+   ("C-c V" . 'ivy-pop-view)
    ("C-x C-SPC" . 'counsel-mark-ring)
    :map minibuffer-local-map
    ("C-r" . counsel-minibuffer-history)))

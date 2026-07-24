@@ -7,18 +7,18 @@
 (require 'xdg-launcher)
 (require 'notmuch)
 (require 'fzf)
+(require 'ghostel)
 (require 'hideshow)
 
 (defmacro my-lambda (&rest body)
   `(lambda () (interactive) ,@body))
 
-;;; Code:
 (declare-function my-fill-function "my-fill")
 (declare-function my-latex-math-auto-fill-mode  "my-fill")
 
 (defun qutebrowser (url)
   "Start qutebrowser with URL."
-  (interactive "sinput url:")
+  (interactive "sinput url: ")
   (start-process-shell-command "browser" nil (format "qutebrowser %s" url)))
 
 (defun my/cheatsheet (name)
@@ -36,7 +36,7 @@
   "Use fzf to find file and copy their path."
   (interactive)
   (fzf-with-command
-   "find /home/galoistom -type f -not -path '*/.*'"  ;; 搜索命令，可替换为 fd -t f ~
+   "find /home/galoistom -type f -not -path '*/.*'"
    (lambda (file)
      (when file
        (kill-new file)
@@ -52,7 +52,6 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
-            ;; (when (featurep 'emskin) (define-key map (kbd "C-c C-k") #'emskin-open-native-app))
             map))
 
 (my-cj-mode 1)
@@ -83,23 +82,23 @@
 
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
+(global-set-key (kbd "C-o")          #'flash-emacs-jump)
 (global-set-key (kbd "s-s")          #'save-buffer)
 (global-set-key (kbd "s-d")          #'backward-delete-char)
-(global-set-key (kbd "s-f")          #'ido-find-file)
-(global-set-key (kbd "s-<return>")   #'org-meta-return)
 (global-set-key (kbd "C-<tab>")      #'other-window)
 (global-set-key (kbd "M-\"")         #'shell-command)
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
-(global-set-key (kbd "C-o")          #'flash-emacs-jump)
 
 (global-set-key (kbd "C-x f")        #'fzf-find-file)
 (global-set-key (kbd "C-x k")        #'goto-last-change)
 (global-set-key (kbd "C-x c")        #'compile)
+(global-set-key (kbd "C-x b")        #'ivy-switch-buffer)
 
 (global-set-key (kbd "C-c b")        #'qutebrowser)
 (global-set-key (kbd "C-c e")        #'eshell)
+(global-set-key (kbd "C-c t")        #'ghostel)
 (global-set-key (kbd "C-c z")        #'zap-to-char)
 (global-set-key (kbd "C-c c")        #'my/capital-forward)
 (global-set-key (kbd "C-c r")        #'rgrep)
@@ -114,10 +113,11 @@
 (global-set-key (kbd "C-c p")        #'math-preview-all)
 (global-set-key (kbd "C-c P")        #'math-preview-clear-all)
 (global-set-key (kbd "C-c S")        #'my/cheatsheet)
-(global-set-key (kbd "C-c f")        #'my/fzf-copy-home-path)
+(global-set-key (kbd "C-c f")        #'fzf)
 (global-set-key (kbd "C-c s")        #'swiper)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
 (global-set-key (kbd "C-c C-h")      #'notmuch)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
+(global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)
