@@ -91,3 +91,4 @@ games/
 custom
 org-roam.db
 geiser-history.*
+racket-mode/
