@@ -8,6 +8,7 @@
       '(("http"  . "127.0.0.1:7890")
         ("https" . "127.0.0.1:7890")))
 (require 'socks)
+
 (setq socks-server '("socks" "127.0.0.1" 7891 5))
 ;; 然后使用 socks-open-network-stream 代替普通连接
 (defun my/setup-fonts (&optional frame)
@@ -83,6 +84,7 @@
 (setq shr-use-fonts nil)
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "qutebrowser")
+
 ;; 将全局标准语法表中的 < 和 > 改为标点符号 (punctuation)
 (modify-syntax-entry ?< "." (standard-syntax-table))
 (modify-syntax-entry ?> "." (standard-syntax-table))
@@ -110,12 +112,12 @@
 
 (defvar custom-config-dir)
 (setq custom-config-dir (expand-file-name "config/" user-emacs-directory))
+(load (concat custom-config-dir "scheme-config"))
 (load (concat custom-config-dir "org"))
 (load (concat custom-config-dir "markdown"))
 (load (concat custom-config-dir "lsp"))
 (load (concat custom-config-dir "my-fill"))
 (load (concat custom-config-dir "eshell"))
-(load (concat custom-config-dir "scheme-config"))
 (load (concat custom-config-dir "basic"))
 (load (concat custom-config-dir "emskin"))
 (load (concat custom-config-dir "ai"))
@@ -124,3 +126,6 @@
 (load (concat custom-config-dir "keymap"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)
+(setq auto-mode-alist
+      (rassq-delete-all 'scheme-mode auto-mode-alist))
+

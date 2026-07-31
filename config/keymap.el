@@ -46,7 +46,7 @@
        (message "copied: %s" file)))))
 
 (define-minor-mode my-cj-mode
-  "Force C-j to be C-x map."
+  "Force \\[keyboard-quit] to be \\<ctl-x-map>\\[ctl-x-map] map."
   :global t
   :type 'boolean
   :group 'my-config
@@ -76,20 +76,25 @@
 (global-set-key (kbd "C-c w o") #'other-window)
 (global-set-key (kbd "C-c w n") (my-lambda (switch-to-buffer "temp")))
 
-(define-prefix-command 'my/hide-show)
-(global-set-key (kbd "C-c C-v") 'my/hide-show)
-(global-set-key (kbd "C-c h") #'hs-minor-mode)
-(global-set-key (kbd "C-c C-v C-a") #'hs-show-all)
-(global-set-key (kbd "C-c C-v C-t") #'hs-hide-all)
-(global-set-key (kbd "C-c C-v C-c") #'hs-toggle-hiding)
+(defmacro ensure-mode-on (mode-sym key-map action)
+  "Ensure the MODE-SYM is on when calling ACTION with KEY-MAP."
+  `(global-set-key ,key-map (cons ,(symbol-name action)
+                                  (my-lambda
+                                   (unless ,mode-sym (,mode-sym 1))
+                                   (call-interactively ',action)))))
+
+(ensure-mode-on hs-minor-mode (kbd "C-c C-w") hs-hide-all)
+(ensure-mode-on hs-minor-mode (kbd "C-c C-h") hs-toggle-hiding)
+;; (define-prefix-command 'my/hide-show)
+;; (global-set-key (kbd "C-c C-v") 'my/hide-show)
+;; (global-set-key (kbd "C-c C-v C-t") #'hs-hide-all)
+;; (global-set-key (kbd "C-c C-v C-c") #'hs-toggle-hiding)
 
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
 (global-set-key (kbd "C-o")          #'flash-emacs-jump)
 (global-set-key (kbd "s-s")          #'save-buffer)
 (global-set-key (kbd "s-d")          #'backward-delete-char)
-(global-set-key (kbd "C-<tab>")      #'other-window)
-(global-set-key (kbd "M-\"")         #'shell-command)
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
@@ -101,8 +106,10 @@
 (global-set-key (kbd "C-x b")        #'consult-buffer)
 
 (global-set-key (kbd "C-c b")        #'qutebrowser)
+(global-set-key (kbd "C-c q")        #'eww)
 (global-set-key (kbd "C-c e")        #'eshell)
 (global-set-key (kbd "C-c t")        #'ghostel)
+(global-set-key (kbd "C-c h")        #'notmuch)
 (global-set-key (kbd "C-c z")        #'zap-to-char)
 (global-set-key (kbd "C-c c")        #'my/capital-forward)
 (global-set-key (kbd "C-c r")        #'rgrep)
@@ -121,7 +128,6 @@
 (global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
-(global-set-key (kbd "C-c C-h")      #'notmuch)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)

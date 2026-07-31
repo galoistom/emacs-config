@@ -2,8 +2,6 @@
 }{
 exit
 }{
-,exit
-}{
 ,help system
 }{
 ,qiut
@@ -13,4 +11,105 @@ exit
 (my_sort '(2 1))
 }{
 (exit)
+}{
+(fold + 0 '(1 2 3))
+}{
+(use-srfis)
+}{
+(use-srfis 9)
+}{
+(use-modules (srfi srfi-1))
+}{
+(fold + 0 '(1 2 3))
+}{
+(null? '())
+}{
+(list->Heap '(1))
+}{
+(list->Heap '(1 2))
+}{
+(insertHeap '() 1)
+}{
+(list->Heap '() '(1))
+}{
+(list->Heap '(1))
+}{
+(fold insertHeap '() '(1))
+}{
+(help fold)
+}{
+(fold insertHeap '() '(1))
+}{
+(list->Heap '(1 2))
+}{
+,bt
+}{
+(insertHeap 2 (insertHeap 1 '()))
+}{
+,bt
+}{
+(insertHeap 2 '())
+}{
+(insertHeap 2 (insertHeap 1 '()))
+}{
+(list->Heap '(1 2 3))
+}{
+(list->Heap '(1 2 3 4 5))
+}{
+(list->Heap '(5 4 3 2 1))
+}{
+(list->Heap '(1 2 3 4 5))
+}{
+(popHeap (list->Heap '(1 2 3 4 5)))
+}{
+(format "hello world")
+}{
+(main)
+}{
+,bt
+}{
+  (unfold null?
+          (lambda (x) (car (popHeap x)))
+          (lambda (x) (car (popHeap x)))
+          (list->Heap '(5 4 1 3 2)))
+}{
+,bt
+}{
+(main)
+}{
+,bt
+}{
+(maine)
+}{
+(main)
+}{
+,bt
+}{
+(main)
+}{
+(help cdar)
+}{
+'('(1 2) '(3 4))
+}{
+(cdar $22)
+}{
+(cadr $22)
+}{
+(help case)
+}{
+(help cond)
+}{
+(help if)
+}{
+(help define)
+}{
+(help help)
+}{
+(help)
+}{
+(help list)
+}{
+(help cons)
+}{
+,exit
 }{

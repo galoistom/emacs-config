@@ -4,11 +4,622 @@ help
 }{
 quit
 }{
+exit
+}{
 ,exit
+}{
+(path? "~/go/")
+}{
+(path? "/home/galoistom/")
+}{
+(path? "/home/galoistom/test.c")
+}{
+(path? (string->path "/home/galoistom/test.c"))
+}{
+(string->path "/home/galoistom/test.c")
+}{
+(file->string (string->path "/home/galoistom/test.c"))
+}{
+(file->string (string->path "~/test.c"))
+}{
+(file->string (string->path (expand-user-path "~/test.c")))
+}{
+(file->string (expand-user-path "~/test.c"))
+}{
+,exit
+}{
+,help
+}{
+jb
+}{
+exit
+}{
+quit
+}{
+(car '())
+}{
+(cdr '())
+}{
+(cdr '(1))
+}{
+(help taggeed-list?)
+}{
+(help case)
+}{
+(cond->if 1)
+}{
+(define (cond->if exp) (todo-cond->if))
+}{
+(cond->if 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str))
+            (todo-id (datum->syntax #'name todo-sym)))
+       #'(define (name params ...)
+           (todo-id body ...)))]))
+}{
+(defin-todo test)
+}{
+(define-todo test)
+}{
+(defin-todo (test exp))
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str))
+            (todo-id (datum->syntax #'name todo-sym)))
+       #'(define (name params ...)
+           ',todo-id))]))
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+exit
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str))
+            (todo-id (datum->syntax #'name todo-sym)))
+       #'(define (name params ...)
+           (quote todo-id)))]))
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str))
+            (todo-id (datum->syntax #'name todo-sym)))
+       #'(define (name params ...)
+           (quote (unsyntax todo-id))))]))
+}{
+(test 1)
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str)))
+       (with-syntax ([todo-literal (datum->syntax #'name todo-sym)])
+         #'(define (name params ...)
+             todo-literal)))]))
+}{
+(test 1)
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+(define-syntax (define-todo stx)
+  (syntax-case stx ()
+    [(_ (name params ...) body ...)
+     (let* ((name-str (symbol->string (syntax->datum #'name)))
+            (todo-str (string-append "todo-" name-str))
+            (todo-sym (string->symbol todo-str)))
+       (with-syntax ([quoted (datum->syntax #'name `(quote ,todo-sym))])
+         #'(define (name params ...)
+             quoted)))]))
+}{
+(defin-todo (test exp))
+}{
+(define-todo (test exp))
+}{
+(test 1)
+}{
+exit
+}{
+(help exp)
+}{
+(define (definition? exp) (tagged-list? exp 'define))
+}{
+(define (make-frame variables values)
+  (let ((h (make-hash)))
+    (for-each (lambda (k v) (hash-set! h k v) variables values))
+    h))
+}{
+(make-frame '(1 2 3) '(4 5 6))
+}{
+(define (make-frame variables values)
+  (let ((h (make-hash)))
+    (for-each (lambda (k v) (hash-set! h k v)) variables values)
+    h))
+}{
+(make-frame '(1 2 3) '(4 5 6))
+}{
+(setup-environment)
+}{
+(eval)
+}{
+(eval-buffer)
+}{
+(load ~/Projects/scheme-interpreter/main.rkt)
+}{
+(load "~/Projects/scheme-interpreter/main.rkt")
+}{
+(load "main.rkt")
+}{
+(setup-environment)
+}{
+(enter "main.rkt")
+}{
+(enter! "main.rkt")
+}{
+(setup-environment)
+}{
+(eval '(+ 1 2))
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(primitive-procedure? (list 'primitive +))
+}{
+(application? '(+ 1 2))
+}{
+(eval + the-global-environment)
+}{
+(eval '+ the-global-environment)
+}{
+(eval '('+ 1 2) the-global-environment)
+}{
+(apply '(primitive #<procedure:+>) (list-of-values '(1 2) the-global-environment))
+}{
+(apply (eval '('+ 1 2) the-global-environment) (list-of-values '(1 2) the-global-environment))
+}{
+(apply (eval '(+ 1 2) the-global-environment) (list-of-values '(1 2) the-global-environment))
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(eval '('+ 1 2) the-global-environment)
+}{
+(apply (eval '+ the-global-environment) (list-of-values '(1 2) the-global-environment))
+}{
+(eval '+ the-global-environment)
+}{
+(quoted? '+)
+}{
+(primitive-procedure? (eval '+ the-global-environment))
+}{
+(list-of-values '(1 2) the-global-environment)
+}{
+(apply-primitive-procedure (eval '+ the-global-environment) '(1 2))
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(eval '(define add1 (lambda (x) (+ x 1))) the-global-environment)
+}{
+(the-global-environment)
+}{
+the-global-environment
+}{
+(eval '(add1 2) the-global-environment)
+}{
+(eval 'add1 the-global-environment)
+}{
+(eval add1 the-global-environment)
+}{
+(eval 'add1 the-global-environment)
+}{
+(my-apply (eval 'add1 the-global-environment) '(2))
+}{
+(compound-precedure? (eval 'add1 the-global-environment))
 }{
 (exit)
 }{
-,exit
+(enter! "main.rkt")
 }{
-exit
+(eval '(define (add x) (+ x 1)) the-global-environment)
+}{
+(add 2)
+}{
+(eval '(add 2) the-global-environment)
+}{
+the-global-environment
+}{
+(enter! "main.rkt")
+}{
+the-global-environment
+}{
+(compound-procedure? (eval 'add the-global-environment))
+}{
+(define proc (eval 'add the-global-environment))
+}{
+(procedure-body proc)
+}{
+(extend-environment procedure-parameters proc)
+}{
+(extend-environment procedure-parameters proc '(2) (procedure-environment proc))
+}{
+(extend-environment (procedure-parameters proc) '(2) (procedure-environment proc))(extend-environment procedure-parameters proc)
+}{
+(eval-sequence (procedure-body proc) (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc))(extend-environment procedure-parameters proc))
+}{
+(extend-environment (procedure-parameters proc) '(2) (procedure-environment proc))
+}{
+(eval-sequence (procedure-body proc) (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc)))
+}{
+(define proc (eval 'add the-global-environment))
+}{
+(eval-sequence (procedure-body proc) (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc)))
+}{
+(procedure-body proc)
+}{
+(eval (car (procedure-body proc)) the-global-environment)
+}{
+(eval 'x the-global-environment)
+}{
+(eval x the-global-environment)
+}{
+(eval 'x (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc)))
+}{
+(eval 1 (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc)))
+}{
+(eval  '(+ x 1) (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc))))
+}{
+(eval  '(+ x 1) (extend-environment (procedure-parameters proc) '(2) (procedure-environment proc)))
+}{
+(enter! "main.rkt")
+}{
+(eval '(add 2) the-global-environment)
+}{
+the-global-environment
+}{
+(eval '(define (add1 x) (+ x 1)) the-global-environment)
+}{
+(eval '(add 2) the-global-environment)
+}{
+(eval '(add1 2) the-global-environment)
+}{
+(eval '(define x 1) the-global-environment)
+}{
+(eval '(cond ((= x 1) (display "hello")) (else (display "world"))))
+}{
+(eval '(cond ((= x 1) (display "hello")) (else (display "world"))) the-global-environment)
+}{
+(cond->if (cond ((= x 1) (display "hello"))))
+}{
+(cond->if (cond ((= 1 1) (display "hello"))))
+}{
+'(cond ((= 1 1) (display "hello")))
+}{
+(cond->if '(cond ((= 1 1) (display "hello"))))
+}{
+(expand-clauses '((= 1 1) (display "hello")))
+}{
+(eval '(display "hello"))
+}{
+(eval '(display "hello") the-global-environment)
+}{
+(eval '(display "hello\n") the-global-environment)
+}{
+(eval '(begin (display "foo\n") (display "bar\n")) the-global-environment)
+}{
+the-global-environment
+}{
+(eval '(if (= x 1) (display "foo") (display "bar")) the-global-environment)
+}{
+(eval 'if the-global-environment)
+}{
+(if? 'if)
+}{
+(tagged-list? 'if 'if)
+}{
+(if? '(if (= x 1) (display "foo") (display "bar")))
+}{
+(enter! "main.rkt")
+}{
+(eval '(if (= x 1) (display "foo") (display "bar")) the-global-environment)
+}{
+(eval '(define x 1) the-global-environment)
+}{
+(eval '(if (= x 1) (display "foo") (display "bar")) the-global-environment)
+}{
+(eval '(if (= x 1) (display "foo\n") (display "bar\n")) the-global-environment)
+}{
+(eval '(if (= x 0) (display "foo\n") (display "bar\n")) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(define x 1) the-global-environment)
+}{
+(eval '(if (= x 0) (display "foo\n") (display "bar\n")) the-global-environment)
+}{
+(enter! "main.rkt)
+")
+}{
+(enter! "main.rkt")
+}{
+(eval '(define x 1) the-global-environment)
+}{
+(eval '(if (= x 0) (display "foo\n") (display "bar\n")) the-global-environment)
+}{
+(eval '(cond (= x 1) (display "foo\n")) the-global-environment)
+}{
+(eval '(cond ((= x 1) (display "foo\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 1 1) (display "foo\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 1 1) (display "foo\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 1 1) (display "foo\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(expand->if '(cond ((= 1 1) (display "foo\n"))))
+}{
+(cond->if '(cond ((= 1 1) (display "foo\n"))))
+}{
+(expand-clauses '((= 1 1) (display "foo\n")))
+}{
+(cdr '(cond ((= 1 1) (display "foo\n"))))
+}{
+(expand-clauses '(((= 1 1) (display "foo\n"))))
+}{
+(define cla '(((= 1 1) (display "foo\n"))))
+}{
+(make-if (car cla) (sequence->exp) ((cdr cla) first) '())
+}{
+(make-if (car cla) (sequence->exp ((cdr cla) first))  '())
+}{
+(eval '(define add1 (lambda (x) (+ x 1))) the-global-environment)
+}{
+(eval '(add1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 1 1) (display "foo\n"))) the-global-environment)
+}{
+(eval '(cond ((= 0 1) (display "foo\n"))) the-global-environment)
+}{
+(eval '(cond ((= 0 1) (display "foo\n")) (else (display "bar\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 0 1) (display "foo\n")) (else (display "bar\n"))) the-global-environment)
+}{
+the-global-environment
+}{
+(eval '(cond ((= 0 1) (display "foo\n"))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((= 0 1) (display "foo\n"))) the-global-environment)
+}{
+(eval '(car (list 1 2)) the-global-environment)
+}{
+(let?)
+}{
+(enter! "main.rkt")
+}{
+(display 1)
+}{
+(enter! "main.rkt")
+}{
+(eval '(let ((x 1)) (display x) (newline)))
+}{
+(eval '(let ((x 1)) (display x) (newline)) the-global-environment)
+}{
+(eval '(define hello (lambda () (display "hello") (newline))) the-global-environment)
+}{
+(eval '(hello) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(and (= 1 1) (= 2 2)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(and (= 1 1) (= 2 2)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(and (= 1 1) (= 2 2)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((assoc 'b '((a 1) (b 2))) => cadr) (else false)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((assoc 'b '((a 1) (b 2))) => cadr) (else false)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((assoc 'b '((a 1) (b 2))) => cadr) (else false)) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(cond ((assoc 'b '((a 1) (b 2))) => cadr) (else false)) the-global-environment)
+}{
+((lambda (x) (+ x 1)) 1)
+}{
+,(1 2)
+}{
+`('test ,(1 2))
+}{
+'('test ,(1 2))
+}{
+(enter! "main.rkt")
+}{
+(eval '(let loop ((n 5) (acc 1))))
+}{
+(eval '(let loop ((n 5) (acc 1)) (if (= n ))))
+}{
+(eval '(let loop ((n 5) (ans 1)) (if (= n 0) ans (loop (- n 1) (* ans n)))))
+}{
+(eval '(let loop ((n 5) (ans 1)) (if (= n 0) ans (loop (- n 1) (* ans n)))) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(display "hello world")
+}{
+(enter! "main.rkt")
+}{
+(+ 1 2)
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(add 5 7)
+}{
+(eval '(add 5 7) the-global-environment)
+}{
+the-global-environment
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(eval '(let ((x 1)) (+ x 1)) the-global-environment)
+}{
+(enter! "not-lazy.rkt")
+}{
+(let ((x 1)) (+ x 1))
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add a b) the-global-environment)
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(enter! "not-lazy.rkt")
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(enter! "not-lazy.rkt")
+}{
+(+ 1 2)
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(eval '(define (add x y) (+ x y)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(application? '(+ 1 2))
+}{
+(actual-value (car '(+ 1 2)) the-empty-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '(+ 1 2) the-global-environment)
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(eval '(define (add a b) (+ a b)) the-global-environment)
+}{
+(eval '(add 1 2) the-global-environment)
+}{
+(enter! "main.rkt")
+}{
+(eval '((lambda (a b) (+ a b)) 1 2) the-global-environment)
+}{
+(enter!)
+}{
+ (enter! "main.rkt")
+}{
+(eval '(let ((x 1)(y 2)) (+ x y)) the-global-environment)
+}{
+(exit)
 }{

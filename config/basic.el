@@ -2,7 +2,7 @@
 (use-package avy :ensure t)
 (use-package magit :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
-(use-package counsel :ensure t)
+;; (use-package counsel :ensure t)
 (use-package xdg-launcher :ensure t)
 (use-package undo-tree :ensure t)
 (use-package dash :ensure t)
@@ -58,29 +58,10 @@
   (setq which-key-max-description-length 40)
   (setq which-key-max-display-columns nil))
 
-;;better search
-;; (use-package ivy
-;;   :ensure t
-;;   :init
-;;   (ivy-mode 1)
-;; ;  (counsel-mode 1)
-;;   :config
-;;   (setq ivy-use-virtual-buffers t)
-;;   (setq search-default-mode #'char-fold-to-regexp)
-;;   (setq ivy-count-format "(%d/%d) ")
-;;   :bind
-;;   (("C-M-s" . 'swiper)
-;;    ;; ("C-x b" . 'ivy-switch-buffer)
-;;    ("C-c v" . 'ivy-push-view)
-;;    ("C-c V" . 'ivy-pop-view)
-;;    ("C-x C-SPC" . 'counsel-mark-ring)
-;;    :map minibuffer-local-map
-;;    ("C-r" . counsel-minibuffer-history)))
-
 (use-package consult
   :ensure t
   :config
-  (setq consult-preview-key nil)
+  (setq consult-preview-key 'any)
   (recentf-mode t))
 
 (use-package vertico

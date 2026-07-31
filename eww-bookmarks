@@ -1,0 +1,12 @@
+;; Auto-generated file; don't edit -*- mode: lisp-data -*-
+((:url
+  "https://docs.racket-lang.org/r5rs/r5rs-std/r5rs-Z-H-2.html#%25_toc_start"
+  :title "Revised^5 Report on the Algorithmic Language Scheme" :time
+  "Tue Jul 28 12:10:51 2026")
+ (:url "https://doc.guix.gnu.org/guile/latest/en/html_node/index.html"
+       :title "Top (Guile Reference Manual)" :time
+       "Mon Jul 27 16:26:36 2026")
+ (:url "https://docs.racket-lang.org/" :title "Racket" :time
+       "Mon Jul 27 11:59:45 2026")
+ (:url "https://flatassembler.net/docs.php" :title "flat assembler"
+       :time "Mon Jul 27 11:59:01 2026"))

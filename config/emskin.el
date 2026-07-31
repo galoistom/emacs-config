@@ -12,12 +12,13 @@
     
 (define-prefix-command 'my/emskin-prefix)
 (global-set-key (kbd "C-c o") 'my/emskin-prefix)
-(my/emskin-key "C-c o b" "zen-browser")
+(setq browser "firefox")
+(my/emskin-key "C-c o b" browser)
 (my/emskin-key "C-c o k" "kitty")
 (my/emskin-key "C-c o m" "kitty rmpc")
 (my/emskin-key "C-c o n" "env GTK_THEME=Adwaita-dark thunar")
 (my/emskin-key "C-c o q" "qutebrowser")
-(my/emskin-key "C-c o p" "zen-browser --private-window")
+(my/emskin-key "C-c o p" (concat browser " --private-window"))
 
 (defun my/xdg-open ()
   "Fzf file to open with xdg."
