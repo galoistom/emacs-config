@@ -4,8 +4,6 @@
 ;; 再删除可能存在的其他关联
 (setq auto-mode-alist
       (assq-delete-all "\\.rkt\\'" auto-mode-alist))
-;; 强制 racket-mode 关联 .rkt
-(add-to-list 'auto-mode-alist '("\\.rkt\\'" . racket-mode))
 
 ;; 如果仍有问题，直接覆盖
 (setq auto-mode-alist
@@ -15,7 +13,7 @@
   :ensure nil
   :config
   (remove-hook 'auto-mode-alist '("\\.rkt\\'" . scheme-mode)))
-
+(add-to-list 'auto-mode-alist '("\\.scm\\'" . scheme-mode))
 (use-package racket-mode
   :ensure t
   :mode ("\\.rkt\\'" . racket-mode))

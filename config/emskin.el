@@ -15,6 +15,7 @@
 (setq browser "firefox")
 (my/emskin-key "C-c o b" browser)
 (my/emskin-key "C-c o k" "kitty")
+(my/emskin-key "C-c <return>" "kitty")
 (my/emskin-key "C-c o m" "kitty rmpc")
 (my/emskin-key "C-c o n" "env GTK_THEME=Adwaita-dark thunar")
 (my/emskin-key "C-c o q" "qutebrowser")

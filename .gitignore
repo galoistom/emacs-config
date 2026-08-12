@@ -91,4 +91,5 @@ games/
 custom
 org-roam.db
 geiser-history.*
+bilibili.cookie-file
 racket-mode/

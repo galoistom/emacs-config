@@ -31,7 +31,7 @@
     (setq org-startup-folded t)
     (setq org-preview-latex-default-process 'dvisvgm)
     ;;(setq org-startup-with-latex-preview t)
-    (global-set-key (kbd "C-c C-p") #'org-latex-preview)
+    ;; (global-set-key (kbd "C-c C-p") #'org-latex-preview)
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)  ; 启用 Elisp
@@ -162,12 +162,12 @@
 (setq org-edit-src-content-indentation 0)
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-j") ctl-x-map))
-  (let* ((map org-mode-map)
-         (x-map (lookup-key map (kbd "C-c C-x"))))
-    (define-key org-mode-map (kbd "C-j") ctl-x-map)
-    (define-key map (kbd "C-c C-j") x-map)
-    (define-key map (kbd "C-c d") #'org-deadline)
-    (define-key map (kbd "C-c C-x") #'org-goto))
+(let* ((map org-mode-map)
+       (x-map (lookup-key map (kbd "C-c C-x"))))
+  (define-key org-mode-map (kbd "C-j") ctl-x-map)
+  (define-key map (kbd "C-c C-j") x-map)
+  ;; (define-key map (kbd "C-c d") #'org-deadline)
+  (define-key map (kbd "C-c C-x") #'org-goto))
 (setq org-file-apps
     '(("\\.html\\'" . (lambda (file &rest _) (browse-url-generic file)))
       ("\\.pdf\\'"  . default)
@@ -178,17 +178,18 @@
   :ensure t
   :custom
   (org-roam-directory (file-truename "~/org/roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-	 ("C-c n o" . org-roam-ui-open)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ("C-c n j" . org-roam-dailies-capture-today))
   :config
   (setq org-roam-node-display-template
         (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   (require 'org-roam-protocol))
+
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-c n f") #'org-roam-node-find)
+  (define-key org-mode-map (kbd "C-c n o") #'org-roam-ui-open)
+  (define-key org-mode-map (kbd "C-c n i") #'org-roam-node-insert)
+  (define-key org-mode-map (kbd "C-c n c") #'org-roam-capture)
+  (define-key org-mode-map (kbd "C-c n l") #'org-roam-buffer-toggle))
 
 (use-package websocket :ensure t)
 

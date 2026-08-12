@@ -56,6 +56,7 @@
   :ensure t
   :mode "\\.go\\'")
 (declare-function gofmt "go-mode")
+(use-package go-dlv :ensure t)
 ;; (add-hook 'go-ts-mode-hook
 ;;           (lambda ()
 ;;             (add-hook 'before-save-hook #'gofmt nil t)))

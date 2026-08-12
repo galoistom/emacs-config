@@ -252,8 +252,6 @@ the-global-environment
 }{
 (compound-precedure? (eval 'add1 the-global-environment))
 }{
-(exit)
-}{
 (enter! "main.rkt")
 }{
 (eval '(define (add x) (+ x 1)) the-global-environment)
@@ -620,6 +618,22 @@ the-global-environment
  (enter! "main.rkt")
 }{
 (eval '(let ((x 1)(y 2)) (+ x y)) the-global-environment)
+}{
+(require racket/tcp)
+}{
+(tcp-listen 6969 69 #t "localhost")
+}{
+(enter! "tcp.rkt")
+}{
+(enter! "tcp.rkt")
+}{
+connection
+}{
+(tcp-accept connection)
+}{
+(exit)
+}{
+(1)
 }{
 (exit)
 }{

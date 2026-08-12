@@ -35,6 +35,30 @@
   (backward-word)
   (capitalize-word 1))
 
+(defun my/ido-sudo-find-file ()
+  "Use ido to check file and open it with sudo."
+  (interactive)
+  (let ((file (ido-read-file-name "Open with sudo: ")))
+    (when file
+      (find-file (concat "/sudo::" file)))))
+
+(defun my/move-line-down ()
+  "Move line Down and keep cursor."
+  (interactive)
+  (let ((col (current-column)))
+    (forward-line 1)
+    (transpose-lines 1)
+    (forward-line -1)
+    (move-to-column col)))
+
+(defun my/move-line-up ()
+  "Move line up and keep cursor."
+  (interactive)
+  (let ((col (current-column)))
+    (transpose-lines 1)
+    (forward-line -2)
+    (move-to-column col)))
+
 (defun my/fzf-copy-home-path ()
   "Use fzf to find file and copy their path."
   (interactive)
@@ -61,12 +85,17 @@
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))
+(with-eval-after-load 'ghostel
+  (define-key ghostel-mode-map (kbd "C-c t") 'ghostel-other)
+  (define-key ghostel-mode-map (kbd "C-c C-v") (my-lambda (split-window-right) (ghostel-other)))
+  (define-key ghostel-mode-map (kbd "C-c C-t") (my-lambda (split-window-below) (ghostel-other))))
 
 (define-prefix-command 'my/w-prefix)
 (global-set-key (kbd "C-c w") 'my/w-prefix)
 (global-set-key (kbd "C-c w t") #'split-window-below)
 (global-set-key (kbd "C-c w v") #'split-window-right)
 (global-set-key (kbd "C-c w d") #'kill-buffer-and-window)
+(global-set-key (kbd "C-c w k") #'kill-buffer)
 (global-set-key (kbd "C-c w x") #'delete-window)
 (global-set-key (kbd "C-c w f") #'delete-other-windows)
 (global-set-key (kbd "C-c w b") #'balance-windows)
@@ -85,16 +114,14 @@
 
 (ensure-mode-on hs-minor-mode (kbd "C-c C-w") hs-hide-all)
 (ensure-mode-on hs-minor-mode (kbd "C-c C-h") hs-toggle-hiding)
-;; (define-prefix-command 'my/hide-show)
-;; (global-set-key (kbd "C-c C-v") 'my/hide-show)
-;; (global-set-key (kbd "C-c C-v C-t") #'hs-hide-all)
-;; (global-set-key (kbd "C-c C-v C-c") #'hs-toggle-hiding)
 
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
 (global-set-key (kbd "C-o")          #'flash-emacs-jump)
 (global-set-key (kbd "s-s")          #'save-buffer)
 (global-set-key (kbd "s-d")          #'backward-delete-char)
+(global-set-key (kbd "M-+")          #'text-scale-increase)
+(global-set-key (kbd "M-_")          #'text-scale-decrease)
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
 (global-set-key (kbd "C-M-f")        #'up-list)
@@ -128,6 +155,8 @@
 (global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
+(global-set-key (kbd "C-c C-p")      #'my/move-line-up)
+(global-set-key (kbd "C-c C-n")      #'my/move-line-down)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)
