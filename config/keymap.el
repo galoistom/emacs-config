@@ -79,6 +79,8 @@
 	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
 	    (define-key map (kbd "C-c d")   #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
+            (define-key map (kbd "C-c C-p") #'my/move-line-up)
+            (define-key map (kbd "C-c C-n") #'my/move-line-down)
             map))
 
 (my-cj-mode 1)
@@ -136,6 +138,7 @@
 (global-set-key (kbd "C-c q")        #'eww)
 (global-set-key (kbd "C-c e")        #'eshell)
 (global-set-key (kbd "C-c t")        #'ghostel)
+(global-set-key (kbd "C-c E")        #'query-replace)
 (global-set-key (kbd "C-c h")        #'notmuch)
 (global-set-key (kbd "C-c z")        #'zap-to-char)
 (global-set-key (kbd "C-c c")        #'my/capital-forward)
@@ -155,8 +158,6 @@
 (global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
-(global-set-key (kbd "C-c C-p")      #'my/move-line-up)
-(global-set-key (kbd "C-c C-n")      #'my/move-line-down)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)

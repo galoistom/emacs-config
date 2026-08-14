@@ -1,4 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
+;;; code:
 (add-to-list 'load-path "/home/galoistom/emskin/elisp")
 (add-to-list 'load-path "/home/galoistom/Projects/minecraft.el")
 (require 'emskin)

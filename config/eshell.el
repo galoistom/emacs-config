@@ -1,21 +1,18 @@
 ;;; -*- lexical-binding: t; -*-
 (use-package eshell-git-prompt
   :ensure t
-  :after esh-mode
-)
+  :after esh-mode)
+
 (use-package eshell-syntax-highlighting
   :after eshell-mode
-  :ensure t ;; Install if not already installed.
-  :config
-  ;; Enable in all Eshell buffers.
-  (eshell-syntax-highlighting-global-mode +1))
-(use-package capf-autosuggest
   :ensure t
-  :hook ((eshell-mode comint-mod) . capf-autosuggest-mode)
-  :config
-    (define-key eshell-mode-map (kbd "<right>") 'capf-autosuggest-move-end-of-line)
-  )
+  :hook (eshell-mode . eshell-syntax-highlighting-mode))
 
+(with-eval-after-load 'eshell
+  (define-key eshell-mode-map (kbd "C-c e")
+              (lambda ()
+                (interactive)
+                (eshell t))))
 (use-package em-history
   :ensure nil
   :defer t
@@ -29,6 +26,4 @@
   :hook (eshell-mode . (lambda ()
 			 (local-set-key (kbd "C-r") #'consult-history)))
   :bind (:map eshell-mode-map
-	      ("C-r" . consult-history))
-  :config
-  )
+	      ("C-r" . consult-history)))

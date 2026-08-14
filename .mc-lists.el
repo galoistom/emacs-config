@@ -22,6 +22,7 @@
 (setq mc/cmds-to-run-once
       '(
         backward-sexp
+        consult-buffer
         end-of-buffer
         evil-backward-char
         evil-force-normal-state

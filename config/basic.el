@@ -2,7 +2,6 @@
 (use-package avy :ensure t)
 (use-package magit :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
-;; (use-package counsel :ensure t)
 (use-package xdg-launcher :ensure t)
 (use-package undo-tree :ensure t)
 (use-package dash :ensure t)
@@ -14,6 +13,34 @@
 (use-package fzf :ensure t)
 (require 'ansi-color)
 (require 'dired)
+
+(defvar my-multiple-cursors-clipboard-saved nil)
+(defvar my-multiple-cursors-saved-cut-function nil)
+(defvar my-multiple-cursors-saved-paste-function nil)
+
+(defun my-multiple-cursors-clipboard ()
+  (if multiple-cursors-mode
+      (unless my-multiple-cursors-clipboard-saved
+        (setq my-multiple-cursors-saved-cut-function
+              interprogram-cut-function)
+        (setq my-multiple-cursors-saved-paste-function
+              interprogram-paste-function)
+
+        (setq interprogram-cut-function nil)
+        (setq interprogram-paste-function nil)
+
+        (setq my-multiple-cursors-clipboard-saved t))
+
+    (when my-multiple-cursors-clipboard-saved
+      (setq interprogram-cut-function
+            my-multiple-cursors-saved-cut-function)
+      (setq interprogram-paste-function
+            my-multiple-cursors-saved-paste-function)
+
+      (setq my-multiple-cursors-clipboard-saved nil))))
+
+(add-hook 'multiple-cursors-mode-hook #'my-multiple-cursors-clipboard)
+
 (defun my/ansi-colorize-buffer ()
   "Colorize buffer."
   (ansi-color-apply-on-region (point-min) (point-max)))
@@ -26,6 +53,7 @@
     (cond
      ((string-match "\\.pdf\\'" file) (call-process "okular" nil 0 nil file))
      ((string-match "\\.mp4\\'" file) (call-process "mpv" nil 0 nil file))
+     ((string-match "\\.epub\\'" file) (call-process "ebook-viewer" nil 0 nil file))
      (t (dired-find-file-other-window)))))
 (define-key dired-mode-map (kbd "o") 'my/dired-open-file-other-window)
 
