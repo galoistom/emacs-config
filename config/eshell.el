@@ -4,15 +4,10 @@
   :after esh-mode)
 
 (use-package eshell-syntax-highlighting
-  :after eshell-mode
   :ensure t
+  :after esh-mode
   :hook (eshell-mode . eshell-syntax-highlighting-mode))
 
-(with-eval-after-load 'eshell
-  (define-key eshell-mode-map (kbd "C-c e")
-              (lambda ()
-                (interactive)
-                (eshell t))))
 (use-package em-history
   :ensure nil
   :defer t
@@ -23,7 +18,6 @@
 
 (use-package esh-mode
   :ensure nil
-  :hook (eshell-mode . (lambda ()
-			 (local-set-key (kbd "C-r") #'consult-history)))
-  :bind (:map eshell-mode-map
-	      ("C-r" . consult-history)))
+  :config
+  (define-key eshell-mode-map (kbd "C-r") #'consult-history)
+  (define-key eshell-mode-map (kbd "C-c e") (lambda () (interactive) (eshell t))))

@@ -52,6 +52,7 @@
 (setq scroll-step 1)                ; 每次滚动 1 行
 (setq scroll-conservatively 10000)
 (setq scroll-margin 9)
+(global-auto-revert-mode 1)
 (ido-mode t)
 (setq dired-listing-switches "-alhn")
 (setq gc-cons-threshold (* 16 1024 1024))

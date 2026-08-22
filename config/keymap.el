@@ -12,7 +12,7 @@
 (require 'hideshow)
 (require 'consult)
 
-(defmacro my-lambda (&rest body)
+(defmacro int-lambda (&rest body)
   "A macro for simpler lambda with BODY."
   `(lambda () (interactive) ,@body))
 
@@ -39,8 +39,13 @@
   "Use ido to check file and open it with sudo."
   (interactive)
   (let ((file (ido-read-file-name "Open with sudo: ")))
-    (when file
-      (find-file (concat "/sudo::" file)))))
+    (when file (find-file (concat "/sudo::" file)))))
+
+(defun my/ssh-tramp (host &optional path)
+  "Connect to HOST via TRAMP SSH and open PATH (defaults to home)."
+  (interactive "sSSH to (e.g. user@host): ")
+  (let ((remote-path (format "/ssh:%s:%s" host (or path "~"))))
+    (find-file remote-path)))
 
 (defun my/move-line-down ()
   "Move line Down and keep cursor."
@@ -69,6 +74,26 @@
        (kill-new file)
        (message "copied: %s" file)))))
 
+(defun my/isearch-region-or-start ()
+  "Search content if region is marked, otherwise normal isearch"
+  (interactive)
+  (if (use-region-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+        (deactivate-mark)
+        (isearch-mode t)
+        (isearch-yank-string text))
+    (isearch-forward)))
+
+(defun my/isearch-region-back-or-start ()
+  "Search content if region is marked, otherwise normal isearch"
+  (interactive)
+  (if (use-region-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+        (deactivate-mark)
+        (isearch-mode t)
+        (isearch-yank-string text))
+    (isearch-backward)))
+
 (define-minor-mode my-cj-mode
   "Force \\[keyboard-quit] to be \\<ctl-x-map>\\[ctl-x-map] map."
   :global t
@@ -89,8 +114,8 @@
   (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))
 (with-eval-after-load 'ghostel
   (define-key ghostel-mode-map (kbd "C-c t") 'ghostel-other)
-  (define-key ghostel-mode-map (kbd "C-c C-v") (my-lambda (split-window-right) (ghostel-other)))
-  (define-key ghostel-mode-map (kbd "C-c C-t") (my-lambda (split-window-below) (ghostel-other))))
+  (define-key ghostel-mode-map (kbd "C-c C-v") (int-lambda (split-window-right) (ghostel-other)))
+  (define-key ghostel-mode-map (kbd "C-c C-t") (int-lambda (split-window-below) (ghostel-other))))
 
 (define-prefix-command 'my/w-prefix)
 (global-set-key (kbd "C-c w") 'my/w-prefix)
@@ -105,18 +130,20 @@
 (global-set-key (kbd "C-c w m") #'maximize-window)
 (global-set-key (kbd "C-c w ,") #'minimize-window)
 (global-set-key (kbd "C-c w o") #'other-window)
-(global-set-key (kbd "C-c w n") (my-lambda (switch-to-buffer "temp")))
+(global-set-key (kbd "C-c w n") (int-lambda (switch-to-buffer "temp")))
 
 (defmacro ensure-mode-on (mode-sym key-map action)
   "Ensure the MODE-SYM is on when calling ACTION with KEY-MAP."
   `(global-set-key ,key-map (cons ,(symbol-name action)
-                                  (my-lambda
+                                  (int-lambda
                                    (unless ,mode-sym (,mode-sym 1))
                                    (call-interactively ',action)))))
 
 (ensure-mode-on hs-minor-mode (kbd "C-c C-w") hs-hide-all)
 (ensure-mode-on hs-minor-mode (kbd "C-c C-h") hs-toggle-hiding)
 
+(global-set-key (kbd "C-s")          #'my/isearch-region-or-start)
+(global-set-key (kbd "C-r")          #'my/isearch-region-back-or-start)
 (global-set-key (kbd "C-.")          #'duplicate-line)
 (global-set-key (kbd "C-v")          #'my-fill-function)
 (global-set-key (kbd "C-o")          #'flash-emacs-jump)

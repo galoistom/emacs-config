@@ -16,7 +16,11 @@
 (add-to-list 'auto-mode-alist '("\\.scm\\'" . scheme-mode))
 (use-package racket-mode
   :ensure t
-  :mode ("\\.rkt\\'" . racket-mode))
+  :mode ("\\.rkt\\'" . racket-mode)
+  :hook
+  (racket-mode . (lambda () (flycheck-mode -1)))
+  (racket-mode . racket-xp-mode))
+;; (add-hook 'racket-mode-hook #'racket-xp-mode)
 
 (use-package geiser
   :ensure t
@@ -24,7 +28,4 @@
   (setq geiser-repl-history-filename "~/.emacs.d/geiser-history"))
 
 (use-package geiser-guile
-  :ensure t)
-
-(use-package geiser-racket
   :ensure t)

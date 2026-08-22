@@ -9,10 +9,13 @@
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (use-package multiple-cursors :ensure t)
-(use-package ghostel :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
 (require 'dired)
+(use-package ghostel
+  :ensure t
+  :config
+  (define-key ghostel-mode-map (kbd "C-c t") (lambda () (interactive) (ghostel t))))
 
 (defvar my-multiple-cursors-clipboard-saved nil)
 (defvar my-multiple-cursors-saved-cut-function nil)

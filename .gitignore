@@ -93,3 +93,4 @@ org-roam.db
 geiser-history.*
 bilibili.cookie-file
 racket-mode/
+tree-sitter/

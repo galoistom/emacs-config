@@ -52,15 +52,23 @@
   :config
   (setq eglot-autoshutdown t))
 
-(use-package go-mode
+(use-package go-ts-mode
   :ensure t
   :mode "\\.go\\'")
-(declare-function gofmt "go-mode")
+;; (declare-function gofmt "go-mode")
 (use-package go-dlv :ensure t)
-;; (add-hook 'go-ts-mode-hook
-;;           (lambda ()
-;;             (add-hook 'before-save-hook #'gofmt nil t)))
+(add-hook 'go-ts-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'gofmt nil t)))
 
 (use-package envrc
   :ensure t
   :hook (after-init . envrc-global-mode))
+
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (setq treesit-font-lock-level 4)
+  (global-treesit-auto-mode))

@@ -31,6 +31,7 @@
         evil-record-macro
         evil-search-next
         ignore
+        my/isearch-region-back-or-start
         org-self-insert-command
         save-buffers-kill-terminal
         set-goal-column
