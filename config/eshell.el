@@ -21,3 +21,19 @@
   :config
   (define-key eshell-mode-map (kbd "C-r") #'consult-history)
   (define-key eshell-mode-map (kbd "C-c e") (lambda () (interactive) (eshell t))))
+(defun my-eshell-view-file (file)
+  "View FILE.  A version of `view-file' which properly rets the eshell prompt."
+  (interactive "fView file: ")
+  (unless (file-exists-p file) (error "%s does not exist" file))
+  (let ((buffer (find-file-noselect file)))
+    (if (eq (get (buffer-local-value 'major-mode buffer) 'mode-class)
+            'special)
+        (progn
+          (switch-to-buffer buffer)
+          (message "Not using View mode because the major mode is special"))
+      (let ((undo-window (list (window-buffer) (window-start)
+                               (+ (window-point)
+                                  (length (funcall eshell-prompt-function))))))
+        (switch-to-buffer buffer)
+        (view-mode-enter (cons (selected-window) (cons nil undo-window))
+                         'kill-buffer)))))

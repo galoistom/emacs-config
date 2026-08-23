@@ -10,17 +10,15 @@
 (require 'socks)
 
 (setq socks-server '("socks" "127.0.0.1" 7891 5))
-;; 然后使用 socks-open-network-stream 代替普通连接
 (defun my/setup-fonts (&optional frame)
+  "Set up fonts for FRAME."
   (with-selected-frame (or frame (selected-frame))
     (when (display-graphic-p)
-      ;; 主字体
       (set-face-attribute 'default nil
                           :family "Cascadia Code"
                           :height 140
                           :weight 'normal)
 
-      ;; Unicode / Nerd Font fallback
       (set-fontset-font
        "fontset-default"
        'unicode
@@ -28,12 +26,9 @@
        nil
        'append))))
 
-;; GUI 启动
 (add-hook 'after-init-hook #'my/setup-fonts)
 
-;; daemon / emacsclient 新 frame
 (add-hook 'after-make-frame-functions #'my/setup-fonts)
-;(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (global-display-line-numbers-mode t)
 (set-frame-parameter (selected-frame) 'background-mode 'dark)
 
@@ -46,10 +41,9 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(display-time-mode t)
 (window-divider-mode t)
 (electric-pair-mode 1)
-(setq scroll-step 1)                ; 每次滚动 1 行
+(setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (setq scroll-margin 9)
 (global-auto-revert-mode 1)
@@ -57,7 +51,10 @@
 (setq dired-listing-switches "-alhn")
 (setq gc-cons-threshold (* 16 1024 1024))
 (setq read-process-output-max (* 3 1024 1024))
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "qutebrowser")
 (defun my/create-non-existent-directories ()
+  "Create diction when not exists."
   (let ((parent (file-name-directory buffer-file-name)))
     (when (and parent (not (file-exists-p parent)))
       (make-directory parent t))))
@@ -84,20 +81,13 @@
 (setq auto-save-default t)
 (setq auto-save-timeout 5)
 (setq auto-save-interval 50)
-(setq display-time-format "%d %H:%M")
-(setq shr-use-fonts nil)
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "qutebrowser")
 
-;; 将全局标准语法表中的 < 和 > 改为标点符号 (punctuation)
 (modify-syntax-entry ?< "." (standard-syntax-table))
 (modify-syntax-entry ?> "." (standard-syntax-table))
-;; 加载 zsh 的环境变量
 (let ((path (shell-command-to-string "source ~/.zshrc && echo $PATH")))
   (setenv "PATH" path)
   (setq exec-path (split-string path ":" t)))
 
-;; 确保这些修改在后续开启的模式中生效
 (set-char-table-parent (standard-syntax-table) nil)
 ;---- basic packages -----
 (require 'package)
@@ -105,11 +95,9 @@
   :init
   (setq tab-always-indent 'complete))
 
-;; 添加 MELPA 仓库源
 (setq package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
 			 ("melpa-stable" . "https://stable.melpa.org/packages/")))
-;; 加载所有已安装的包并同步仓库列表
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -126,10 +114,8 @@
 (load (concat custom-config-dir "emskin"))
 (load (concat custom-config-dir "ai"))
 (load (concat custom-config-dir "mail"))
-;; (load (concat custom-config-dir "eaf"))
 (load (concat custom-config-dir "keymap"))
 (setq custom-file (expand-file-name "custom" user-emacs-directory))
 (load custom-file 'noerror)
 (setq auto-mode-alist
       (rassq-delete-all 'scheme-mode auto-mode-alist))
-

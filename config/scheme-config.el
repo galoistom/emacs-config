@@ -19,8 +19,12 @@
   :mode ("\\.rkt\\'" . racket-mode)
   :hook
   (racket-mode . (lambda () (flycheck-mode -1)))
-  (racket-mode . racket-xp-mode))
-;; (add-hook 'racket-mode-hook #'racket-xp-mode)
+  (racket-mode . racket-xp-mode)
+  :config
+  (with-eval-after-load 'compile
+    (add-to-list 'compilation-error-regexp-alist-alist
+                 '(racket "^\\([a-zA-Z0-9_./-]+\\):\\([0-9]+\\):\\([0-9]+\\):" 1 2 3))
+    (add-to-list 'compilation-error-regexp-alist 'racket)))
 
 (use-package geiser
   :ensure t
