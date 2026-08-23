@@ -87,7 +87,7 @@ games/
 # Byte-compiled files
 *.elc
 .lsp*
-.mc*
+.mc-lists.el
 custom
 org-roam.db
 geiser-history.*
