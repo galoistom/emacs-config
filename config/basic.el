@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 (use-package avy :ensure t)
-(use-package magit :ensure t :bind ("C-x g" . magit-status))
+(use-package transient :ensure t)
+(use-package magit :after transient :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
 (use-package xdg-launcher :ensure t)
 (use-package undo-tree :ensure t)
@@ -16,12 +17,6 @@
 (require 'corfu)
 (require 'dired)
 (add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
-
-(use-package time
-  :config
-  (setq display-time-format "%d %H:%M")
-  (setq display-time-default-load-average nil)
-  (display-time-mode t))
 
 (use-package ghostel
   :ensure t
@@ -81,14 +76,6 @@
      ((string-match "\\.epub\\'" file) (call-process "ebook-viewer" nil 0 nil file))
      (t (dired-find-file-other-window)))))
 (define-key dired-mode-map (kbd "o") 'my/dired-open-file-other-window)
-
-(use-package doom-modeline
-  :ensure t
-  :init
-  (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-buffer-file-name-style 'truncate-except-project)
-  (setq doom-modeline-minor-modes nil))
 
 ;;better support for barkets, especially for elisp
 (use-package rainbow-delimiters

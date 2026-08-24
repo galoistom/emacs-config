@@ -16,11 +16,13 @@
   (eshell-his-ignoredups t)
   (eshell-save-history-on-exit t))
 
+(require 'consult)
 (use-package esh-mode
   :ensure nil
   :config
-  (define-key eshell-mode-map (kbd "C-r") #'consult-history)
+  (define-key eshell-mode-map (kbd "C-t") #'consult-history)
   (define-key eshell-mode-map (kbd "C-c e") (lambda () (interactive) (eshell t))))
+
 (defun my-eshell-view-file (file)
   "View FILE.  A version of `view-file' which properly rets the eshell prompt."
   (interactive "fView file: ")

@@ -94,3 +94,4 @@ geiser-history.*
 bilibili.cookie-file
 racket-mode/
 tree-sitter/
+site-elisp/
