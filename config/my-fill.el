@@ -73,8 +73,7 @@
 	("not" . (lambda () (insert "¬")))
 	("<" . (lambda () (insert "⟨⟩") (backward-char)))
 	("fal" . (lambda () (insert "∀")))
-	("exi" . (lambda () (insert "∃")))
-	))
+	("exi" . (lambda () (insert "∃")))))
 
 
 (defun useful_begin (title)
@@ -105,8 +104,7 @@
 		(let ((result (cdr res)))
 			(forward-char 1)
 			(delete-char (- (length txt)))
-			(funcall result))))
-	)))
+			(funcall result)))))))
 
 (defvar auto-input-alist)
 (setq auto-input-alist
@@ -168,8 +166,7 @@
 	("===" . (lambda () (insert "\\equiv ")))
 	("ptl" . (lambda () (insert "\\partial")))
 	("-->" . (lambda () (insert "\\longrightarrow ")))
-	("--<" . (lambda () (insert "\\longleftarrow ")))
-	))
+	("--<" . (lambda () (insert "\\longleftarrow ")))))
 
 (defun my-auto-fill ()
   "Automatically filling when activated."
@@ -190,10 +187,8 @@
   :lighter " math-fill"
   (if my-latex-math-auto-fill-mode
       (add-hook 'post-self-insert-hook
-                #'my-auto-fill
-                nil t)   ; LOCAL
+                #'my-auto-fill nil t)   ; LOCAL
     (remove-hook 'post-self-insert-hook
-                 #'my-auto-fill
-                 t)))
+                 #'my-auto-fill t)))
 (provide 'my-fill)
 ;;; my-fill.el ends here

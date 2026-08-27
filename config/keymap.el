@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 ;;; Code:
-(add-to-list 'load-path "/home/galoistom/emskin/elisp")
 (require 'dired)
 (require 'org)
 (require 'eglot)
@@ -18,6 +17,7 @@
 
 (declare-function my-fill-function "my-fill")
 (declare-function my-latex-math-auto-fill-mode  "my-fill")
+(declare-function my-hide-sidebar "modeline")
 
 (defun qutebrowser (url)
   "Start qutebrowser with URL."
@@ -185,6 +185,7 @@
 (global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
+(global-set-key (kbd "C-c C-j")      #'my-hide-sidebar)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)

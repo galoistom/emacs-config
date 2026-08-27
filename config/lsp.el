@@ -72,3 +72,7 @@
   :config
   (setq treesit-font-lock-level 4)
   (global-treesit-auto-mode))
+
+(add-to-list 'load-path "/home/galoistom/emacs-config/site-elisp/promela-mode/") ; location where you cloned promela-mode
+(require 'promela-mode)
+(add-to-list 'auto-mode-alist '("\\.pml\\'" . promela-mode))
