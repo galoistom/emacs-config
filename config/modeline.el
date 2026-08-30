@@ -21,12 +21,13 @@
     (if (not bat-data) ""
       (ignore-errors
         (let* ((online (string-equal (battery-format "%L" bat-data) "on-line"))
-               (color (if online "#30c97b" "#F54927"))
+               (perc  (string-to-number (battery-format "%p" bat-data)))
+               (color (if online "#30c97b" (if (< perc 30) "#f54927" "#ffffff")))
                (bat-str (if (string-equal (battery-format "%B" bat-data) "charging")
                             (battery-format "󰂄%p%% " bat-data)
                           (battery-format "󰁹%p%% " bat-data))))
           (propertize bat-str 'face `(:weight bold :foreground ,color)))))))
-(defvar my-battery-status "")
+(defvar my-battery-status "" "Used to show battery status.")
 (put 'my-battery-status 'risky-local-variable t)
 (defun my-update-battery (&optional status)
   "Update the STATUS of battery component."
@@ -36,6 +37,19 @@
 (setq battery-update-interval 15)
 (display-battery-mode 1)
 (my-update-battery)
+
+(defvar-local my-word-count-string "" "Used to count word number.")
+(put 'my-word-count-string 'risky-local-variable t)
+(defun my-update-word-count ()
+  "Update word count."
+  (interactive)
+  (setq my-word-count-string
+        (propertize (format " 󰌨 %d " (count-words (point-min) (point-max)))
+                    'face '(:foreground "#8ac6f2"))))
+(my-update-word-count)
+(add-hook 'after-save-hook #'my-update-word-count)
+(add-hook 'find-file-hook #'my-update-word-count)
+
 (defvar my-mode-line-format '("%e" mode-line-front-space
                (:propertize (""
                              mode-line-mule-info
@@ -45,6 +59,7 @@
                              mode-line-window-dedicated)
                             display (min-width (6.0)))
                "  " mode-line-position
+               my-word-count-string
                mode-line-frame-identification
                mode-line-buffer-identification
                (project-mode-line project-mode-line-format)

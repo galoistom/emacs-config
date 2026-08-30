@@ -9,6 +9,12 @@
   (setq corfu-auto-prefix 1)
   (setq corfu-cycle t))
 
+(use-package nerd-icons-corfu
+  :after corfu
+  :ensure t
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 (use-package corfu-terminal
   :ensure t
   :after corfu

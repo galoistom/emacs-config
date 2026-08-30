@@ -4,62 +4,48 @@
 (use-package magit :after transient :ensure t :bind ("C-x g" . magit-status))
 (use-package eldoc-box :ensure t)
 (use-package xdg-launcher :ensure t)
-(use-package undo-tree :ensure t)
 (use-package dash :ensure t)
 (use-package s :ensure t)
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
-(use-package multiple-cursors :ensure t)
-(use-package nerd-icons-dired :ensure t)
 (use-package nerd-icons :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
 (require 'corfu)
 (require 'dired)
-(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
+(use-package nerd-icons-dired :ensure t
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 (use-package ghostel
   :ensure t
   :config
   (define-key ghostel-mode-map (kbd "C-c t") (lambda () (interactive) (ghostel t))))
 
-(use-package nerd-icons-corfu
-  :after corfu
-  :ensure t
-  :config
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-(use-package nerd-icons-completion
-  :ensure t
+(use-package nerd-icons-completion :ensure t
   :config (nerd-icons-completion-mode 1))
 
-(defvar my-multiple-cursors-clipboard-saved nil)
-(defvar my-multiple-cursors-saved-cut-function nil)
-(defvar my-multiple-cursors-saved-paste-function nil)
-(defun my-multiple-cursors-clipboard ()
-  "Add support for multiple cursur copy."
-  (if multiple-cursors-mode
-      (unless my-multiple-cursors-clipboard-saved
-        (setq my-multiple-cursors-saved-cut-function
-              interprogram-cut-function)
-        (setq my-multiple-cursors-saved-paste-function
-              interprogram-paste-function)
-        (setq interprogram-cut-function nil)
-        (setq interprogram-paste-function nil)
-        (setq my-multiple-cursors-clipboard-saved t))
-    (when my-multiple-cursors-clipboard-saved
-      (setq interprogram-cut-function
-            my-multiple-cursors-saved-cut-function)
-      (setq interprogram-paste-function
-            my-multiple-cursors-saved-paste-function)
-      (setq my-multiple-cursors-clipboard-saved nil))))
-(add-hook 'multiple-cursors-mode-hook #'my-multiple-cursors-clipboard)
-(defun my/mc-restore-clipboard ()
-  "Restore after exit multiple cursor mode."
-  (setq select-enable-clipboard my-multiple-cursors-clipboard-saved
-        interprogram-cut-function my-multiple-cursors-saved-cut-function
-        interprogram-paste-function my-multiple-cursors-saved-paste-function))
-(add-hook 'mc/after-multiple-cursors-mode-hook #'my/mc-restore-clipboard)
+(use-package multiple-cursors :ensure t
+  :config
+  (defvar my/mc-saved-cut-function nil)
+  (defvar my/mc-saved-paste-function nil)
+  (defvar my/mc-saved-select-enable-clipboard nil)
+  (defvar my/mc-clipboard-disabled-p nil)
+  (defun my/mc-toggle-clipboard ()
+    (if multiple-cursors-mode
+        (unless my/mc-clipboard-disabled-p
+          (setq my/mc-saved-cut-function interprogram-cut-function
+                my/mc-saved-paste-function interprogram-paste-function
+                my/mc-saved-select-enable-clipboard select-enable-clipboard)
+          (setq interprogram-cut-function nil
+                interprogram-paste-function nil
+                select-enable-clipboard nil)
+          (setq my/mc-clipboard-disabled-p t))
+      (when my/mc-clipboard-disabled-p
+        (setq interprogram-cut-function my/mc-saved-cut-function
+              interprogram-paste-function my/mc-saved-paste-function
+              select-enable-clipboard my/mc-saved-select-enable-clipboard)
+        (setq my/mc-clipboard-disabled-p nil))))
+  :hook (multiple-cursors-mode . my/mc-toggle-clipboard))
 
 (defun my/ansi-colorize-buffer ()
   "Colorize buffer."
@@ -90,7 +76,7 @@
 
 ;;help use keybdings
 (use-package which-key
-  :ensure t
+  :ensure nil
   :config
   (which-key-mode 1)
   (setq which-key-idle-delay 0.5)

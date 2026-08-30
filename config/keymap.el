@@ -112,10 +112,6 @@
 
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))
-(with-eval-after-load 'ghostel
-  (define-key ghostel-mode-map (kbd "C-c t") 'ghostel-other)
-  (define-key ghostel-mode-map (kbd "C-c C-v") (int-lambda (split-window-right) (ghostel-other)))
-  (define-key ghostel-mode-map (kbd "C-c C-t") (int-lambda (split-window-below) (ghostel-other))))
 
 (define-prefix-command 'my/w-prefix)
 (global-set-key (kbd "C-c w") 'my/w-prefix)
@@ -148,7 +144,6 @@
 (global-set-key (kbd "C-v")          #'my-fill-function)
 (global-set-key (kbd "C-o")          #'flash-emacs-jump)
 (global-set-key (kbd "s-s")          #'save-buffer)
-(global-set-key (kbd "s-d")          #'backward-delete-char)
 (global-set-key (kbd "M-+")          #'text-scale-increase)
 (global-set-key (kbd "M-_")          #'text-scale-decrease)
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
