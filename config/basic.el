@@ -11,7 +11,6 @@
 (use-package nerd-icons :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
-(require 'corfu)
 (require 'dired)
 (use-package nerd-icons-dired :ensure t
   :hook (dired-mode . nerd-icons-dired-mode))

@@ -16,7 +16,7 @@
     (when (display-graphic-p)
       (set-face-attribute 'default nil
                           :family "Cascadia Code"
-                          :height 140
+                          :height 130
                           :weight 'normal)
 
       (set-fontset-font
@@ -38,6 +38,7 @@
 (setq inhibit-startup-screen t)
 (setq select-enable-clipboard t)
 (setq select-enable-primary t)
+(setq elisp-fontify-semantically t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)

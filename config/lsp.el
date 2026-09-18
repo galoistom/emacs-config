@@ -15,13 +15,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
-(use-package corfu-terminal
-  :ensure t
-  :after corfu
-  :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
-
 (add-hook 'org-mode-hook
           (lambda ()
             (setq-local completion-at-point-functions

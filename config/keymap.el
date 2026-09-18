@@ -101,8 +101,8 @@
   :group 'my-config
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "C-j")     ctl-x-map)
-	    (define-key map (kbd "C-c C-d") #'backward-kill-word)
-	    (define-key map (kbd "C-c d")   #'kill-word)
+	    (define-key map (kbd "C-c d")   #'backward-kill-word)
+	    (define-key map (kbd "C-c C-d") #'kill-word)
 	    (define-key map (kbd "M-e")     #'mark-word)
             (define-key map (kbd "C-c C-p") #'my/move-line-up)
             (define-key map (kbd "C-c C-n") #'my/move-line-down)
@@ -148,7 +148,6 @@
 (global-set-key (kbd "M-_")          #'text-scale-decrease)
 (global-set-key (kbd "C-M-n")        #'mc/mark-next-like-this)
 (global-set-key (kbd "C-M-p")        #'mc/mark-previous-like-this)
-(global-set-key (kbd "C-M-f")        #'up-list)
 (global-set-key (kbd "C-M-s")        #'consult-line)
 
 (global-set-key (kbd "C-x f")        #'fzf-find-file)
@@ -180,7 +179,7 @@
 (global-set-key (kbd "C-c s")        #'consult-line)
 
 (global-set-key (kbd "C-c C-l")      #'eglot)
-(global-set-key (kbd "C-c C-j")      #'my-hide-sidebar)
+(global-set-key (kbd "C-c C-j")      #'mode-line-invisible-mode)
 (global-set-key (kbd "C-x C-a")      #'replace-regexp)
 (global-set-key (kbd "C-x C-l")      #'fzf-switch-buffer)
 (global-set-key (kbd "C-x C-q")      #'kill-emacs)

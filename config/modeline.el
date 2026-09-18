@@ -70,13 +70,6 @@
                mode-line-misc-info
                mode-line-end-spaces))
 (setq-default mode-line-format my-mode-line-format)
-(define-minor-mode my-hide-sidebar
-  "Toggle modeline."
-  :lighter " math-fill"
-  (if my-hide-sidebar
-      (setq-local mode-line-format nil)
-    (setq-local mode-line-format my-mode-line-format)))
-
 ;; (use-package doom-modeline
 ;;   :ensure t
 ;;   :init
