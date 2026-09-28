@@ -1,13 +1,16 @@
 ;;; -*- lexical-binding: t; -*-
+
 (use-package org
   :ensure nil
   :mode ("\\.org\\'" . org-mode)
-  :hook ;(
+  :hook
     (org-mode . visual-line-mode)
     (org-mode . my/org-prettify-symbols)
     (org-mode . (lambda ()
 			(add-to-list 'electric-pair-pairs '(36 . 36) t)))
-	 ;;)
+    (org-mode . (lambda ()
+                      (modify-syntax-entry ?< "." org-mode-syntax-table)
+                      (modify-syntax-entry ?> "." org-mode-syntax-table)))
   :commands (org-find-exact-headline-in-buffer org-set-tags)
   :custom-face
   ;; 设置org mode标题以及美级标题行的大小
@@ -242,3 +245,9 @@
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
+
+;; (unless (package-installed-p 'org-typst-preview)
+;;   (package-vc-install
+;;    '(org-typst-preview
+;;      :url "https://github.com/roife/org-typst-preview")))

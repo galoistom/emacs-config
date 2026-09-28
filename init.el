@@ -24,7 +24,11 @@
        'unicode
        (font-spec :family "Hack Nerd Font")
        nil
-       'append))))
+       'append)
+
+      (dolist (charset '(kana han cjk-misc bopomofo hangul))
+        (set-fontset-font "fontset-default" charset
+                          (font-spec :family "Noto Sans CJK SC"))))))
 
 (add-hook 'after-init-hook #'my/setup-fonts)
 
