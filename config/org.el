@@ -211,7 +211,40 @@
   ;; 设置缩放比例，根据你的屏幕高分屏调整
   (math-preview-scale 1)
   ;; 如果你希望它像 MathJax 一样处理特定的环境
-  (math-preview-tex-extensions '("amsmath" "amsfnt" "braket")))
+  (math-preview-tex-extensions '("amsmath" "amsfnt" "braket"))
+  :config
+  (require 'subr-x)
+  ;; 将独占一行的块级公式居中渲染。
+  ;; :align-to 由显示引擎在每次重绘时求值，因此窗口大小变化后自动重新居中。
+  (defun my/math-preview-center-block (orig message)
+    (let ((queue-snapshot math-preview--queue))
+      (funcall orig message)
+      (when (and (string-prefix-p "{" message) (string-suffix-p "}" message)
+                 (string-search "\"id\":" message 1))
+        (let* ((msg (ignore-errors (json-read-from-string message)))
+               (entry (cl-find (cdr (assoc 'id msg)) queue-snapshot
+                               :key #'car :test #'eql)))
+          (when (and entry
+                     (string= "svg" (cdr (assoc 'type msg)))
+                     (not (nth 2 entry))) ; 块级公式（非行内）
+            (let ((ov (nth 1 entry)))
+              (when (and (overlayp ov) (overlay-buffer ov))
+                (let ((image (cadr (overlay-get ov 'display))))
+                  (when (and (listp image) (eq (car image) 'image)
+                             ;; 仅当公式独占一行（前后只有空白）时居中
+                             (with-current-buffer (overlay-buffer ov)
+                               (save-excursion
+                                 (goto-char (overlay-start ov))
+                                 (and (string-blank-p
+                                       (buffer-substring (line-beginning-position) (point)))
+                                      (progn
+                                        (goto-char (overlay-end ov))
+                                        (string-blank-p
+                                         (buffer-substring (point) (line-end-position))))))))
+                    (overlay-put ov 'before-string
+                                 (propertize " " 'display
+                                             `(space :align-to (+ center (-0.5 . ,image))))))))))))))
+  (advice-add 'math-preview--process-input :around #'my/math-preview-center-block))
 (setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
 (defun my-math-preview-document ()
   "在保存 Markdown 文件时更新所有公式。"
