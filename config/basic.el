@@ -9,6 +9,7 @@
 (use-package f :ensure t)
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (use-package nerd-icons :ensure t)
+(use-package agent-shell :ensure t)
 (use-package fzf :ensure t)
 (require 'ansi-color)
 (require 'dired)
@@ -110,3 +111,4 @@
 
 (use-package flash-emacs
   :vc (:url "https://github.com/JiaweiChenC/flash-emacs"))
+

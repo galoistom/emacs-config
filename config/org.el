@@ -134,8 +134,11 @@
   (setq org-modern-star ["◉" "○" "✸" "✳" "◈" "◇" "✿" "❀" "✜"])
   (setq-default line-spacing 0.1)
   (setq org-modern-label-border 1)
-  (setq org-modern-table-vectical 2)
-  (setq org-modern-table-horizontal 0)
+  ;; 表格边框交给 valign 自己绘制（见下面的 valign 配置）。
+  ;; org-modern 会把 "|" 换成 3px 的像素竖线，并把分隔行整行缩放
+  ;; （:height），这会让 valign 在 "|---+---|" 行上量错字宽，导致
+  ;; 分隔行比内容行短一截、"+ " 与竖线对不齐。
+  (setq org-modern-table nil)
   ;; 复选框美化
   (setq org-modern-checkbox
 	'((?X . #("▢✓" 0 2 (composition ((2)))))
@@ -205,6 +208,124 @@
         org-roam-ui-update-on-save t
         org-roam-ui-ensure-on-load t))
 
+(defvar-local my/valign-refresh-timer nil
+  "Timer used to debounce table re-alignment after preview rendering.")
+
+(defun my/valign-refresh-buffer (buffer)
+  "Re-align tables in BUFFER when `valign-mode' is enabled."
+  (when (buffer-live-p buffer)
+    (with-current-buffer buffer
+      (when (and (bound-and-true-p valign-mode)
+                 (derived-mode-p 'org-mode)
+                 (fboundp 'valign-region))
+        (valign-region)))))
+
+(defun my/valign-schedule-refresh (buffer)
+  "Debounce a table re-alignment in BUFFER."
+  (with-current-buffer buffer
+    (when (and (bound-and-true-p valign-mode)
+               (derived-mode-p 'org-mode))
+      (when (timerp my/valign-refresh-timer)
+        (cancel-timer my/valign-refresh-timer))
+      (setq my/valign-refresh-timer
+            (run-at-time 0.1 nil #'my/valign-refresh-buffer buffer)))))
+
+(require 'math-preview)
+;; ----------------------------------------------------------------------
+;; 行内 `$...$' 的收紧规则
+;;
+;; math-preview 默认会把换行替换成空格后统一做正则匹配，因此：
+;;   - 两行上各自落单的 `$' 会被跨行错误配对；
+;;   - `$ 1$'、`$1 $' 这类内容首尾带空白的也会被预览。
+;; 这里把单个 `$' 从通用匹配中移除，改为逐行扫描、成对校验：
+;;   * 只在同一行内配对；
+;;   * 单行落单的 `$' 直接忽略；
+;;   * 内容为空、或以空白开头/结尾的 `$...$' 不预览；
+;;   * `\$' 视为普通美元符号，不是定界符。
+;; 一次配对不成立时，后一个 `$' 会作为新的起始候选继续尝试，这样
+;; "价格 $5 与 $x$" 这种行里的 `$x$' 仍能正常预览。
+;; ----------------------------------------------------------------------
+(defun my/math-preview--escaped-p (pos)
+  "Return non-nil if the character at POS is escaped by backslashes."
+  (let ((n 0)
+        (p (1- pos)))
+    (while (and (>= p (point-min)) (eq (char-after p) ?\\))
+      (setq n (1+ n)
+            p (1- p)))
+    (not (zerop (logand n 1)))))
+
+(defun my/math-preview--line-dollars (beg end)
+  "Return positions of unescaped dollar signs between BEG and END."
+  (let (positions
+        (p beg))
+    (while (and p (< p end))
+      (setq p (save-excursion
+                (goto-char p)
+                (when (search-forward "$" end t)
+                  (1- (point)))))
+      (when p
+        (unless (my/math-preview--escaped-p p)
+          (push p positions))
+        (setq p (1+ p))))
+    (nreverse positions)))
+
+(defun my/math-preview--dollar-valid-p (open close)
+  "Return non-nil if OPEN..CLOSE looks like inline math.
+OPEN and CLOSE are the positions of the two dollar signs.  The
+contents must be non-empty and must not start or end with
+whitespace."
+  (let ((inner (buffer-substring-no-properties (1+ open) close)))
+    (and (not (string-empty-p inner))
+         (not (string-match-p "\\`[[:space:]]" inner))
+         (not (string-match-p "[[:space:]]\\'" inner)))))
+
+(defun my/math-preview--dollar-regions (beg end)
+  "Return same-line `$...$' regions between BEG and END."
+  (let (regions)
+    (save-excursion
+      (goto-char beg)
+      (while (< (point) end)
+        (let ((positions (my/math-preview--line-dollars
+                          (point) (min end (line-end-position)))))
+          (while positions
+            (if (null (cdr positions))
+                ;; 单行落单的 $，忽略。
+                (setq positions nil)
+              (let ((open (car positions))
+                    (close (cadr positions)))
+                (if (my/math-preview--dollar-valid-p open close)
+                    (progn
+                      (push (cons open (1+ close)) regions)
+                      (setq positions (cddr positions)))
+                  ;; 这一对不合法：让后一个 $ 作为新的起始候选再试。
+                  (setq positions (cdr positions)))))))
+        (forward-line 1)))
+    (nreverse regions)))
+
+(defun my/math-preview--regions-overlap-p (a b)
+  "Return non-nil if region A overlaps region B."
+  (and (< (car a) (cdr b))
+       (< (car b) (cdr a))))
+
+(defun my/math-preview--search (orig beg end)
+  "Search math with ORIG between BEG and END, keeping `$...$' on a single line."
+  (let* ((regions
+          (let ((math-preview-tex-marks-inline
+                 (seq-remove (lambda (mark)
+                               (and (string= "$" (nth 0 mark))
+                                    (string= "$" (nth 1 mark))))
+                             math-preview-tex-marks-inline)))
+            (funcall orig beg end)))
+         (dollars
+          (seq-remove
+           (lambda (region)
+             (seq-some (lambda (other)
+                         (my/math-preview--regions-overlap-p region other))
+                       regions))
+           (my/math-preview--dollar-regions beg end))))
+    (sort (append regions dollars)
+          (lambda (a b) (< (car a) (car b))))))
+
 (use-package math-preview
   :ensure t
   :custom
@@ -244,7 +365,52 @@
                     (overlay-put ov 'before-string
                                  (propertize " " 'display
                                              `(space :align-to (+ center (-0.5 . ,image))))))))))))))
-  (advice-add 'math-preview--process-input :around #'my/math-preview-center-block))
+  (advice-add 'math-preview--process-input :around #'my/math-preview-center-block)
+  ;; 单个 `$' 只做同行匹配，见文件上方 `my/math-preview--search'。
+  (advice-add 'math-preview--search :around #'my/math-preview--search)
+
+  ;; ------------------------------------------------------------------
+  ;; 表格像素级对齐：math-preview 的图片是异步插入的 overlay，插入时不会
+  ;; 触发 font-lock/jit-lock，valign 因此不会自动重新对齐，这里在每次
+  ;; 图片渲染完成后手动调度一次（带防抖，避免多个公式重复对齐）。
+  ;; ------------------------------------------------------------------
+  (defun my/math-preview--refresh-tables (orig message)
+    "After MESSAGE is rendered, re-align the table holding the preview."
+    (let ((queue math-preview--queue))
+      (funcall orig message)
+      (when (and (string-prefix-p "{" message)
+                 (string-search "\"id\":" message 1))
+        (let* ((msg (ignore-errors (json-read-from-string message)))
+               (entry (cl-find (cdr (assoc 'id msg)) queue
+                               :key #'car :test #'eql))
+               (ov (nth 1 entry)))
+          (when (and (overlayp ov) (overlay-buffer ov))
+            (let ((buffer (overlay-buffer ov)))
+              (when (with-current-buffer buffer
+                      (and (derived-mode-p 'org-mode)
+                           (fboundp 'org-at-table-p)
+                           (save-excursion
+                             (goto-char (overlay-start ov))
+                             (org-at-table-p))))
+                (my/valign-schedule-refresh buffer))))))))
+  (advice-add 'math-preview--process-input :around #'my/math-preview--refresh-tables)
+  ;; 清除预览后单元格内容宽度会变回原始文本，同样需要重新对齐。
+  (dolist (fn '(math-preview-clear-all
+                math-preview-clear-region
+                math-preview-clear-at-point))
+    (advice-add fn :after
+                (lambda (&rest _) (my/valign-schedule-refresh (current-buffer))))))
+
+(use-package valign
+  :ensure t
+  :hook (org-mode . valign-mode)
+  :custom
+  ;; 中英文混排的表格普遍较宽，默认 4000 字符的上限很容易触发 fallback。
+  (valign-max-table-size 20000)
+  ;; 用 valign 自己的像素级竖线（1px，随 org-table 前景色）。
+  ;; 这样内容行和 "|---+---|" 分隔行由同一套几何计算绘制，不会互相错位。
+  (valign-fancy-bar t))
+
 (setq math-preview-command "/home/galoistom/.npm-global/bin/math-preview")
 (defun my-math-preview-document ()
   "在保存 Markdown 文件时更新所有公式。"

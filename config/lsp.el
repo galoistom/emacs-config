@@ -46,10 +46,24 @@
         '((file (styles basic partial-completion)))))
 
 
+(defun my/eglot-disable-flycheck ()
+  "Disable Flycheck in Eglot-managed buffers.
+Eglot reports diagnostics through Flymake, so keeping both enabled
+would run two syntax checkers on the same buffer."
+  (when (bound-and-true-p flycheck-mode)
+    (flycheck-mode -1)))
+
 (use-package eglot
   :ensure nil
+  :hook ((python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (eglot-managed-mode . my/eglot-disable-flycheck))
   :config
-  (setq eglot-autoshutdown t))
+  (setq eglot-autoshutdown t)
+  ;; pyright 通过 npm 全局安装，eglot 默认已支持，这里显式指定。
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode)
+                 . ("pyright-langserver" "--stdio"))))
 
 (use-package go-ts-mode
   :ensure t
