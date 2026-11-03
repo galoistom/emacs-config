@@ -112,6 +112,7 @@
 (load (concat custom-config-dir "scheme-config"))
 (load (concat custom-config-dir "org"))
 (load (concat custom-config-dir "markdown"))
+(load (concat custom-config-dir "etaf"))
 (load (concat custom-config-dir "lsp"))
 (load (concat custom-config-dir "my-fill"))
 (load (concat custom-config-dir "eshell"))

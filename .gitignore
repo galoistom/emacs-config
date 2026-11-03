@@ -79,6 +79,9 @@ transient/
 # Games
 games/
 
+# ETAF application state
+/etaf-video-player/
+
 # Auto-save / backup (如果你没单独配置)
 *~
 \#*\#
