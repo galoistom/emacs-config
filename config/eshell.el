@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
-(use-package eshell-git-prompt
-  :ensure t
-  :after esh-mode)
+;; (use-package eshell-git-prompt
+;;   :ensure t
+;;   :after esh-mode)
 
 (use-package eshell-syntax-highlighting
   :ensure t
