@@ -20,6 +20,8 @@ config/ai.el
 # 临时和缓存目录
 /eln-cache/
 /auto-save-list/
+__pycache__/
+*.pyc
 
 # ====================================================================
 # 包管理器相关（绝对不能上传）
@@ -100,3 +102,4 @@ tree-sitter/
 site-elisp/
 # simple.el
 agent/
+parinfer-rust/

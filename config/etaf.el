@@ -16,6 +16,24 @@
 
 ;;; Video player
 
+(defcustom my/etaf-video-vaapi t
+  "Use the VAAPI wrapper for hardware video decoding when available.
+The wrapper falls back to the stock software ffmpeg command when VAAPI
+cannot decode the source or produces no frames."
+  :type 'boolean
+  :group 'etaf-video-player)
+
+(defconst my/etaf-video-vaapi-wrapper
+  (expand-file-name "config/etaf-vaapi-ffmpeg.py" user-emacs-directory)
+  "Path of the VAAPI ffmpeg wrapper shipped with this configuration.")
+
+(defun my/etaf-video-vaapi-available-p ()
+  "Return non-nil when the VAAPI wrapper can run on this machine."
+  (and my/etaf-video-vaapi
+       (file-executable-p my/etaf-video-vaapi-wrapper)
+       (executable-find "python3")
+       (file-expand-wildcards "/dev/dri/renderD*")))
+
 (defun my/etaf-video-player-open-dwim ()
   "Play the video at point, or prompt for one."
   (interactive)
@@ -35,7 +53,12 @@
   ;; Render sharp image frames; "C" inside the player switches to ascii/color.
   (setq etaf-video-player-render-mode 'image
         etaf-video-player-display-fps 30
-        etaf-video-player-theme-mode 'dark))
+        etaf-video-player-theme-mode 'dark)
+  ;; Decode and scale on the Intel GPU.  The wrapper downloads the scaled
+  ;; frames for the existing software MJPEG encoder, keeps the software path
+  ;; as a fallback, and passes screenshots through unchanged.
+  (when (my/etaf-video-vaapi-available-p)
+    (setq etaf-video-ffmpeg-program my/etaf-video-vaapi-wrapper)))
 
 ;;; Markdown preview
 

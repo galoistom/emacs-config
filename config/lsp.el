@@ -4,7 +4,7 @@
   :init (global-corfu-mode)
   :config
   (setq corfu-auto t)
-  (setq corfu-auto-delay 0.2)
+  (setq corfu-auto-delay 0.5)
   (setq corfu-count 5)
   (setq corfu-auto-prefix 1)
   (setq corfu-cycle t))

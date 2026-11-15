@@ -120,6 +120,7 @@
 (load (concat custom-config-dir "modeline"))
 (load (concat custom-config-dir "emskin"))
 (load (concat custom-config-dir "ai"))
+(load (concat custom-config-dir "init-etaf-browser"))
 (load (concat custom-config-dir "mail"))
 (load (concat custom-config-dir "modeline"))
 (load (concat custom-config-dir "keymap"))

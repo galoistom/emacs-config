@@ -16,6 +16,28 @@
 (use-package nerd-icons-dired :ensure t
   :hook (dired-mode . nerd-icons-dired-mode))
 
+;; (setq tramp-use-ssh-controlmaster-options t)
+(setq vc-handled-backends '(Git))
+(setq remote-file-name-inhibit-cache nil)
+;; (setq tramp-completion-reread-directory-timeout 60)
+;; (with-eval-after-load 'tramp
+;;   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+
+(use-package parinfer-rust-mode
+  :ensure t
+  :init
+  (setq parinfer-rust-troublesome-modes nil)
+  (setq parinfer-rust-auto-download t)
+  :hook ((emacs-lisp-mode . parinfer-rust-mode)
+         (racket-mode     . parinfer-rust-mode)
+         (scheme-mode     . parinfer-rust-mode))
+  :config
+  (add-hook 'parinfer-rust-mode-hook
+            (lambda ()
+              (electric-pair-local-mode -1)
+              (when (fboundp 'smartparens-mode)
+                (smartparens-mode -1)))))
+
 (use-package ghostel
   :ensure t
   :config
