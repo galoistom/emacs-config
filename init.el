@@ -66,22 +66,45 @@
 
 (add-hook 'find-file-not-found-functions
           #'my/create-non-existent-directories)
-;; Wayland TUI clipboard bridge
-(when (and (not (display-graphic-p))
-           (executable-find "wl-copy")
-           (executable-find "wl-paste"))
-  (setq interprogram-cut-function
-        (lambda (text)
-          (let ((process-connection-type nil))
-            (let ((proc (start-process "wl-copy" nil "wl-copy")))
-              (process-send-string proc text)
-              (process-send-eof proc)))))
+;; TTY clipboard bridge:
+;; - local Wayland frames use wl-copy/wl-paste;
+;; - remote SSH frames are handled by clipetty/OSC 52 (see config/basic.el);
+;; - GUI frames use Emacs' native selection support.
+(defun my/local-wayland-tty-p ()
+  "Return non-nil when the selected frame is a local Wayland TTY frame."
+  (and (not (display-graphic-p))
+       (getenv "WAYLAND_DISPLAY" (selected-frame))
+       (not (or (getenv "SSH_CONNECTION" (selected-frame))
+                (getenv "SSH_TTY" (selected-frame))))))
 
-  (setq interprogram-paste-function
-        (lambda ()
-          (when (executable-find "wl-paste")
-            (string-trim-right
-             (shell-command-to-string "wl-paste -n"))))))
+(defun my/wl-copy (text)
+  "Copy TEXT to the Wayland clipboard."
+  (when (executable-find "wl-copy")
+    (let ((process-connection-type nil)
+          (proc (start-process "wl-copy" nil "wl-copy")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+(defun my/wl-paste ()
+  "Return the contents of the Wayland clipboard."
+  (when (executable-find "wl-paste")
+    (string-trim-right
+     (shell-command-to-string "wl-paste -n"))))
+
+(defun my/interprogram-cut (text)
+  "Put TEXT in the clipboard appropriate for the selected frame."
+  (cond ((display-graphic-p) (gui-select-text text))
+        ((my/local-wayland-tty-p) (my/wl-copy text))))
+
+(defun my/interprogram-paste ()
+  "Return clipboard contents appropriate for the selected frame."
+  (cond ((display-graphic-p) (gui-selection-value))
+        ((my/local-wayland-tty-p) (my/wl-paste))))
+
+(when (and (executable-find "wl-copy")
+           (executable-find "wl-paste"))
+  (setq interprogram-cut-function #'my/interprogram-cut
+        interprogram-paste-function #'my/interprogram-paste))
 
 (setq auto-save-default t)
 (setq auto-save-timeout 5)

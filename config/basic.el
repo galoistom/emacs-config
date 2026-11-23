@@ -7,6 +7,24 @@
 (use-package dash :ensure t)
 (use-package s :ensure t)
 (use-package f :ensure t)
+;; Send kills from TTY frames to the terminal's clipboard via OSC 52.
+(defun my/clipetty-safe-tty (tty)
+  "Return TTY when it is a writable tty, otherwise the null device.
+This avoids writing stray files for the daemon's dummy
+\"initial_terminal\" frame and for stale `SSH_TTY' values."
+  (if (and (stringp tty)
+           (string-prefix-p "/dev/" tty)
+           (file-writable-p tty))
+      tty
+    null-device))
+
+(use-package clipetty
+  :ensure t
+  :config
+  ;; Clipetty is global; keep its lighter out of the mode line.
+  (setcdr (assq 'clipetty-mode minor-mode-alist) '(""))
+  (advice-add 'clipetty--tty :filter-return #'my/clipetty-safe-tty)
+  (global-clipetty-mode 1))
 (use-package kkp :ensure t :config (global-kkp-mode 1))
 (use-package nerd-icons :ensure t)
 (use-package agent-shell :ensure t)
